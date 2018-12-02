@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Infinite Canvas</title>
+
+		<link rel="stylesheet" href="Assets/Style/style.css"/>
+
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
+		<script>
+		  // Initialize Firebase
+		  var config = {
+			apiKey: "AIzaSyCh79Vy0lFExOiSjRTtB8UswQmLJz-Xiuk",
+			authDomain: "infinitecanvas-6109c.firebaseapp.com",
+			databaseURL: "https://infinitecanvas-6109c.firebaseio.com",
+			projectId: "infinitecanvas-6109c",
+			storageBucket: "infinitecanvas-6109c.appspot.com",
+			messagingSenderId: "377670848022"
+		  };
+		  firebase.initializeApp(config);
+		</script>
+	</head>
+	<body>
+
+	<div>
+
+		<div id="toolbar_container">
+			<div id="toolbar_tools_container">
+				<div class="toolbar_entry">
+					<span class="toolbar_heading">Color</span><br/>
+					<div id="toolbar_color_preview"></div>
+					<label>H <input id="toolbar_slider_hue" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label><br/>
+					<label>S <input id="toolbar_slider_saturation" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label><br/>
+					<label>L <input id="toolbar_slider_luminance" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label>
+				</div>
+				<div class="toolbar_entry">
+					<span class="toolbar_heading">Brush Size</span><br/>
+					<label>x <input id="toolbar_slider_brushSize_x" type="range" class="toolbar_slider" min="0.02" max="0.5" value="0.1" step="0.001"/></label><br/>
+					<label>y <input id="toolbar_slider_brushSize_y" type="range" class="toolbar_slider" min="0.02" max="0.5" value="0.1" step="0.001"/></label>
+				</div>
+				<div class="toolbar_entry">
+					<span class="toolbar_heading">Tool</span><br/>
+					<button id="button_tool_ellipse" class="toolbar_button"><img src="Assets/Images/Tools/ellipse.png"/></button>
+					<button id="button_tool_rectangle" class="toolbar_button"><img src="Assets/Images/Tools/rectangle.png"/></button>
+					<button id="button_tool_line" class="toolbar_button"><img src="Assets/Images/Tools/line.png"/></button>
+					<button id="button_tool_text" class="toolbar_button"><img src="Assets/Images/Tools/text.png"/></button>
+					<button id="button_tool_image" class="toolbar_button"><img src="Assets/Images/Tools/image.png"/></button>
+				</div>
+				<div class="toolbar_entry">
+					<span class="toolbar_heading">Image</span><br/>
+					<label>Rotation <input id="toolbar_slider_image_rotation" type="range" class="toolbar_slider" min="0" max="360" value="0" step="1"/></label><br/>
+				</div>
+			</div>
+
+			<button id="button_close_toolbar">X</button>
+
+		</div>
+		<div id="canvas_container"></div>
+	</div>
+
+
+
+	<script src="Assets/Scripts/p5.js"></script>
+	<script src="Assets/Scripts/decimal.js"></script>
+	<script src="Assets/Scripts/numberformatter.js"></script>
+	<script src="Assets/Scripts/distanceformatter.js"></script>
+	<script src="Assets/Scripts/preload.js"></script>
+	<script src="Assets/Scripts/saveload.js"></script>
+	<script src="Assets/Scripts/toolbar.js"></script>
+	<script src="Assets/Scripts/init.js"></script>
+	<script src="Assets/Scripts/utils.js"></script>
+	<script src="Assets/Scripts/vec2.js"></script>
+	<script src="Assets/Scripts/camera.js"></script>
+	<script src="Assets/Scripts/shape.js"></script>
+	<script src="Assets/Scripts/main.js"></script>
+
+	</body>
+</html>
