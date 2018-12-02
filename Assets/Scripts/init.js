@@ -12,6 +12,7 @@ function initSettings()
 
 	nodes.slider.brushSize.x.value = settings.brushSize.x;
 	nodes.slider.brushSize.y.value = settings.brushSize.y;
+	nodes.slider.brushSize.radius.value = settings.brushSize.radius;
 
 	nodes.slider.image.rotation.value = settings.image.rotation;
 

@@ -19,4 +19,20 @@ class Utils
 		image(img, 0, 0, sizeX, sizeY);
 		pop();
 	}
+
+	static textOutlined(txt, x, y, colorIn, colorOut, outWidth)
+	{
+		noStroke();
+		outWidth = outWidth === undefined ? 1 : outWidth;
+
+		fill(colorOut);
+		[[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function(off)
+		{
+			let offCurrent = [off[0] * outWidth, off[1] * outWidth];
+			text(txt, x + offCurrent[0], y + offCurrent[1]);
+		});
+
+		fill(colorIn);
+		text(txt, x, y);
+	}
 }

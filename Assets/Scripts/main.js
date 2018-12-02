@@ -28,7 +28,7 @@ function preload()
 {
 	let baseLink = "https://raw.githubusercontent.com/cook1ee/cook1ee.github.io/master/Assets/ImageShapes/";
 
-	let links = ["earth.png", "moon.png", "sun.png", "space.png", "galaxy.png", "texture_grass.png", "texture_sand.png", "texture_stone.png", "mandelbrot.png"] ;
+	let links = ["earth.png", "moon.png", "sun.png", "space.png", "galaxy.png", "texture_grass.png", "texture_sand.png", "texture_stone.png", "mandelbrot.png", "fractal1.png", "fractal2.png"] ;
 
 	links.forEach(function(link)
 	{
@@ -96,35 +96,47 @@ function draw()
 
 	fill(colorFromCSSString(settings.color));
 	let brushSize = [Number.parseFloat(settings.brushSize.x), Number.parseFloat(settings.brushSize.y)];
+	let brushRadius = Number.parseFloat(settings.brushSize.radius);
+
+	let displayPreview = cursorOnToolbar && currentLine === undefined && settings.tool !== "view";
+	let x = displayPreview ? width / 2 : mouseX;
+	let y = displayPreview ? height / 2 : mouseY;
+
 	switch(settings.tool)
 	{
 		case "ellipse":
 			noStroke();
-			ellipse(mouseX, mouseY, width * brushSize[0], width * brushSize[1]);
+			ellipse(x, y, width * brushSize[0], width * brushSize[1]);
 			break;
 		case "rectangle":
 			noStroke();
 			rectMode(CENTER);
-			rect(mouseX, mouseY, width * brushSize[0], width * brushSize[1]);
+			rect(x, y, width * brushSize[0], width * brushSize[1]);
 			break;
 		case "line":
 			noStroke();
-			ellipse(mouseX, mouseY, width * brushSize[0], width * brushSize[0]);
+			ellipse(x, y, width * brushRadius, width * brushRadius);
 			break;
 		case "text":
 			noStroke();
 			textAlign(CENTER, CENTER);
-			textSize(brushSize[0] * width);
-			text("A", mouseX, mouseY);
+			textSize(brushRadius * width);
+			text("A", x, y);
 			break;
 		case "image":
 			noStroke();
-			Utils.imageExt(imageShapes[Number.parseFloat(settings.image.index)], mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
+			Utils.imageExt(imageShapes[Number.parseFloat(settings.image.index)], x, y, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
 			break;
 		case "view":
 			break;
 		default:
 			break;
+	}
+
+	if(mouseIsPressed && mouseButton === CENTER && settings.tool == "view")
+	{
+		let factor = Decimal.pow(2, (mouseY / height - 0.5) * 5 * deltatime * -1);
+		mainCamera.zoomIn(factor);
 	}
 
 	stroke(0);
@@ -140,9 +152,16 @@ function draw()
 	textAlign(CENTER, BOTTOM);
 	fill(0);
 	textSize(40);
-	text("<- " + DistanceFormatter.format(mainCamera.getRange()) + " ->", width / 2, height - 40);
+	textStyle(BOLD);
+	Utils.textOutlined("<- " + DistanceFormatter.format(mainCamera.getRange()) + " ->", width / 2, height - 40, color(0, 0, 0), color(1, 1, 1), 2);
+	if(displayPreview)
+	{
+		Utils.textOutlined("Preview", width / 2, 128, color(0, 0, 0), color(1, 1, 1), 2);
+	}
 
 	textAlign(LEFT, TOP);
+
+
 }
 
 function windowResized()
@@ -182,7 +201,7 @@ function mouseReleased()
 
 function mouseDragged(event)
 {
-	if(event.buttons === 2)
+	if(event.buttons === 2 || (event.buttons === 1 && settings.tool === "view"))
 	{
 		let delta = new p5.Vector(mouseDelta.total.x * -1, mouseDelta.total.y).div(width);
 		mainCamera.moveRelative(new p5.Vector(delta.x, delta.y));
@@ -200,6 +219,7 @@ function placeShape()
 	let position = mainCamera.screenToWorldPoint(createVector(mouseX, mouseY));
 	let size = new Vec2(mainCamera.getRange().mul(Number.parseFloat(settings.brushSize.x)),
 						mainCamera.getRange().mul(Number.parseFloat(settings.brushSize.y)));
+	let radius = mainCamera.getRange().mul(Number.parseFloat(settings.brushSize.radius));
 
 	switch(settings.tool)
 	{
@@ -210,7 +230,7 @@ function placeShape()
 			addShape(new Rectangle(position, size, color));
 			break;
 		case "text":
-			currentText = addShape(new Text("", position, size.x, color));
+			currentText = addShape(new Text("", position, radius, color));
 			break;
 		case "image":
 			addShape(new ImageShape(position, size, Number.parseFloat(settings.image.index), color, radians(settings.image.rotation)));
@@ -226,7 +246,7 @@ function placeLine()
 {
 	let color = colorFromCSSString(settings.color);
 	let startPos = mainCamera.screenToWorldPoint(new p5.Vector(mouseX, mouseY));
-	let width = mainCamera.getRange().mul(Number.parseFloat(settings.brushSize.x));
+	let width = mainCamera.getRange().mul(Number.parseFloat(settings.brushSize.radius));
 	currentLine = addShape(new Line(startPos, startPos, width, color));
 }
 

@@ -29,7 +29,8 @@ var nodes =
 		brushSize:
 		{
 			x: document.getElementById("toolbar_slider_brushSize_x"),
-			y: document.getElementById("toolbar_slider_brushSize_y")
+			y: document.getElementById("toolbar_slider_brushSize_y"),
+			radius: document.getElementById("toolbar_slider_brushSize_radius")
 		},
 		image:
 		{
@@ -55,7 +56,7 @@ var settings =
 	tool: "ellipse",
 	brushSize:
 	{
-		x: "0.1", y: "0.1"
+		x: "0.1", y: "0.1", radius: "0.05"
 	},
 	image:
 	{

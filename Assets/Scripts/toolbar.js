@@ -50,13 +50,13 @@ colorSliders.forEach(function(el)
 	}
 });
 
-let brushSizeSliders = [nodes.slider.brushSize.x, nodes.slider.brushSize.y];
+let brushSizeSliders = [nodes.slider.brushSize.x, nodes.slider.brushSize.y, nodes.slider.brushSize.radius];
 
 for(let i = 0; i < brushSizeSliders.length; i++)
 {
 	brushSizeSliders[i].oninput = function()
 	{
-		settings.brushSize[new Array("x", "y")[i]] = brushSizeSliders[i].value;
+		settings.brushSize[new Array("x", "y", "radius")[i]] = brushSizeSliders[i].value;
 
 		saveSettings();
 	}
