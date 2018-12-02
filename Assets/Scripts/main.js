@@ -22,6 +22,22 @@ function getAspectRatio()
 	return width / height;
 }
 
+var imageShapes = [];
+
+function preload()
+{
+	let baseLink = "https://raw.githubusercontent.com/cook1ee/cook1ee.github.io/master/Assets/ImageShapes/";
+
+	let links = ["earth.png", "moon.png", "space.png", "mandelbrot.png", "galaxy.png"];
+
+	links.forEach(function(link)
+	{
+		imageShapes.push(loadImage(baseLink + link));
+	});
+
+
+}
+
 function setup()
 {
 	//after images have been loaded
@@ -103,7 +119,7 @@ function draw()
 			break;
 		case "image":
 			noStroke();
-			Utils.imageExt(imageShapes[settings.image.index], mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
+			Utils.imageExt(imageShapes[Number.parseFloat(settings.image.index)], mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
 			break;
 		default:
 			break;
@@ -195,7 +211,7 @@ function placeShape()
 			currentText = addShape(new Text("", position, size.x, color));
 			break;
 		case "image":
-			addShape(new ImageShape(position, size, settings.image.index, color, radians(settings.image.rotation)));
+			addShape(new ImageShape(position, size, Number.parseFloat(settings.image.index), color, radians(settings.image.rotation)));
 			break;
 		default:
 			break;

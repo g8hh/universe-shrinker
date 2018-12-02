@@ -62,19 +62,3 @@ var settings =
 		rotation: 0
 	}
 };
-
-var imageShapes = [];
-
-function preload()
-{
-	let baseLink = "https://raw.githubusercontent.com/cook1ee/cook1ee.github.io/master/Assets/ImageShapes/";
-
-	let links = ["earth.png", "moon.png", "space.png", "mandelbrot.png"];
-
-	links.forEach(function(link)
-	{
-		imageShapes.push(loadImage(baseLink + link));
-	});
-
-
-}

@@ -12,7 +12,10 @@ class Utils
 		push();
 		translate(x, y ); //translate towards center
 		rotate(rotation);
-		tint(imageColor);
+		if(imageColor !== null)
+		{
+			tint(imageColor);
+		}
 		image(img, 0, 0, sizeX, sizeY);
 		pop();
 	}

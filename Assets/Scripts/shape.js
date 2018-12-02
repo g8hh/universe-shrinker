@@ -122,8 +122,21 @@ class ImageShape extends Shape
 		super(position, color);
 		this.size = size;
 		this.imageIndex = imageIndex;
-		this.image = imageShapes[this.imageIndex]; //use an index for saving
+		this.image = imageShapes[this.imageIndex].get(); //use an index for saving
 		this.rotation = rotation;
+
+
+		this.image.loadPixels();
+
+		for(let p = 0; p < this.image.width * this.image.height * 4; p += 4)
+		{
+			this.image.pixels[p] = Math.floor(this.image.pixels[p] * red(this.color) / 256);
+			this.image.pixels[p + 1] = Math.floor(this.image.pixels[p + 1] * green(this.color) / 256);
+			this.image.pixels[p + 2] = Math.floor(this.image.pixels[p + 2] * blue(this.color) / 256);
+		}
+
+		this.image.updatePixels();
+
 	}
 
 	render()
@@ -133,7 +146,11 @@ class ImageShape extends Shape
 		let screenPosition = super.getScreenPos();
 		let screenSize = createVector(this.size.x.mul(mainCamera.zoom).mul(width).toNumber(), this.size.y.mul(mainCamera.zoom).mul(width).toNumber());
 
-		noStroke();
-		Utils.imageExt(this.image, screenPosition.x, screenPosition.y, screenSize.x, screenSize.y, this.color, this.rotation);
+		if(screenSize.x > 1 && screenSize.y > 1)
+		{
+			noStroke();
+			Utils.imageExt(this.image, screenPosition.x, screenPosition.y, screenSize.x, screenSize.y, null, this.rotation);
+			noTint();
+		}
 	}
 }
