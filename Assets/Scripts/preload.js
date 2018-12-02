@@ -32,7 +32,8 @@ var nodes =
 		},
 		image:
 		{
-			rotation: document.getElementById("toolbar_slider_image_rotation")
+			rotation: document.getElementById("toolbar_slider_image_rotation"),
+			index: document.getElementById("toolbar_slider_image_index")
 		}
 	}
 };
@@ -61,3 +62,19 @@ var settings =
 		rotation: 0
 	}
 };
+
+var imageShapes = [];
+
+function preload()
+{
+	let baseLink = "https://raw.githubusercontent.com/cook1ee/cook1ee.github.io/master/Assets/ImageShapes/";
+
+	let links = ["earth.png", "moon.png", "space.png", "mandelbrot.png"];
+
+	links.forEach(function(link)
+	{
+		imageShapes.push(loadImage(baseLink + link));
+	});
+
+
+}

@@ -9,7 +9,7 @@ var shapes = [];
 
 var currentLine, currentText;
 
-var imageShapes = [], currentImageShape;
+var currentImageIndex;
 
 var mouseDelta =
 {
@@ -17,27 +17,17 @@ var mouseDelta =
 	total: new p5.Vector(0, 0)
 };
 
-
-
 function getAspectRatio()
 {
 	return width / height;
 }
 
-
-
-function preload()
-{
-	let links = ["https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/290px-The_Earth_seen_from_Apollo_17.jpg"];
-
-	links.forEach(function(link)
-	{
-		imageShapes.push(loadImage(link));
-	});
-}
-
 function setup()
 {
+	//after images have been loaded
+	nodes.slider.image.index.max = imageShapes.length - 1;
+	nodes.slider.image.index.value = settings.image.index;
+
 	let canvas = createCanvas(windowWidth, windowHeight);
 	canvas.parent("canvas_container");
 
@@ -51,9 +41,11 @@ function setup()
 
 	background(color(1, 1, 1));
 
+	noSmooth();
+
 	aspectRatio = getAspectRatio();
 
-	currentImageShape = imageShapes[0];
+	currentImageIndex = 0;
 }
 
 function draw()
@@ -111,7 +103,7 @@ function draw()
 			break;
 		case "image":
 			noStroke();
-			Utils.imageExt(currentImageShape, mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
+			Utils.imageExt(imageShapes[settings.image.index], mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
 			break;
 		default:
 			break;
@@ -203,7 +195,7 @@ function placeShape()
 			currentText = addShape(new Text("", position, size.x, color));
 			break;
 		case "image":
-			addShape(new ImageShape(position, size, currentImageShape, color, radians(settings.image.rotation)));
+			addShape(new ImageShape(position, size, settings.image.index, color, radians(settings.image.rotation)));
 			break;
 		default:
 			break;

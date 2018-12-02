@@ -117,11 +117,12 @@ class Text extends Shape
 class ImageShape extends Shape
 {
 
-	constructor(position, size, image, color, rotation)
+	constructor(position, size, imageIndex, color, rotation)
 	{
 		super(position, color);
 		this.size = size;
-		this.image = image;
+		this.imageIndex = imageIndex;
+		this.image = imageShapes[this.imageIndex]; //use an index for saving
 		this.rotation = rotation;
 	}
 

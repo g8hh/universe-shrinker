@@ -69,6 +69,13 @@ nodes.slider.image.rotation.oninput = function()
 	saveSettings();
 }
 
+nodes.slider.image.index.oninput = function()
+{
+	settings.image.index = nodes.slider.image.index.value;
+
+	saveSettings();
+}
+
 //selecting tools
 let toolNames = Object.getOwnPropertyNames(nodes.button.tools);
 
