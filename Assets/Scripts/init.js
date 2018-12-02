@@ -19,7 +19,7 @@ function initSettings()
 
 	selectTool(settings.tool);
 
-	nodes.container.toolbar.style.left = settings.toolBarHidden ? "-50%" : "0px";
+	nodes.container.toolbar.style.left = settings.toolBarHidden ? "-70%" : "0px";
 }
 
 document.oncontextmenu = function(event)

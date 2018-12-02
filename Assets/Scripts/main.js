@@ -28,7 +28,7 @@ function preload()
 {
 	let baseLink = "https://raw.githubusercontent.com/cook1ee/cook1ee.github.io/master/Assets/ImageShapes/";
 
-	let links = ["earth.png", "moon.png", "space.png", "mandelbrot.png", "galaxy.png"];
+	let links = ["earth.png", "moon.png", "sun.png", "space.png", "galaxy.png", "texture_grass.png", "texture_sand.png", "texture_stone.png", "mandelbrot.png"] ;
 
 	links.forEach(function(link)
 	{
@@ -121,6 +121,8 @@ function draw()
 			noStroke();
 			Utils.imageExt(imageShapes[Number.parseFloat(settings.image.index)], mouseX, mouseY, brushSize[0] * width, brushSize[1] * width, colorFromCSSString(settings.color), radians(settings.image.rotation));
 			break;
+		case "view":
+			break;
 		default:
 			break;
 	}
@@ -212,6 +214,8 @@ function placeShape()
 			break;
 		case "image":
 			addShape(new ImageShape(position, size, Number.parseFloat(settings.image.index), color, radians(settings.image.rotation)));
+			break;
+		case "view":
 			break;
 		default:
 			break;

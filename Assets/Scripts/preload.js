@@ -14,7 +14,8 @@ var nodes =
 			rectangle: document.getElementById("button_tool_rectangle"),
 			line: document.getElementById("button_tool_line"),
 			text: document.getElementById("button_tool_text"),
-			image: document.getElementById("button_tool_image")
+			image: document.getElementById("button_tool_image"),
+			view: document.getElementById("button_tool_view")
 		}
 	},
 	slider:
