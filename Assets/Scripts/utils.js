@@ -18,6 +18,7 @@ class Utils
 		}
 		image(img, 0, 0, sizeX, sizeY);
 		pop();
+		noTint();
 	}
 
 	static textOutlined(txt, x, y, colorIn, colorOut, outWidth)
@@ -34,5 +35,15 @@ class Utils
 
 		fill(colorIn);
 		text(txt, x, y);
+	}
+	
+	static clampDecimal(d, min, max)
+	{
+		return Decimal.min(Decimal.max(d, min), max);
+	}
+	
+	static clamp(n, min, max)
+	{
+		return Math.min(Math.max(n, min), max);
 	}
 }

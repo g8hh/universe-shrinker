@@ -1,3 +1,12 @@
+var ShapeType =
+{
+	Ellipse: 0,
+	Rectangle: 1,
+	Line: 2,
+	Text: 3,
+	Image: 4
+}
+
 class Shape
 {
 	constructor(position, color)
@@ -18,12 +27,13 @@ class Shape
 	}
 }
 
-class Ellipse extends Shape
+class EllipseShape extends Shape
 {
 	constructor(position, radius, color)
 	{
 		super(position, color);
 		this.radius = radius;
+		this.type = ShapeType.Ellipse;
 	}
 
 	render()
@@ -39,12 +49,13 @@ class Ellipse extends Shape
 	}
 }
 
-class Rectangle extends Shape
+class RectangleShape extends Shape
 {
 	constructor(position, size, color)
 	{
 		super(position, color);
 		this.size = size;
+		this.type = ShapeType.Rectangle;
 	}
 
 	render()
@@ -61,13 +72,14 @@ class Rectangle extends Shape
 	}
 }
 
-class Line extends Shape
+class LineShape extends Shape
 {
 	constructor(position, endPosition, width, color)
 	{
 		super(position, color);
 		this.endPosition = endPosition;
 		this.width = width;
+		this.type = ShapeType.Line;
 	}
 
 	minLengthReached()
@@ -89,13 +101,14 @@ class Line extends Shape
 	}
 }
 
-class Text extends Shape
+class TextShape extends Shape
 {
 	constructor(text, position, size, color)
 	{
 		super(position, color);
 		this.text = text;
 		this.size = size;
+		this.type = ShapeType.Text;
 	}
 
 	render()
@@ -120,12 +133,34 @@ class ImageShape extends Shape
 	constructor(position, size, imageIndex, color, rotation)
 	{
 		super(position, color);
-		this.size = size;
+
 		this.imageIndex = imageIndex;
-		this.image = imageShapes[this.imageIndex].get(); //use an index for saving
+
+		this.type = ShapeType.Image;
+
+		//if saved parameters exist and either color or index changed
+		if((ImageShape.lastColor === null || ImageShape.lastIndex === null || ImageShape.savedImage === null) || 
+			this.imageIndex !== ImageShape.lastIndex || 
+			ImageShape.lastColor.levels.join("") !== color.levels.join(""))
+		{
+			this.image = imageShapes[this.imageIndex].get(); //use an index for saving
+
+			ImageShape.lastColor = color;
+			ImageShape.lastIndex = this.imageIndex;
+			ImageShape.savedImage = this.image;
+		}
+		else
+		{
+			this.image = ImageShape.savedImage;
+		}
+
+		this.size = size;
 		this.rotation = rotation;
 
+	}
 
+	tintImage()
+	{
 		this.image.loadPixels();
 
 		for(let p = 0; p < this.image.width * this.image.height * 4; p += 4)
@@ -136,7 +171,6 @@ class ImageShape extends Shape
 		}
 
 		this.image.updatePixels();
-
 	}
 
 	render()
@@ -149,8 +183,13 @@ class ImageShape extends Shape
 		if(screenSize.x > 1 && screenSize.y > 1)
 		{
 			noStroke();
-			Utils.imageExt(this.image, screenPosition.x, screenPosition.y, screenSize.x, screenSize.y, null, this.rotation);
+			let col = settings.image.allowTint ? this.color : null;
+			Utils.imageExt(this.image, screenPosition.x, screenPosition.y, screenSize.x, screenSize.y, col, this.rotation);
 			noTint();
 		}
 	}
 }
+
+ImageShape.lastColor = null;
+ImageShape.lastIndex = null;
+ImageShape.savedImage = null;

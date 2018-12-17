@@ -9,6 +9,7 @@
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-storage.js"></script>
 		<script>
 		  // Initialize Firebase
 		  var config = {
@@ -20,13 +21,17 @@
 			messagingSenderId: "377670848022"
 		  };
 		  firebase.initializeApp(config);
+		  
+		  var database = firebase.database();
 		</script>
 	</head>
 	<body>
 
 	<div>
+	
+		<span id="text_users_online"></span>
 
-		<div id="toolbar_container">
+		<div id="toolbar_container" class="container">
 			<div id="toolbar_tools_container">
 				<div class="toolbar_entry">
 					<span class="toolbar_heading">Color</span><br/>
@@ -54,12 +59,23 @@
 					<span class="toolbar_heading">Image</span><br/>
 					<label>Rotation <input id="toolbar_slider_image_rotation" type="range" class="toolbar_slider" min="0" max="360" value="0" step="1"/></label><br/>
 					<label>Index <input id="toolbar_slider_image_index" type="range" class="toolbar_slider" min="0" max="0" value="0" step="1"/></label>
+					<label>Allow Tint (slow) <input id="toolbar_check_allowtint" type="checkbox" name="allowtint"/></label>
 				</div>
 			</div>
 
 			<button id="button_close_toolbar">X</button>
 
 		</div>
+		
+		<div id="chatbox_container" class="container">
+			<div id="chatbox_messages">
+			
+			</div>
+			<div>
+				<input id="chatbox_input_message" value="..."/> <button id="chatbox_button_send">Send</button>
+			</div>
+		</div>
+		
 		<div id="canvas_container"></div>
 	</div>
 
@@ -69,6 +85,7 @@
 	<script src="Assets/Scripts/decimal.js"></script>
 	<script src="Assets/Scripts/numberformatter.js"></script>
 	<script src="Assets/Scripts/distanceformatter.js"></script>
+	<script src="Assets/Scripts/timeformatter.js"></script>
 	<script src="Assets/Scripts/preload.js"></script>
 	<script src="Assets/Scripts/saveload.js"></script>
 	<script src="Assets/Scripts/toolbar.js"></script>
@@ -77,6 +94,8 @@
 	<script src="Assets/Scripts/vec2.js"></script>
 	<script src="Assets/Scripts/camera.js"></script>
 	<script src="Assets/Scripts/shape.js"></script>
+	<script src="Assets/Scripts/chat.js"></script>
+	<script src="Assets/Scripts/database.js"></script>
 	<script src="Assets/Scripts/main.js"></script>
 
 	</body>

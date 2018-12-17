@@ -10,16 +10,16 @@ nodes.button.close_toolbar.addEventListener("click", function(){
 	saveSettings();
 });
 
-var cursorOnToolbar = false;
+var cursorOnContainer = false;
 
 nodes.container.toolbar.onmouseover = function()
 {
-	cursorOnToolbar = true;
+	cursorOnContainer = true;
 };
 
 nodes.container.toolbar.onmouseout = function()
 {
-	cursorOnToolbar = false;
+	cursorOnContainer = false;
 };
 
 //change color preview on moving sliders
@@ -105,9 +105,16 @@ for(let i = 0; i < tools.length; i++)
 	}
 }
 
+nodes.checkbox.allowTint.onchange = function(event)
+{
+	settings.image.allowTint = nodes.checkbox.allowTint.checked;
+	
+	saveSettings();
+}
+
 nodes.container.toolbar.onclick = function(event)
 {
-	event.preventDefault();
+	//event.preventDefault();
 };
 
 function selectTool(tool)

@@ -3,7 +3,9 @@ var nodes =
 	toolbar_color_preview: document.getElementById("toolbar_color_preview"),
 	container:
 	{
-		toolbar: document.getElementById("toolbar_container")
+		toolbar: document.getElementById("toolbar_container"),
+		chatbox: document.getElementById("chatbox_container"),
+		chatboxMessages: document.getElementById("chatbox_messages")
 	},
 	button:
 	{
@@ -16,7 +18,8 @@ var nodes =
 			text: document.getElementById("button_tool_text"),
 			image: document.getElementById("button_tool_image"),
 			view: document.getElementById("button_tool_view")
-		}
+		},
+		sendChatMessage: document.getElementById("chatbox_button_send")
 	},
 	slider:
 	{
@@ -37,6 +40,18 @@ var nodes =
 			rotation: document.getElementById("toolbar_slider_image_rotation"),
 			index: document.getElementById("toolbar_slider_image_index")
 		}
+	},
+	input:
+	{
+		chatMessage: document.getElementById("chatbox_input_message")
+	},
+	text:
+	{
+		usersOnline: document.getElementById("text_users_online")
+	},
+	checkbox:
+	{
+		allowTint: document.getElementById("toolbar_check_allowtint")
 	}
 };
 
@@ -61,6 +76,7 @@ var settings =
 	image:
 	{
 		index: 0,
-		rotation: 0
+		rotation: 0,
+		allowTint: false
 	}
 };
