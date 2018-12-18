@@ -124,28 +124,23 @@ function selectTool(tool)
 
 function setDarkMode(b)
 {
+	let elements = [nodes.container.toolbar, nodes.container.chatbox, nodes.toolbar_color_preview];
+	
 	if(b)
 	{
-		for(prop of Object.getOwnPropertyNames(nodes.container))
+		for(el of elements)
 		{
-			nodes.container[prop].classList.add("invert");
+			el.classList.add("invert");
 		}
-		
-		nodes.toolbar_color_preview.classList.add("invert");
 	}
 	else
 	{
-		for(prop of Object.getOwnPropertyNames(nodes.container))
+		for(el of elements)
 		{
-			if(nodes.container[prop].classList.contains("invert"))
+			if(el.classList.contains("invert"))
 			{
-				nodes.container[prop].classList.remove("invert");
+				el.classList.remove("invert");
 			}
-		}
-		
-		if(nodes.toolbar_color_preview.classList.contains("invert"))
-		{
-			nodes.toolbar_color_preview.classList.remove("invert");
 		}
 	}
 	
