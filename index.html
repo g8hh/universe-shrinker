@@ -5,7 +5,8 @@
 		<title>Infinite Canvas</title>
 
 		<link rel="stylesheet" href="Assets/Style/style.css"/>
-
+		<link rel="icon" href="Assets/Images/favicon.png""/>
+		
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
@@ -60,6 +61,10 @@
 					<label>Rotation <input id="toolbar_slider_image_rotation" type="range" class="toolbar_slider" min="0" max="360" value="0" step="1"/></label><br/>
 					<label>Index <input id="toolbar_slider_image_index" type="range" class="toolbar_slider" min="0" max="0" value="0" step="1"/></label>
 					<label>Allow Tint (slow) <input id="toolbar_check_allowtint" type="checkbox" name="allowtint"/></label>
+				</div>
+				<div class="toolbar_entry">
+					<span class="toolbar_heading">Settings</span><br/>
+					<button id="button_toggle_darkmode" class="toolbar_button">Toggle Dark Mode</button>
 				</div>
 			</div>
 
