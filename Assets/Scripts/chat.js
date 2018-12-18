@@ -1,6 +1,8 @@
 function sendChatMessage(message)
 {
-	if(message.length > 0)
+	message = validateChatMessage(message);
+	
+	if(!(/^( )*$/g.test(message))) //dont send empty messages
 	{
 		database.ref().child("chatmessages").child(Date.now()).set({
 			sender: username,
@@ -24,7 +26,7 @@ function addChatMessage(messageObject) //add to messages div
 
 function validateChatMessage(message)
 {
-	message = message.match(/[a-z|A-Z|0-9|?!., ]*/g).join("");
+	message = message.match(/[a-z|A-Z|0-9|?!.,:; ]*/g).join("");
 	if(message.length > 100)
 	{
 		message = message.substring(0, 100);

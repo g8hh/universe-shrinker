@@ -20,6 +20,11 @@ class Shape
 		let pos = mainCamera.worldToScreenPoint(this.position);
 		return pos;
 	}
+	
+	renderable() //returns if it should be rendered
+	{
+		return true;
+	}
 
 	render()
 	{
@@ -34,6 +39,13 @@ class EllipseShape extends Shape
 		super(position, color);
 		this.radius = radius;
 		this.type = ShapeType.Ellipse;
+	}
+	
+	renderable()
+	{
+		let relSize = Decimal.max(this.radius.x, this.radius.y).div(mainCamera.getRange());
+		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
 	}
 
 	render()
@@ -57,7 +69,14 @@ class RectangleShape extends Shape
 		this.size = size;
 		this.type = ShapeType.Rectangle;
 	}
-
+	
+	renderable()
+	{
+		let relSize = Decimal.max(this.size.x, this.size.y).div(mainCamera.getRange());
+		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+	}
+	
 	render()
 	{
 		super.render();
@@ -87,6 +106,14 @@ class LineShape extends Shape
 		return Vec2.dist(this.position, this.endPosition).gte(this.width.mul(2));
 	}
 
+	renderable()
+	{
+		let relSize = this.width.div(mainCamera.getRange());
+		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25))
+						&& Vec2.dist(this.endPosition.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+	}
+	
 	render()
 	{
 		super.render();
@@ -109,6 +136,13 @@ class TextShape extends Shape
 		this.text = text;
 		this.size = size;
 		this.type = ShapeType.Text;
+	}
+	
+	renderable()
+	{
+		let relSize = this.size.div(mainCamera.getRange());
+		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25 + this.text.length));
 	}
 
 	render()
@@ -172,6 +206,13 @@ class ImageShape extends Shape
 
 		this.image.updatePixels();
 	}
+	
+	renderable()
+	{
+		let relSize = Decimal.max(this.size.x, this.size.y).div(mainCamera.getRange());
+		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(new Decimal(1000000)) &&
+						Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+	}
 
 	render()
 	{
@@ -193,3 +234,39 @@ class ImageShape extends Shape
 ImageShape.lastColor = null;
 ImageShape.lastIndex = null;
 ImageShape.savedImage = null;
+
+function checkShapesInDatabase() //should shape be loaded
+{
+	database.ref("shapes").once("value", function(snapshot)
+	{
+		for(prop of Object.getOwnPropertyNames(snapshot.val()))
+		{
+			let shape = shapeFromJSON(snapshot.val()[prop]);
+			if(shape.renderable())
+			{
+				loadShape(shape);
+			}
+		}
+	});
+}
+
+function cleanShapes() //remove unneeded shapes
+{
+	let newShapes = [];
+	
+	for(shape of shapes)
+	{
+		if(shape.renderable())
+		{
+			newShapes.push(shape);
+		}
+	}
+	
+	shapes = newShapes;
+}
+
+function refreshShapes()
+{
+	checkShapesInDatabase();
+	cleanShapes();
+}

@@ -21,6 +21,12 @@ var userData = {}, userNames = [];
 
 var exited = false;
 
+var lastShapeUpdate =
+{
+	position: new Vec2(new Decimal(0), new Decimal(0)),
+	zoom: new Decimal(1)
+};
+
 var mouseDelta =
 {
 	start: new p5.Vector(0, 0),
@@ -100,9 +106,18 @@ function onReady()
 {
 	syncDatabase();
 	
+	let valid = true;
+	
 	do
 	{
-		username = prompt("What is your name?");
+		if(storageHasItem("InfiniteCanvas_DefaultUserName") && valid)
+		{
+			username = localStorage.getItem("InfiniteCanvas_DefaultUserName");
+		}
+		else
+		{
+			username = prompt("What is your name?");
+		}
 		
 		valid = checkUserName(username);
 		
@@ -114,6 +129,10 @@ function onReady()
 	while(username === null || !valid)
 	username = validateUsername(username);
 	
+	if(!storageHasItem("InfiniteCanvas_DefaultUserName") && confirm("Click ok to save your name. If there's a saved name, it will try to log in with it everytime."))
+	{
+		localStorage.setItem("InfiniteCanvas_DefaultUserName", username);
+	}
 	
 }
 
@@ -177,6 +196,15 @@ function draw()
 
 	mainCamera.tick(deltatime);
 	saveCamera();
+	
+	/*
+	if(Vec2.dist(mainCamera.position, lastShapeUpdate.position).gte(mainCamera.getRange() * 5) ||
+			Math.abs(Decimal.log(mainCamera.zoom.div(lastShapeUpdate.zoom))) > 1.25)
+	{
+		refreshShapes();
+		lastShapeUpdate.position = mainCamera.position;
+		lastShapeUpdate.zoom = mainCamera.zoom;
+	}*/
 
 	if(mousePressed)
 	{
@@ -422,16 +450,19 @@ function mouseReleased()
 
 function mouseDragged(event)
 {
-	if(event.buttons === 2 || (event.buttons === 1 && settings.tool === "view"))
+	if(event.buttons === 2 || (event.buttons === 1 && settings.tool === "view") && !cursorOnContainer)
 	{
-		let delta = new p5.Vector(mouseDelta.total.x * -1, mouseDelta.total.y).div(width);
-		mainCamera.moveRelative(new p5.Vector(delta.x, delta.y));
+		let delta = new p5.Vector(mouseDelta.total.x, mouseDelta.total.y).div(width);
+		mainCamera.moveRelative(new p5.Vector(-delta.x, delta.y));
 	}
 }
 
 function mouseWheel(event)
 {
-	mainCamera.zoomIn(Decimal.pow(0.8, new Decimal(event.delta / 100)));
+	if(!cursorOnContainer)
+	{
+		mainCamera.zoomIn(Decimal.pow(0.8, new Decimal(event.delta / 100)));
+	}
 }
 
 function placeShape()
@@ -481,7 +512,7 @@ function placeLine()
 
 function addShape(shape, addToDatabase)
 {
-	if(addToDatabase)
+	if(addToDatabase && shapes.length < 4096)
 	{
 		addShapeToDatabase(shape);
 	}

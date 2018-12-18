@@ -10,6 +10,7 @@ var nodes =
 	button:
 	{
 		close_toolbar: document.getElementById("button_close_toolbar"),
+		toggleDarkMode: document.getElementById("button_toggle_darkmode"),
 		tools:
 		{
 			ellipse: document.getElementById("button_tool_ellipse"),
@@ -57,6 +58,7 @@ var nodes =
 
 var settings =
 {
+	darkMode: false,
 	toolbarHidden: false,
 	color: "hsl(0, 0%, 0%)",
 	sliderValues:

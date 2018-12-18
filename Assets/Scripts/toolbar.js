@@ -122,6 +122,38 @@ function selectTool(tool)
 	nodes.button.tools[tool].onclick();
 }
 
+function setDarkMode(b)
+{
+	let elements = [nodes.container.toolbar, nodes.container.chatbox, nodes.toolbar_color_preview];
+	
+	if(b)
+	{
+		for(el of elements)
+		{
+			el.classList.add("invert");
+		}
+	}
+	else
+	{
+		for(el of elements)
+		{
+			if(el.classList.contains("invert"))
+			{
+				el.classList.remove("invert");
+			}
+		}
+	}
+	
+	settings.darkMode = b;
+	
+	saveSettings();
+}
+
+nodes.button.toggleDarkMode.onclick = function(e)
+{
+	setDarkMode(!settings.darkMode);
+}
+
 function colorFromCSSString(hsl)
 {
 	hsl = hsl.substring(3); //cut off "hsl"

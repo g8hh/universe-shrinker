@@ -135,7 +135,16 @@ function syncDatabase()
 	{
 		let value = snapshot.val();
 		
-		loadShape(shapeFromJSON(value));
+		let shape = shapeFromJSON(value);
+		
+		loadShape(shape);
+		
+		/*
+		if(shape.renderable())
+		{
+			loadShape(shape);
+		}
+		*/
 	});
 	
 	//set user data

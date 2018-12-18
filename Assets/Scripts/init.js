@@ -21,6 +21,8 @@ function initSettings()
 	selectTool(settings.tool);
 
 	nodes.container.toolbar.style.left = settings.toolBarHidden ? "-70%" : "0px";
+	
+	setDarkMode(settings.darkMode);
 }
 
 document.oncontextmenu = function(event)
