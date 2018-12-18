@@ -20,6 +20,12 @@ class NumberFormatter
 
 	static format(value)
 	{
+		if(value.gte(1e+300))
+		{
+			let mantissa = Math.pow(10, Decimal.log(value) % 3);
+			let exp = Math.floor(Decimal.log(value) / 3) * 3;
+			return mantissa.toFixed(2) + " * 10^" + exp;
+		}
 		if(value.gte(1e+33))
 		{
 			let mantissa = Math.pow(10, Decimal.log(value) % 3);

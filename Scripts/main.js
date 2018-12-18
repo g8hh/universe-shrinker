@@ -100,9 +100,18 @@ function onReady()
 {
 	syncDatabase();
 	
+	let valid = true;
+	
 	do
 	{
-		username = prompt("What is your name?");
+		if(storageHasItem("InfiniteCanvas_DefaultUserName") && valid)
+		{
+			username = localStorage.getItem("InfiniteCanvas_DefaultUserName");
+		}
+		else
+		{
+			username = prompt("What is your name?");
+		}
 		
 		valid = checkUserName(username);
 		
@@ -114,6 +123,10 @@ function onReady()
 	while(username === null || !valid)
 	username = validateUsername(username);
 	
+	if(!storageHasItem("InfiniteCanvas_DefaultUserName") && confirm("Click ok to save your name. If there's a saved name, it will try to log in with it everytime."))
+	{
+		localStorage.setItem("InfiniteCanvas_DefaultUserName", username);
+	}
 	
 }
 

@@ -122,6 +122,43 @@ function selectTool(tool)
 	nodes.button.tools[tool].onclick();
 }
 
+function setDarkMode(b)
+{
+	if(b)
+	{
+		for(prop of Object.getOwnPropertyNames(nodes.container))
+		{
+			nodes.container[prop].classList.add("invert");
+		}
+		
+		nodes.toolbar_color_preview.classList.add("invert");
+	}
+	else
+	{
+		for(prop of Object.getOwnPropertyNames(nodes.container))
+		{
+			if(nodes.container[prop].classList.contains("invert"))
+			{
+				nodes.container[prop].classList.remove("invert");
+			}
+		}
+		
+		if(nodes.toolbar_color_preview.classList.contains("invert"))
+		{
+			nodes.toolbar_color_preview.classList.remove("invert");
+		}
+	}
+	
+	settings.darkMode = b;
+	
+	saveSettings();
+}
+
+nodes.button.toggleDarkMode.onclick = function(e)
+{
+	setDarkMode(!settings.darkMode);
+}
+
 function colorFromCSSString(hsl)
 {
 	hsl = hsl.substring(3); //cut off "hsl"

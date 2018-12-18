@@ -1,5 +1,7 @@
 function sendChatMessage(message)
 {
+	message = validateChatMessage(message);
+	
 	if(!(/^( )*$/g.test(message))) //dont send empty messages
 	{
 		database.ref().child("chatmessages").child(Date.now()).set({
