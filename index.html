@@ -35,20 +35,20 @@
 		<div id="toolbar_container" class="container">
 			<div id="toolbar_tools_container">
 				<div class="toolbar_entry">
-					<span class="toolbar_heading">Color</span><br/>
+					<span class="toolbar_heading autumn">Color</span><br/>
 					<div id="toolbar_color_preview"></div>
 					<label>H <input id="toolbar_slider_hue" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label><br/>
 					<label>S <input id="toolbar_slider_saturation" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label><br/>
 					<label>L <input id="toolbar_slider_luminance" type="range" class="toolbar_slider" min="0" max="1" value="0" step="0.01"/></label>
 				</div>
 				<div class="toolbar_entry">
-					<span class="toolbar_heading">Brush Size</span><br/>
+					<span class="toolbar_heading autumn">Brush Size</span><br/>
 					<label>x <input id="toolbar_slider_brushSize_x" type="range" class="toolbar_slider" min="0.02" max="0.5" value="0.1" step="0.001"/></label><br/>
 					<label>y <input id="toolbar_slider_brushSize_y" type="range" class="toolbar_slider" min="0.02" max="0.5" value="0.1" step="0.001"/></label>
 					<label>radius <input id="toolbar_slider_brushSize_radius" type="range" class="toolbar_slider" min="0.01" max="0.25" value="0.05" step="0.001"/></label>
 				</div>
 				<div class="toolbar_entry">
-					<span class="toolbar_heading">Tool</span><br/>
+					<span class="toolbar_heading autumn">Tool</span><br/>
 					<button id="button_tool_ellipse" class="toolbar_button"><img src="Assets/Images/Tools/ellipse.png"/></button>
 					<button id="button_tool_rectangle" class="toolbar_button"><img src="Assets/Images/Tools/rectangle.png"/></button>
 					<button id="button_tool_line" class="toolbar_button"><img src="Assets/Images/Tools/line.png"/></button>
@@ -57,13 +57,18 @@
 					<button id="button_tool_view" class="toolbar_button"><img src="Assets/Images/Tools/view.png"/></button>
 				</div>
 				<div class="toolbar_entry">
-					<span class="toolbar_heading">Image</span><br/>
-					<label>Rotation <input id="toolbar_slider_image_rotation" type="range" class="toolbar_slider" min="0" max="360" value="0" step="1"/></label><br/>
-					<label>Index <input id="toolbar_slider_image_index" type="range" class="toolbar_slider" min="0" max="0" value="0" step="1"/></label>
-					<label>Allow Tint (slow) <input id="toolbar_check_allowtint" type="checkbox" name="allowtint"/></label>
+					<div style="overflow-y: scroll;">
+						<span class="toolbar_heading autumn">Image Settings</span><br/>
+						<label>Rotation <input id="toolbar_slider_image_rotation" type="range" class="toolbar_slider" min="0" max="360" value="0" step="1"/></label><br/>
+						<label>Allow Tint (slow) <input id="toolbar_check_allowtint" type="checkbox" name="allowtint"/></label>
+					</div>
 				</div>
 				<div class="toolbar_entry">
-					<span class="toolbar_heading">Settings</span><br/>
+					<span class="toolbar_heading autumn">Image Selection</span><br/>
+					<div id="toolbar_container_image"></div>
+				</div>
+				<div class="toolbar_entry">
+					<span class="toolbar_heading autumn">Settings</span><br/>
 					<button id="button_toggle_darkmode" class="toolbar_button">Toggle Dark Mode</button>
 				</div>
 			</div>

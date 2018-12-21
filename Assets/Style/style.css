@@ -1,3 +1,15 @@
+@font-face{
+	font-family: "Autumn Regular";
+	src: url("../Fonts/Autumn/Autumn.ttf") format("truetype"),
+			url("../Fonts/Autumn/Autumn.woff") format("woff"),
+			url("../Fonts/Autumn/Autumn.svg") format("svg"),
+			url("../Fonts/Autumn/Autumn.eot");
+}
+
+.autumn{
+	font-family: "Autumn Regular";
+}
+
 * {
 	margin:0;
 	padding:0;
@@ -91,7 +103,7 @@ button:hover, input:hover{
 
 .toolbar_entry{
 	width: 25%;
-	height: 80%;
+	height: 40%;
 	margin-right: 1%;
 	margin-left: 1%;
 	margin-top: 2%;
@@ -112,9 +124,9 @@ button:hover, input:hover{
 
 	display: inline-block;
 
-	font-size: 20px;
-	font-weight: bold;
-	text-shadow: 1px 1px 2px black;
+	font-size: 22px;
+	font-weight: lighter;
+	text-shadow: 1px 1px 1px black;
 
 	text-align: center;
 
@@ -181,7 +193,7 @@ button:hover, input:hover{
 	height: 50%;
 }
 
-.tool_selected{
+.selected{
 	filter: brightness(1.5);
 	transform: scale(1.1, 1.1);
 }
@@ -234,9 +246,7 @@ button:hover, input:hover{
 	border-radius: 20px;
 }
 
-
-#chatbox_container
-{
+#chatbox_container{
 	right: 0px;
 	bottom: 0px;
 	

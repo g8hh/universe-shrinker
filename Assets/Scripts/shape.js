@@ -207,6 +207,22 @@ class ImageShape extends Shape
 		this.image.updatePixels();
 	}
 	
+	async getTintedImage()
+	{
+		this.image.loadPixels();
+
+		let pixels = this.image.pixels;
+		
+		for(let p = 0; p < this.image.width * this.image.height * 4; p += 4)
+		{
+			pixels[p] = Math.floor(pixels[p] * red(this.color) / 256);
+			pixels[p + 1] = Math.floor(pixels[p + 1] * green(this.color) / 256);
+			pixels[p + 2] = Math.floor(pixels[p + 2] * blue(this.color) / 256);
+		}
+		
+		return pixels;
+	}
+	
 	renderable()
 	{
 		let relSize = Decimal.max(this.size.x, this.size.y).div(mainCamera.getRange());

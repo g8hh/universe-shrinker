@@ -5,7 +5,8 @@ var nodes =
 	{
 		toolbar: document.getElementById("toolbar_container"),
 		chatbox: document.getElementById("chatbox_container"),
-		chatboxMessages: document.getElementById("chatbox_messages")
+		chatboxMessages: document.getElementById("chatbox_messages"),
+		toolbarImage: document.getElementById("toolbar_container_image")
 	},
 	button:
 	{
@@ -38,8 +39,7 @@ var nodes =
 		},
 		image:
 		{
-			rotation: document.getElementById("toolbar_slider_image_rotation"),
-			index: document.getElementById("toolbar_slider_image_index")
+			rotation: document.getElementById("toolbar_slider_image_rotation")
 		}
 	},
 	input:

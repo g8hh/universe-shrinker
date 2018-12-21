@@ -69,13 +69,6 @@ nodes.slider.image.rotation.oninput = function()
 	saveSettings();
 }
 
-nodes.slider.image.index.oninput = function()
-{
-	settings.image.index = nodes.slider.image.index.value;
-
-	saveSettings();
-}
-
 //selecting tools
 let toolNames = Object.getOwnPropertyNames(nodes.button.tools);
 
@@ -91,13 +84,13 @@ for(let i = 0; i < tools.length; i++)
 	{
 		tools.forEach(function(e)
 		{
-			if(e.classList.contains("tool_selected"))
+			if(e.classList.contains("selected"))
 			{
-				e.classList.remove("tool_selected");
+				e.classList.remove("selected");
 			}
 		});
 
-		tools[i].classList.add("tool_selected");
+		tools[i].classList.add("selected");
 
 		settings.tool = toolNames[i];
 

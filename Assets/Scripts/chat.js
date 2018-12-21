@@ -18,7 +18,7 @@ function addChatMessage(messageObject) //add to messages div
 {
 	let messageDiv = nodes.container.chatboxMessages.appendChild(document.createElement("div"));
 	messageDiv.classList.add("chatmessage");
-	messageDiv.innerHTML = "<span class='name'>" + messageObject.sender + "</span><br/>" +
+	messageDiv.innerHTML = "<span class='name autumn'>" + messageObject.sender + "</span><br/>" +
 							messageObject.message + "<br/>" +
 							"<span  class='time'>" + TimeFormatter.format(messageObject.time) + "<span>";
 	nodes.container.chatboxMessages.scrollTop += nodes.container.chatboxMessages.clientHeight;

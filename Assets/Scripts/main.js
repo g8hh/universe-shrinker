@@ -46,10 +46,32 @@ function preload()
 
 	let links = ["earth.png", "moon.png", "sun.png", "space.png", "galaxy.png", "texture_grass.png", "texture_sand.png", "texture_stone.png", "mandelbrot.png", "fractal1.png", "fractal2.png"] ;
 
-
 	let ref = storage.ref().child("ImageShapes");
 
 	let imagePromises = [];
+	
+	for(let i = 0; i < links.length; i++)
+	{
+		let button = nodes.container.toolbarImage.appendChild(document.createElement("button"));
+		button.classList.add("toolbar_button");
+		
+		button.onclick = function(e)
+		{
+			for(btn of nodes.container.toolbarImage.childNodes)
+			{
+				if(btn.classList.contains("selected"))
+				{
+					btn.classList.remove("selected");
+				}
+				
+				button.classList.add("selected");
+				
+				settings.image.index = i;
+				
+				saveSettings();
+			}
+		}
+	}
 	
 	for(let i=0;i<links.length;i++) 
 	{
@@ -68,8 +90,13 @@ function preload()
 				loadedImages++;
 				if(loadedImages === images.length) {
 					//after images have been loaded
-					nodes.slider.image.index.max = imageShapes.length - 1;		
-					nodes.slider.image.index.value = settings.image.index;
+					
+					for(let i = 0; i < images.length; i++)
+					{
+						nodes.container.toolbarImage.childNodes[i].innerHTML = "<img src='" + images[i] + "'/>"
+					}
+					
+					nodes.container.toolbarImage.childNodes[Number.parseInt(settings.image.index)].onclick(); //select saved image
 					
 					database.ref().once("value", function(snapshot)
 					{
