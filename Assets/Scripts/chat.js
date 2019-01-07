@@ -1,9 +1,12 @@
-var emojis = [];
+var emojis = [], emojisGfx = []; //raw unicode / emojis
 
 for(let i = Number.parseInt("0x1f600"); i < Number.parseInt("0x1f650"); i++){
 	emojis.push("&#x"+i.toString(16)+";");
 }
 for(let i = Number.parseInt("0x1f910"); i < Number.parseInt("0x1f93f"); i++){
+	emojis.push("&#x"+i.toString(16)+";");
+}
+for(let i = 9728; i < 9983; i++){
 	emojis.push("&#x"+i.toString(16)+";");
 }
 
@@ -35,10 +38,10 @@ function addChatMessage(messageObject) //add to messages div
 
 function validateChatMessage(message)
 {
-	message = message.match(/([a-z|A-Z|0-9|?!., ])|&#x([\d|a-f]){5};/g);
+	message = message.match(/([a-z|A-Z|0-9|?!., ])|&#x([\d|a-f]){1,5};|[\u{1f600}-\u{1f650}|\u{1f910}-\u{1f93f}|\u{2600}-\u{26ff}]/gu);
 	message = message !== null ? message.join("") : "";
 	
-	unicode = message.match(/&#x([\d|a-f]){5};/g);
+	unicode = message.match(/&#x([\d|a-f]){1,5};/g);
 	
 	if(unicode !== null) //validate unicode characters (emojis)
 	{
@@ -83,9 +86,10 @@ for(let emoji of emojis)
 	let btn = nodes.container.chatboxEmojis.appendChild(document.createElement("button"));
 	btn.innerHTML = emoji;
 	btn.className = "emojibutton";
+	emojisGfx.push(btn.innerHTML);
 	btn.onclick = function()
 	{
-		nodes.input.chatMessage.value += emoji;
+		nodes.input.chatMessage.value += btn.innerHTML;
 		validateChatMessage(nodes.input.chatMessage.value);
 	}
 }
