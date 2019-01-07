@@ -1,3 +1,5 @@
+var emojis = ["&#x1f600;", "&#x1f601;", "&#x1f602;", "&#x1f609;", "&#x1f632;", "&#x02764;"];
+
 function sendChatMessage(message)
 {
 	message = validateChatMessage(message);
@@ -26,7 +28,22 @@ function addChatMessage(messageObject) //add to messages div
 
 function validateChatMessage(message)
 {
-	message = message.match(/[a-z|A-Z|0-9|?!.,:; ]*/g).join("");
+	message = message.match(/([a-z|A-Z|0-9|?!., ])|&#x([\d|a-f]){5};/g);
+	message = message !== null ? message.join("") : "";
+	
+	unicode = message.match(/&#x([\d|a-f]){5};/g);
+	
+	if(unicode !== null) //validate unicode characters (emojis)
+	{
+		for(let i = 0; i < unicode.length; i++)
+		{
+			if(!emojis.includes(unicode[i]))
+			{
+				message = message.replace(unicode[i], "");
+			}
+		}
+	}
+	
 	if(message.length > 100)
 	{
 		message = message.substring(0, 100);
@@ -52,4 +69,16 @@ nodes.container.chatbox.onmouseover = function(e)
 nodes.container.chatbox.onmouseout = function(e)
 {
 	cursorOnContainer = false;
+}
+
+for(let emoji of emojis)
+{
+	let btn = nodes.container.chatboxEmojis.appendChild(document.createElement("button"));
+	btn.innerHTML = emoji;
+	btn.className = "emojibutton";
+	btn.onclick = function()
+	{
+		nodes.input.chatMessage.value += emoji;
+		validateChatMessage(nodes.input.chatMessage.value);
+	}
 }

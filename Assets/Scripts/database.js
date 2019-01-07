@@ -131,6 +131,7 @@ function syncDatabase()
 {
 	let time = Date.now();
 	
+	//.endAt().limitToLast(1)
 	database.ref("shapes").on("child_added", function(snapshot)
 	{
 		let value = snapshot.val();

@@ -29,3 +29,11 @@ document.oncontextmenu = function(event)
 {
 	event.preventDefault();
 }
+
+document.onkeydown = function(e)
+{
+	if(e.which === 13) //enter
+	{
+		sendChatMessage(nodes.input.chatMessage.value);
+	}
+}

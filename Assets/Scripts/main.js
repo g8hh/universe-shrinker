@@ -24,7 +24,7 @@ var exited = false;
 var lastShapeUpdate =
 {
 	position: new Vec2(new Decimal(0), new Decimal(0)),
-	zoom: new Decimal(1)
+	zoomLevel: 0
 };
 
 var mouseDelta =
@@ -73,7 +73,7 @@ function preload()
 		}
 	}
 	
-	for(let i=0;i<links.length;i++) 
+	for(let i = 0; i < links.length; i++)
 	{
 		(function(link)
 		{
@@ -185,10 +185,6 @@ function setup()
 	
 	
 	let validUserName = false;
-	
-	
-
-	
 }
 
 function draw()
@@ -226,11 +222,11 @@ function draw()
 	
 	/*
 	if(Vec2.dist(mainCamera.position, lastShapeUpdate.position).gte(mainCamera.getRange() * 5) ||
-			Math.abs(Decimal.log(mainCamera.zoom.div(lastShapeUpdate.zoom))) > 1.25)
+			Math.floor(Decimal.log(mainCamera.zoom, 50)) != lastShapeUpdate.zoomLevel)
 	{
 		refreshShapes();
 		lastShapeUpdate.position = mainCamera.position;
-		lastShapeUpdate.zoom = mainCamera.zoom;
+		lastShapeUpdate.zoomLevel = Math.floor(Decimal.log(mainCamera.zoom, 50));
 	}*/
 
 	if(mousePressed)
@@ -576,7 +572,7 @@ function pushUserData()
 		cameraZoom: mainCamera.zoom.toString(),
 		cursorPosition: mainCamera.screenToWorldPoint(new p5.Vector(mouseX, mouseY)).toString(),
 		tool: settings.tool,
-		color: [hue(brushColor), saturation(brushColor), lightness(brushColor)],
+		color: [hue(brushColor), Math.min(1, saturation(brushColor)), lightness(brushColor)],
 		brushSize: 
 		{
 			x: Number.parseFloat(settings.brushSize.x), 

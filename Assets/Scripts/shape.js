@@ -45,7 +45,7 @@ class EllipseShape extends Shape
 	{
 		let relSize = Decimal.max(this.radius.x, this.radius.y).div(mainCamera.getRange());
 		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
-						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000));
 	}
 
 	render()
@@ -74,7 +74,7 @@ class RectangleShape extends Shape
 	{
 		let relSize = Decimal.max(this.size.x, this.size.y).div(mainCamera.getRange());
 		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
-						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000));
 	}
 	
 	render()
@@ -110,8 +110,8 @@ class LineShape extends Shape
 	{
 		let relSize = this.width.div(mainCamera.getRange());
 		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
-						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25))
-						&& Vec2.dist(this.endPosition.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000))
+						&& Vec2.dist(this.endPosition.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000));
 	}
 	
 	render()
@@ -142,7 +142,7 @@ class TextShape extends Shape
 	{
 		let relSize = this.size.div(mainCamera.getRange());
 		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(1000000) 
-						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25 + this.text.length));
+						&& Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000 + this.text.length));
 	}
 
 	render()
@@ -227,7 +227,7 @@ class ImageShape extends Shape
 	{
 		let relSize = Decimal.max(this.size.x, this.size.y).div(mainCamera.getRange());
 		return relSize.gte(new Decimal(1 / 10000)) && relSize.lte(new Decimal(1000000)) &&
-						Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(25));
+						Vec2.dist(this.position.mul(-1, -1), mainCamera.position).lte(mainCamera.getRange().mul(1000));
 	}
 
 	render()
@@ -262,6 +262,10 @@ function checkShapesInDatabase() //should shape be loaded
 			{
 				loadShape(shape);
 			}
+			else
+			{
+				delete shape;
+			}
 		}
 	});
 }
@@ -270,19 +274,20 @@ function cleanShapes() //remove unneeded shapes
 {
 	let newShapes = [];
 	
-	for(shape of shapes)
+	for(let i = 0; i < shapes.length; i++)
 	{
-		if(shape.renderable())
+		if(shapes[i].renderable())
 		{
-			newShapes.push(shape);
+			newShapes.push(shapes[i]);
 		}
 	}
 	
 	shapes = newShapes;
+
 }
 
 function refreshShapes()
 {
-	checkShapesInDatabase();
 	cleanShapes();
+	checkShapesInDatabase();
 }

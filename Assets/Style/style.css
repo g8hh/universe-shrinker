@@ -237,6 +237,11 @@ button:hover, input:hover{
 	z-index: 2;
 }
 
+#toolbar_container_image{
+	overflow-y: scroll;
+	height: 100px;
+}
+
 #button_toggle_darkmode{
 	width: 100%;
 	margin: 0;
@@ -320,4 +325,14 @@ button:hover, input:hover{
 
 .chatmessage .time{
 	font-size: 10px;
+}
+
+#chatbox_container .emojibutton
+{
+	background: none;
+	border: none;
+	box-shadow: none;
+	width: 24px;
+	height: 24px;
+	font-size: 20px;
 }

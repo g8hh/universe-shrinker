@@ -6,7 +6,8 @@ var nodes =
 		toolbar: document.getElementById("toolbar_container"),
 		chatbox: document.getElementById("chatbox_container"),
 		chatboxMessages: document.getElementById("chatbox_messages"),
-		toolbarImage: document.getElementById("toolbar_container_image")
+		toolbarImage: document.getElementById("toolbar_container_image"),
+		chatboxEmojis: document.getElementById("chatbox_emojis")
 	},
 	button:
 	{
