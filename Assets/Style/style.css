@@ -256,14 +256,20 @@ button:hover, input:hover{
 	bottom: 0px;
 	
 	width: 20%;
-	height: 20%;
+	height: 30%;
 	
 	padding: 10px;
 }
 
 #chatbox_messages{
 	width: 100%;
-	height: 80%;
+	height: 60%;
+	overflow-y: scroll;
+}
+
+#chatbox_emojis{
+	width: 100%;
+	height: 30%;
 	overflow-y: scroll;
 }
 

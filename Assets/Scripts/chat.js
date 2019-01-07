@@ -1,4 +1,11 @@
-var emojis = ["&#x1f600;", "&#x1f601;", "&#x1f602;", "&#x1f609;", "&#x1f632;", "&#x02764;"];
+var emojis = [];
+
+for(let i = Number.parseInt("0x1f600"); i < Number.parseInt("0x1f650"); i++){
+	emojis.push("&#x"+i.toString(16)+";");
+}
+for(let i = Number.parseInt("0x1f910"); i < Number.parseInt("0x1f93f"); i++){
+	emojis.push("&#x"+i.toString(16)+";");
+}
 
 function sendChatMessage(message)
 {
@@ -46,7 +53,7 @@ function validateChatMessage(message)
 	
 	if(message.length > 100)
 	{
-		message = message.substring(0, 100);
+		message = message.substring(0, Utils.clamp(message.indexOf("&", 100), 100, 110));
 	}
 	return message;
 }
