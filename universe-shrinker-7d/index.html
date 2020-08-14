@@ -19,7 +19,7 @@
         </div>
         <p>You have <span class="big">{{formatNumber(rhoParticles, 2, 0, 1e9)}}</span> Rho-Particles (&rho;<sub>p</sub>)</p>
         <p>You get <span class="big">{{formatNumber(getRhoProduction(), 2, 0, 1e9)}}</span> &rho;<sub>p</sub> per Second</p>
-        <tab-navigation></tab-navigation>
+        <tab-navigation ref="tabNavigation"></tab-navigation>
         <div v-if="settings.tab === 'shrinkers'">
             <shrinker-table :shrinkers="shrinkers"></shrinker-table>
         </div>
@@ -48,6 +48,9 @@
                     <button @click="loadGame(settings.exportString)">Import (from Text Field)</button>
                 </div>
                 <textarea v-model="settings.exportString" rows="16" cols="64">{{settings.exportString}}</textarea>
+            </div>
+            <div class="hard-reset">
+                <button @click="hardReset()">HARD RESET</button>
             </div>
         </div>
     </main>

@@ -282,6 +282,12 @@ table.shrinker-table button{
     width: 80%;
 }
 
+.hard-reset{
+    text-align: center;
+    font-size: 90%;
+    margin-top: 3rem;
+}
+
 /*Footer*/
 
 footer{

@@ -217,6 +217,7 @@ var functions = {
             {
                 game.shrinkers[i].level = obj.shrinkers[i].level;
             }
+            game.resources = {};
             for(let k in obj.resources)
             {
                 if(obj.resources.hasOwnProperty(k))
@@ -260,6 +261,24 @@ var functions = {
                     game.automators[i].active = obj.automators[i].active;
                 }
             }
+        }
+    },
+    hardReset: function()
+    {
+        let times = 3;
+        do
+        {
+            if(!confirm("Are you really sure? You will lose everything. There is no reward!\nClick " + times + " more Times to hard reset."))
+            {
+                break;
+            }
+            times--;
+        } while(times > 0)
+        if(times === 0)
+        {
+            localStorage.clear();
+            this.loadGame(initialGame);
+            this.saveGame();
         }
     }
 };
