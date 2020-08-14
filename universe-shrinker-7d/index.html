@@ -38,6 +38,16 @@
         <div v-if="settings.tab === 'options'">
             <notation-select></notation-select>
             <theme-select></theme-select>
+            <div class="option" v-if="resources['Multiverse']">
+                <label>
+                    <input type="checkbox" v-model="settings.maxAllLayers"/> <span>Max All Universe Layers instead of the current selected</span>
+                </label>
+            </div>
+            <div class="option" v-if="thetaUpgrades.maxAllUnify.level > 0">
+                <label>
+                    <input type="checkbox" v-model="settings.maxAllTabs"/> <span>Max All Tabs instead of just One</span>
+                </label>
+            </div>
             <div class="saving">
                 <button @click="saveGame()">Save Game</button>
                 <p>The Game saves automatically every 30 seconds, but you can save manually to go really sure.</p>
@@ -58,6 +68,8 @@
         <h3>Congratulations, YOU WON!</h3>
         <p>You Shrunk everything there is, and you caused the Heat Death of every atom, ultimatively leaving you with nothing left.
         I hope you had fun playing :)<br/>This is a submission for the 7 day Incremental Game Jam 2020</p>
+        <p>You beat the Game in {{formatTime(timeSpent)}}. Feel free to compare this with others. Who was the fastest?</p>
+        <p>If you want to play again, you can start over: <button @click="hardReset()">HARD RESET</button></p>
     </main>
     <footer>
         <a target="_blank" href="https://discord.gg/75d7Jj5">Discord</a>

@@ -42,6 +42,10 @@ function update()
     dt2 = Date.now();
     let dt = (dt2 - dt1) / 1000;
     dt1 = Date.now();
+    if(!computed.gameWon())
+    {
+        game.timeSpent += dt;
+    }
 
     for(let id of stubbornComponents)
     {

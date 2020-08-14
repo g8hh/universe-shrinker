@@ -42,6 +42,7 @@ var game = {
     universeLayers: {},
     thetaEnergy: new Decimal(0),
     totalThetaEnergy: new Decimal(0),
+    thetaSpentOnUpgrades: new Decimal(0),
     thetaGoal: new Decimal(1.42e82),
     timesHeatDeath: 0,
     thetaUpgrades: {
@@ -102,6 +103,7 @@ var game = {
             () => functions.maxUniverseLayers())
     ],
     ngMinus: 0,
+    timeSpent: 0,
     settings:
     {
         tab: "shrinkers",
@@ -109,6 +111,8 @@ var game = {
         theme: "light.css",
         formatterIndex: 0,
         numberFormatter: new ADNotations.StandardNotation(),
+        maxAllTabs: true,
+        maxAllLayers: true,
         exportString: "Exported Save will appear here..."
     }
 };

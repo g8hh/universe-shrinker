@@ -75,6 +75,7 @@ class ThetaUpgrade extends RhoUpgrade
         if(game.thetaEnergy.gte(this.currentPrice()) && this.level < this.maxLevel)
         {
             game.thetaEnergy = game.thetaEnergy.sub(this.currentPrice());
+            game.thetaSpentOnUpgrades = game.thetaSpentOnUpgrades.add(this.currentPrice());
             this.level++;
             return true;
         }

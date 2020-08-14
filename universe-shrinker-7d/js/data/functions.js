@@ -68,6 +68,10 @@ var functions = {
         }
         return this.formatNumber(n, prec, prec) + " m";
     },
+    formatTime: function(s)
+    {
+        return [Math.floor(s / 3600), Math.floor(s / 60) % 60, Math.floor(s) % 60].join(":");
+    },
     changeUniverseLevel: function(lvl)
     {
         if(game.currentUniverseLevel <= game.highestUniverseLevel)
@@ -103,7 +107,8 @@ var functions = {
     },
     maxUniverseLayers: function()
     {
-        for(let k in game.universeLayers)
+        let keys = game.settings.maxAllLayers ? Object.keys(game.universeLayers) : [game.settings.universeTab];
+        for(let k of keys)
         {
             if(game.universeLayers.hasOwnProperty(k))
             {
@@ -116,7 +121,7 @@ var functions = {
     },
     maxAll: function()
     {
-        if(game.thetaUpgrades.maxAllUnify.apply())
+        if(game.thetaUpgrades.maxAllUnify.apply() && game.settings.maxAllTabs)
         {
             this.maxShrinkers();
             this.maxRhoUpgrades();
@@ -191,8 +196,10 @@ var functions = {
             game.rhoParticles = loadVal(new Decimal(obj.rhoParticles), new Decimal(0));
             game.thetaEnergy = loadVal(new Decimal(obj.thetaEnergy), new Decimal(0));
             game.totalThetaEnergy = loadVal(new Decimal(obj.totalThetaEnergy), new Decimal(0));
+            game.thetaSpentOnUpgrades = loadVal(new Decimal(obj.thetaSpentOnUpgrades), new Decimal(0));
             game.timesHeatDeath = loadVal(obj.timesHeatDeath, 0);
             game.ngMinus = loadVal(obj.ngMinus, 0);
+            game.timeSpent = loadVal(obj.timeSpent, 0);
             game.currentUniverseLevel = loadVal(obj.currentUniverseLevel, 0);
             game.highestUniverseLevel = loadVal(obj.highestUniverseLevel, 0);
             functions.changeUniverseLevel(game.currentUniverseLevel);
@@ -202,6 +209,8 @@ var functions = {
             }
             game.universe.size = loadVal(new Decimal(obj.universe.size), new Decimal(0));
             game.settings.formatterIndex = loadVal(obj.settings.formatterIndex, 0);
+            game.settings.maxAllTabs = loadVal(obj.settings.maxAllTabs, true);
+            game.settings.maxAllLayers = loadVal(obj.settings.maxAllLayers, true);
             game.settings.numberFormatter = numberFormatters[game.settings.formatterIndex];
             game.settings.universeTab = loadVal(obj.settings.universeTab, "Universe");
             game.settings.theme = loadVal(obj.settings.theme, "light.css");
@@ -279,6 +288,8 @@ var functions = {
             localStorage.clear();
             this.loadGame(initialGame);
             this.saveGame();
+            game.settings.tab = "shrinkers";
+            game.settings.universeTab = "Universe";
         }
     }
 };

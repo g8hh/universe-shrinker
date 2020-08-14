@@ -71,15 +71,13 @@ Vue.component("theta-layer", {
             },
             respec: function()
             {
+                game.thetaEnergy = game.thetaEnergy.add(game.thetaSpentOnUpgrades);
+                game.thetaSpentOnUpgrades = new Decimal(0);
                 for(let k in this.upgrades)
                 {
                     if(this.upgrades.hasOwnProperty(k))
                     {
-                        while(this.upgrades[k].level > 0)
-                        {
-                            this.upgrades[k].level--;
-                            game.thetaEnergy = game.thetaEnergy.add(this.upgrades[k].currentPrice());
-                        }
+                        this.upgrades[k].level = 0;
                     }
                 }
                 this.reset();
