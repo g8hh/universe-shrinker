@@ -77,7 +77,7 @@ var game = {
                 maxLevel: 100
             }),
         universeUpgradePower: new ThetaUpgrade("Universe Upgrade Power", "All Shrinking Upgrades of Universe Layers are stronger",
-            level => Decimal.pow(1e5, level + Math.max(0, level - 8) * 0.5).mul(1e6),
+            level => Decimal.pow(3e5, level + Math.max(0, level - 5) * 0.06).mul(1e7),
             level => new Decimal(1 + 0.1 * level),{
                 getEffectDisplay: effectDisplayTemplates.numberStandard(2, "^")
             }),

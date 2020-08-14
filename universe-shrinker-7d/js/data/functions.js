@@ -70,7 +70,9 @@ var functions = {
     },
     formatTime: function(s)
     {
-        return [Math.floor(s / 3600), Math.floor(s / 60) % 60, Math.floor(s) % 60].join(":");
+        return [Math.floor(s / 3600).toString().padStart(2, "0"),
+            (Math.floor(s / 60) % 60).toString().padStart(2, "0"),
+            (Math.floor(s) % 60).toString().padStart(2, "0")].join(":");
     },
     changeUniverseLevel: function(lvl)
     {

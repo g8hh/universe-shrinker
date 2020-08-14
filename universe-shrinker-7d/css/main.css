@@ -229,6 +229,10 @@ table.shrinker-table button{
     margin: 2rem 0;
 }
 
+.won p{
+    margin-bottom: 1em;
+}
+
 /*Settings*/
 
 .notation-select, .theme-select{

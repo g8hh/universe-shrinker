@@ -81,13 +81,13 @@ Vue.component("theta-layer", {
                     }
                 }
                 this.reset();
-            }
+            },
+            totalOmniverse: () => game.resources["Omniverse"] ? game.resources.Omniverse.totalAmount : new Decimal(0)
         },
     computed:
         {
             thetaEnergy: () => game.thetaEnergy,
             thetaEnergyTotal: () => game.totalThetaEnergy,
-            totalOmniverse: () => game.resources["Omniverse"] ? game.resources.Omniverse.totalAmount : new Decimal(0),
             showGoal: () => game.totalThetaEnergy.mul(1e15).gte(game.thetaGoal),
             thetaGoal: () => game.thetaGoal,
             hasUpgradesBought: function()
@@ -97,13 +97,13 @@ Vue.component("theta-layer", {
         },
     template: `<div class="theta-layer">
 <p>You have <span class="big">{{formatNumber(thetaEnergy, 2, 2, 1e9)}}</span> Theta Energy (&theta;<sub>E</sub>)</p>
-<p v-if="showGoal">You are close! Heat Death every atom to Shrink and Dematerialize everything and win the Game!<br/>
+<p v-if="showGoal">You are close! Heat Death every Atom to Shrink and Dematerialize everything and win the Game!<br/>
 <span class="big">{{formatNumber(thetaEnergyTotal, 2, 2, 1e9)}} &theta;<sub>E</sub> / {{formatNumber(thetaGoal, 2, 2, 1e9)}} &theta;<sub>E</sub></span></p>
 <div class="reset">
     <button @click="prestige()" :disabled="getPrestigeAmount().lt(1)">
-        <span v-if="totalOmniverse.gt(1024)">Heat Death everything and gain<br/>
+        <span v-if="totalOmniverse().gt(1024)">Heat Death everything and gain<br/>
         {{formatNumber(getPrestigeAmount(), 2, 2, 1e9)}} &theta;<sub>E</sub></span>
-        <span v-else>You need to shrink a total of 1.024 Omniverses to Heat Death<br/>({{formatNumber(totalOmniverse, 2, 0)}} / 1.024)</span></button>
+        <span v-else>You need to shrink a total of 1.024 Omniverses to Heat Death<br/>({{formatNumber(totalOmniverse(), 2, 0)}} / 1.024)</span></button>
     <p>Heat Death resets all progress you made so far, but you will get &theta;<sub>E</sub> in return.</p>
 </div>
 <p>Buying Theta Upgrades will increase the Price of several other Theta Upgrades. Choose wisely!</p>
