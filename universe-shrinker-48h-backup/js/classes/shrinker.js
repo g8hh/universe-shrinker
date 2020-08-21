@@ -12,12 +12,12 @@ class Shrinker
         this.level = 0;
     }
 
-    getShrinkPower(universe = game.universe)
+    getShrinkPower()
     {
         let base = this.strength.pow(this.level)
             .pow(game.rhoUpgrades.shrinkBoost.apply())
             .pow(game.rhoUpgrades.synergyShrink.apply())
-            .pow(game.thetaUpgrades.shrinkBoost.apply());
+            .pow(new Decimal(1).div(game.universe.resistance));;
         let power = base;
         for(let k in game.universeLayers)
         {
@@ -29,7 +29,7 @@ class Shrinker
                 }
             }
         }
-        return power.pow(new Decimal(1).div(universe.resistance));
+        return power;
     }
 
     getProductionPS()
@@ -49,14 +49,13 @@ class Shrinker
             .mul(game.rhoUpgrades.rhoBoost.apply())
             .mul(game.rhoUpgrades.synergyRho.apply())
             .mul(game.rhoUpgrades.shrinkingExpertise.apply())
-            .mul(game.thetaUpgrades.rhoBoost.apply())
             .mul(multi);
     }
 
     getPrice()
     {
         let price = this.initPrice.mul(Decimal.pow(this.priceIncrease, this.level));
-        let dilation = price.gte(Decimal.pow(2, 1024)) ? Decimal.log(price.div(Decimal.pow(2, 1024)), 1e100) * 0.5 + 1 : 1;
+        let dilation = price.gte(Decimal.pow(2, 1024)) ? Decimal.log(price.div(Decimal.pow(2, 1024)), 1e100) : 1;
         return price.pow(dilation);
     }
 

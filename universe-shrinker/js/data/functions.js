@@ -1,19 +1,19 @@
 var functions = {
     getRhoProduction: function()
     {
-        let sum = new Decimal(1); //to give a start
+        let sum = new Decimal(game.thetaUpgrades.rhoBoost.apply()); //to give a start
         for(let sh of game.shrinkers)
         {
             sum = sum.add(sh.getProductionPS());
         }
         return sum;
     },
-    getTotalShrinkPower: function()
+    getTotalShrinkPower: function(universe = game.universe)
     {
         let shrinkPow = new Decimal(1);
         for(let sh of game.shrinkers)
         {
-            shrinkPow = shrinkPow.mul(sh.getShrinkPower());
+            shrinkPow = shrinkPow.mul(sh.getShrinkPower(universe));
         }
         return shrinkPow;
     },
@@ -38,6 +38,10 @@ var functions = {
     {
         n = new Decimal(n);
         if(n.lt(0)) return "-" + this.formatNumber(n.mul(-1), prec, prec1000, lim);
+        if(ADNotations.Settings.isInfinite(n))
+        {
+            return "ee" + Math.log10(Decimal.log10(n)).toFixed(prec);
+        }
         if(n.eq(0)) return "0";
         if(n.abs().lt(lim))
         {
@@ -64,6 +68,12 @@ var functions = {
         }
         return this.formatNumber(n, prec, prec) + " m";
     },
+    formatTime: function(s)
+    {
+        return [Math.floor(s / 3600).toString().padStart(2, "0"),
+            (Math.floor(s / 60) % 60).toString().padStart(2, "0"),
+            (Math.floor(s) % 60).toString().padStart(2, "0")].join(":");
+    },
     changeUniverseLevel: function(lvl)
     {
         if(game.currentUniverseLevel <= game.highestUniverseLevel)
@@ -80,36 +90,58 @@ var functions = {
     {
         this.changeUniverseLevel(game.currentUniverseLevel - 1);
     },
+    maxShrinkers: function()
+    {
+        for(let i = game.shrinkers.length - 1; i >= 0; i--)
+        {
+            game.shrinkers[i].buyMax();
+        }
+    },
+    maxRhoUpgrades: function()
+    {
+        for(let k in game.rhoUpgrades)
+        {
+            if(game.rhoUpgrades.hasOwnProperty(k))
+            {
+                game.rhoUpgrades[k].buyMax();
+            }
+        }
+    },
+    maxUniverseLayers: function()
+    {
+        let keys = game.settings.maxAllLayers ? Object.keys(game.universeLayers) : [game.settings.universeTab];
+        for(let k of keys)
+        {
+            if(game.universeLayers.hasOwnProperty(k))
+            {
+                for(let upg of game.universeLayers[k].upgrades)
+                {
+                    upg.buyMax();
+                }
+            }
+        }
+    },
     maxAll: function()
     {
-        if(game.settings.tab === "shrinkers")
+        if(game.thetaUpgrades.maxAllUnify.apply() && game.settings.maxAllTabs)
         {
-            for(let sh of game.shrinkers)
-            {
-                sh.buyMax();
-            }
+            this.maxShrinkers();
+            this.maxRhoUpgrades();
+            this.maxUniverseLayers();
         }
-        if(game.settings.tab === "rhoupgrades")
+        else
         {
-            for(let k in game.rhoUpgrades)
+            if(game.settings.tab === "shrinkers")
             {
-                if(game.rhoUpgrades.hasOwnProperty(k))
-                {
-                    game.rhoUpgrades[k].buyMax();
-                }
+                this.maxShrinkers();
             }
-        }
-        if(game.settings.tab === "universelayers")
-        {
-            for(let k in game.universeLayers)
+            if(game.settings.tab === "rhoupgrades")
             {
-                if(game.universeLayers.hasOwnProperty(k))
-                {
-                    for(let upg of game.universeLayers[k].upgrades)
-                    {
-                        upg.buyMax();
-                    }
-                }
+                this.maxRhoUpgrades()
+            }
+            if(game.settings.tab === "universelayers")
+            {
+                this.maxUniverseLayers();
             }
         }
     },
@@ -118,29 +150,71 @@ var functions = {
         document.getElementById("theme").href = "css/themes/" + theme;
         game.settings.theme = theme;
     },
+    getTotalUpgradeLevels: function(upgs)
+    {
+        let sum = 0;
+        for(let k in upgs)
+        {
+            if(upgs.hasOwnProperty(k))
+            {
+                sum += upgs[k].level;
+            }
+        }
+        return sum;
+    },
+    getSaveCode: function()
+    {
+        return btoa(unescape(encodeURIComponent(JSON.stringify(game))));
+    },
     saveGame: function()
     {
-        let str = btoa(unescape(encodeURIComponent(JSON.stringify(game))));
+        let str = this.getSaveCode();
         localStorage.setItem("UniverseShrinkerGameSave", str);
     },
-    loadGame: function()
+    exportGame: function()
+    {
+        game.settings.exportString = this.getSaveCode();
+    },
+    loadGame: function(importString)
     {
         let loadVal = function(v, alt)
         {
             return v !== undefined ? v : alt;
         }
 
-        let item = localStorage.getItem("UniverseShrinkerGameSave");
+        let item = importString !== undefined ? importString : localStorage.getItem("UniverseShrinkerGameSave");
         if(item !== null)
         {
-            let obj = JSON.parse(decodeURIComponent(escape(atob(item))));
+            let obj;
+            try
+            {
+                obj = JSON.parse(decodeURIComponent(escape(atob(item))));
+            }
+            catch(e)
+            {
+                alert("Error loading Game: " + e);
+                return;
+            }
             game.rhoParticles = loadVal(new Decimal(obj.rhoParticles), new Decimal(0));
+            game.thetaEnergy = loadVal(new Decimal(obj.thetaEnergy), new Decimal(0));
+            game.totalThetaEnergy = loadVal(new Decimal(obj.totalThetaEnergy), new Decimal(0));
+            game.thetaSpentOnUpgrades = loadVal(new Decimal(obj.thetaSpentOnUpgrades), new Decimal(0));
+            game.timesHeatDeath = loadVal(obj.timesHeatDeath, 0);
+            game.ngMinus = loadVal(obj.ngMinus, 0);
+            game.timeSpent = loadVal(obj.timeSpent, 0);
             game.currentUniverseLevel = loadVal(obj.currentUniverseLevel, 0);
             game.highestUniverseLevel = loadVal(obj.highestUniverseLevel, 0);
             functions.changeUniverseLevel(game.currentUniverseLevel);
-            game.universe.size = loadVal(new Decimal(obj.universe.size), new Decimal(0))
+            for(let i = 0; i < obj.universes.length; i++)
+            {
+                game.universes[i].size = new Decimal(obj.universes[i].size);
+            }
+            game.universe.size = loadVal(new Decimal(obj.universe.size), new Decimal(0));
             game.settings.formatterIndex = loadVal(obj.settings.formatterIndex, 0);
+            game.settings.maxAllTabs = loadVal(obj.settings.maxAllTabs, true);
+            game.settings.maxAllLayers = loadVal(obj.settings.maxAllLayers, true);
             game.settings.numberFormatter = numberFormatters[game.settings.formatterIndex];
+            game.settings.universeTab = loadVal(obj.settings.universeTab, "Universe");
             game.settings.theme = loadVal(obj.settings.theme, "light.css");
             functions.setTheme(game.settings.theme);
             for(let k in obj.rhoUpgrades)
@@ -154,6 +228,7 @@ var functions = {
             {
                 game.shrinkers[i].level = obj.shrinkers[i].level;
             }
+            game.resources = {};
             for(let k in obj.resources)
             {
                 if(obj.resources.hasOwnProperty(k))
@@ -163,6 +238,10 @@ var functions = {
                     game.resources[k].totalAmount = new Decimal(obj.resources[k].totalAmount);
                     game.resources[k].maxAmount = new Decimal(obj.resources[k].maxAmount);
                 }
+            }
+            if(importString !== undefined)
+            {
+                game.universeLayers = {};
             }
             for(let k in obj.universeLayers)
             {
@@ -175,6 +254,44 @@ var functions = {
                     }
                 }
             }
+            if(obj.thetaUpgrades !== undefined)
+            {
+                for(let k in obj.thetaUpgrades)
+                {
+                    if(obj.thetaUpgrades.hasOwnProperty(k))
+                    {
+                        game.thetaUpgrades[k].level = obj.thetaUpgrades[k].level;
+                    }
+                }
+            }
+            if(obj.automators !== undefined)
+            {
+                for(let i = 0; i < obj.automators.length; i++)
+                {
+                    game.automators[i].level = obj.automators[i].level;
+                    game.automators[i].active = obj.automators[i].active;
+                }
+            }
+        }
+    },
+    hardReset: function()
+    {
+        let times = 3;
+        do
+        {
+            if(!confirm("Are you really sure? You will lose everything. There is no reward!\nClick " + times + " more Times to hard reset."))
+            {
+                break;
+            }
+            times--;
+        } while(times > 0)
+        if(times === 0)
+        {
+            localStorage.clear();
+            this.loadGame(initialGame);
+            this.saveGame();
+            game.settings.tab = "shrinkers";
+            game.settings.universeTab = "Universe";
         }
     }
 };

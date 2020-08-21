@@ -5,7 +5,3 @@
     --color-contrast: #ffffff;
     --color-link: #00ffff;
 }
-
-.upgrade.maxed{
-    color: var(--color-background);
-}

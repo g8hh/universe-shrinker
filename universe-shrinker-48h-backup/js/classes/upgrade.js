@@ -59,30 +59,6 @@ class RhoUpgrade
     }
 }
 
-class ThetaUpgrade extends RhoUpgrade
-{
-    getPriceDisplay()
-    {
-        if(this.level === this.maxLevel)
-        {
-            return "Max";
-        }
-        return functions.formatNumber(this.currentPrice(), 2, 0, 1e6) + " &theta;<sub>E</sub>";
-    }
-
-    buy()
-    {
-        if(game.thetaEnergy.gte(this.currentPrice()) && this.level < this.maxLevel)
-        {
-            game.thetaEnergy = game.thetaEnergy.sub(this.currentPrice());
-            game.thetaSpentOnUpgrades = game.thetaSpentOnUpgrades.add(this.currentPrice());
-            this.level++;
-            return true;
-        }
-        return false;
-    }
-}
-
 class UniverseUpgrade extends RhoUpgrade
 {
     constructor(name, desc, getPrice, getEffect, resource, type, cfg)

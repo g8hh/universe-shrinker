@@ -30,7 +30,7 @@ class Universe
     getShrinksPS()
     {
         let quotient = Decimal.log10(this.maxSize.div(PLANCK_LENGTH));
-        return Decimal.log10(functions.getTotalShrinkPower(this)) / quotient;
+        return Decimal.log10(functions.getTotalShrinkPower()) / quotient;
     }
 
     reward(amount)
@@ -50,18 +50,17 @@ class Universe
        }
     }
 
-    tick(dt, active = true)
+    tick(dt)
     {
         let shrinkPS = this.getShrinksPS();
-        let mult = active ? 1 : game.thetaUpgrades.passiveUniverse.apply().toNumber();
         if(shrinkPS < 10)
         {
-            this.shrink(functions.getTotalShrinkPower(this).pow(dt * mult));
+            this.shrink(functions.getTotalShrinkPower().pow(dt));
             if(this.isShrunk())
             {
                 this.size = this.maxSize;
-                this.reward(game.thetaUpgrades.multVerse.apply());
-                if(active && game.currentUniverseLevel === game.highestUniverseLevel && game.currentUniverseLevel < game.universes.length - 1)
+                this.reward(new Decimal(1));
+                if(game.currentUniverseLevel === game.highestUniverseLevel && game.currentUniverseLevel < game.universes.length - 1)
                 {
                     game.highestUniverseLevel++;
                 }
@@ -70,11 +69,11 @@ class Universe
         else
         {
             this.size = this.maxSize;
-            if(active && game.currentUniverseLevel === game.highestUniverseLevel && game.currentUniverseLevel < game.universes.length - 1)
+            if(game.currentUniverseLevel === game.highestUniverseLevel && game.currentUniverseLevel < game.universes.length - 1)
             {
                 game.highestUniverseLevel++;
             }
-            this.reward(new Decimal(shrinkPS).mul(game.thetaUpgrades.multVerse.apply()).mul(dt * mult));
+            this.reward(new Decimal(shrinkPS).mul(dt));
         }
     }
 }

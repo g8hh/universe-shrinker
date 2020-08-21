@@ -2,11 +2,7 @@ Vue.component("universe", {
     props: ["universe"],
     computed:
     {
-        planckLength: () => PLANCK_LENGTH,
-        totalShrinksPS: function()
-        {
-            return new Decimal(this.universe.getShrinksPS()).mul(game.thetaUpgrades.multVerse.apply());
-        }
+        planckLength: () => PLANCK_LENGTH
     },
     methods:
     {
@@ -20,7 +16,7 @@ Vue.component("universe", {
     <p>Goal: <b>{{formatLength(planckLength, 2)}}</b></p>
 </div>
 <div v-else>
-    <p>You are shrinking <span class="big">{{formatNumber(totalShrinksPS, 2, 2, 1e9)}} </span><b>{{universe.name}}s</b> per second.</p>
+    <p>You are shrinking <span class="big">{{formatNumber(universe.getShrinksPS(), 2, 2, 1e9)}} </span><b>{{universe.name}}s</b> per second.</p>
 </div>
 <p>Resistance: <b>{{formatNumber(universe.resistance)}}</b></p>
 </div>`
