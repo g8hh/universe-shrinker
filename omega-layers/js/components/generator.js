@@ -3,11 +3,11 @@ Vue.component("generator",{
     computed: {
         canAfford: function()
         {
-            return this.generator.currentPrice().lt(this.generator.layer.resource);
+            return this.generator.currentPrice().lte(this.generator.layer.resource);
         },
         canAfford10: function()
         {
-            return this.generator.getPriceUntil10().lt(this.generator.layer.resource);
+            return this.generator.getPriceUntil10().lte(this.generator.layer.resource);
         }
     },
     methods: {

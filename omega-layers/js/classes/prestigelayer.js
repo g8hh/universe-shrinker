@@ -101,7 +101,7 @@ class PrestigeLayer
         for(let i = 0; i < upgradeCount; i++)
         {
             let upg;
-            let bp = Decimal.pow(bpGrowth, Math.pow(1.5, i + (this.layer === 0 ? 2 : 0)) - 1);
+            let bp = Decimal.pow(bpGrowth, Math.pow(this.layer !== 0 ? 1.5 : 1.75, i + (this.layer === 0 ? 2 : 0)) - 1);
             if(this.layer === 0)
             {
                 bp = bp.mul(1e9);
