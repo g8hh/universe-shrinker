@@ -74,7 +74,7 @@ class Challenge
 
     canEnter()
     {
-        return !game.currentChallenge;
+        return !game.currentChallenge && this.level < this.maxLevel;
     }
 
     isCompleted()

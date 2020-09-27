@@ -4,8 +4,9 @@ Vue.component("challenge", {
         formatNumber: (n, prec, prec1000, lim) => functions.formatNumber(n, prec, prec1000, lim),
         isDisabled: function()
         {
+            if(this.challenge.level >= this.challenge.maxLevel) return true;
             if(!game.currentChallenge) return false;
-            return game.currentChallenge !== this.challenge;
+            return game.currentChallenge !== this.challenge
         }
     },
     template: `<button :disabled="isDisabled()" @click="challenge.enter()" class="challenge">
