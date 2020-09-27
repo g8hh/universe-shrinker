@@ -83,7 +83,7 @@ class PrestigeLayer
         {
             let baseProd = i === 0 ? new Decimal(1) : new Decimal(0.1);
             this.generators.push(new Generator(this, i, i > 0 ? this.generators[i - 1] : null, this.name + "<sub>" + (i + 1) + "</sub>",
-                Decimal.pow(10, i + 1 + Math.max(0, i - 3) + Math.max(0, i - 6)), Decimal.pow(10, i + 3), baseProd));
+                Decimal.pow(10, i + 1 + Math.max(0, i - 3) + Math.max(0, i - 6)), Decimal.pow(10, i + 3 + Math.max(0, i - 2)), baseProd));
         }
     }
 
@@ -255,7 +255,7 @@ class PrestigeLayer
                     let factorPowerGenerators = 1 + rand.nextDouble();
                     formula_reward = function(level)
                     {
-                        return Decimal.pow(2, factorPowerGenerators * level);
+                        return Decimal.pow(1.25, factorPowerGenerators * level);
                     }
                     break;
                 case CHALLENGE_REWARD_GENMULTI:
@@ -266,7 +266,7 @@ class PrestigeLayer
                     }
                     break;
                 case CHALLENGE_REWARD_PRESTIGEREWARD:
-                    let factorPrestige = rand.nextDouble();
+                    let factorPrestige = rand.nextDouble() * 0.5;
                     formula_reward = function(level)
                     {
                         return new Decimal(factorPrestige * level);
@@ -546,6 +546,13 @@ class PrestigeLayer
             {
                 this.generators[i].bought = obj.generators[i].bought;
                 this.generators[i].amount = obj.generators[i].amount;
+            }
+        }
+        if(this.hasChallenges() && obj.challenges)
+        {
+            for(let i = 0; i < obj.challenges.length; i++)
+            {
+                this.challenges[i].level = obj.challenges[i].level;
             }
         }
     }

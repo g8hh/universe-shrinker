@@ -86,7 +86,7 @@ Vue.component("prestige-layer", {
     <button v-if="layer.hasPower()" @click="tab = TAB_POWER">Power</button>
     <button v-if="layer.hasChallenges()" @click="tab = TAB_CHALLENGES">Challenges</button>
     <button v-if="layer.hasTreeUpgrades()" @click="tab = TAB_UPGRADE_TREE">Upgrade Tree</button>
-    <button @click="layer.maxAll()">Max All</button>
+    <button @click="layer.maxAll()">Max All (M)</button>
 </div>
 <div v-if="layer.hasGenerators() && tab === TAB_GENERATORS">
     <generator-table :generators="layer.generators"></generator-table>
