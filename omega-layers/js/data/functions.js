@@ -111,7 +111,5 @@ var functions = {
                 game.settings[k] = loadObj.settings[k];
             }
         }
-
-        console.log(loadObj);
     }
 };

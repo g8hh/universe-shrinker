@@ -106,25 +106,28 @@ class PrestigeLayer
             {
                 bp = bp.mul(1e9);
             }
-            bp = bp.mul(0.5 + 2 * rand.nextDouble());
+            bp = Decimal.round(bp.mul(0.5 + 2 * rand.nextDouble()));
             let upgTypes = FeatureUnlockManager.getUpgradeTypes(this.layer);
             let type = upgTypes[rand.nextInt(upgTypes.length)];
             //local variable so random isnt called in callback
-            let effectGenerator = 1 + 0.25 + rand.nextDouble() * 0.75;
-            let effectPowerGenerator = 1 + 0.1 + rand.nextDouble() * 0.4;
-            let effectGenMulti = 0.0005 + 0.001 * rand.nextDouble();
+            let effectGenerator = 1 + 0.15 + rand.nextDouble() * 0.15;
+            let effectPowerGenerator = 1 + 0.1 + rand.nextDouble() * 0.15;
+            let effectGenMulti = 0.001 + 0.001 * rand.nextDouble();
             let effectPrestigeReward = rand.nextDouble() * 0.4;
+
+            let extraPriceIncrease = this.layer === 0 ? 1 : 0;
+            let extraPow = Decimal.pow(22, this.layer);
             switch (type)
             {
                 case UPGRADE_RESOURCE:
                     upg = new Upgrade(this, game.layers[0] || this,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 5, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
-                        level => Decimal.pow(effectGenerator, level).pow(Upgrade.getEffectPower()), UPGRADE_RESOURCE);
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 5 + extraPriceIncrease, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Decimal.pow(effectGenerator, level).pow(extraPow).pow(Upgrade.getEffectPower()), UPGRADE_RESOURCE);
                     break;
                 case UPGRADE_GENERATOR:
                     upg = new Upgrade(this, game.layers[0] || this,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 6, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
-                        level => Decimal.pow(effectGenerator, level).pow(Upgrade.getEffectPower()), UPGRADE_GENERATOR, {
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 6 + extraPriceIncrease, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Decimal.pow(effectGenerator, level).pow(extraPow).pow(0.5 * Upgrade.getEffectPower()), UPGRADE_GENERATOR, {
                             generators: Utils.generateGeneratorList(2, rand).sort()
                         });
                     break;
@@ -132,21 +135,21 @@ class PrestigeLayer
                     let possibleLayers = this.getPowerLayers();
                     let layerToBoost = possibleLayers[rand.nextInt(possibleLayers.length)];
                     upg = new Upgrade(this, layerToBoost,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 10, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 10 + extraPriceIncrease, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
                         level => Decimal.pow(effectPowerGenerator, level).pow(Upgrade.getEffectPower()), UPGRADE_POWERGENERATOR, {
                             generators: Utils.generateGeneratorList(2, rand).sort()
                         });
                     break;
                 case UPGRADE_GENMULTI:
                     upg = new Upgrade(this, game.layers[0] || this,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 2, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 2 + extraPriceIncrease, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
                         level => new Decimal(effectGenMulti * level).pow(Upgrade.getEffectPower()), UPGRADE_GENMULTI, {
                             getEffectDisplay: effectDisplayTemplates.numberStandard(3, "+")
                         });
                     break;
                 case UPGRADE_PRESTIGEREWARD:
                     upg = new Upgrade(this, game.layers[rand.nextInt(game.layers.length)] || this,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 2, level + 2).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 2 + extraPriceIncrease, level + 2).mul(bp), 0.01).pow(Upgrade.getPricePower()),
                         level => new Decimal(effectPrestigeReward * level).pow(Upgrade.getEffectPower()), UPGRADE_PRESTIGEREWARD, {
                             getEffectDisplay: effectDisplayTemplates.numberStandard(2, "+x")
                         });
@@ -159,7 +162,7 @@ class PrestigeLayer
     //Power boosts all alpha Generators
     getPowerBoost()
     {
-        let power = this.powerTargetLayer === game.layers[0] ? Math.pow(20, this.layer - 1) : 1;
+        let power = this.powerTargetLayer === game.layers[0] ? Math.pow(22, this.layer - 1) : 1;
         return this.power.add(1).pow(power * 1.15);
     }
 
@@ -196,7 +199,7 @@ class PrestigeLayer
 
     getSimpleBoost()
     {
-        return this.hasSimpleBoost() ? this.resource.add(1).pow(3 * Math.pow(20, this.layer - 1)) : new Decimal(1);
+        return this.hasSimpleBoost() ? this.resource.add(1).pow(3 * Math.pow(22, this.layer - 1)) : new Decimal(1);
     }
 
     createChallenges()
@@ -259,7 +262,7 @@ class PrestigeLayer
                     }
                     break;
                 case CHALLENGE_REWARD_GENMULTI:
-                    let factorMulti = 0.002 + rand.nextDouble() * 0.003;
+                    let factorMulti = 0.01 + rand.nextDouble() * 0.0075;
                     formula_reward = function(level)
                     {
                         return new Decimal(factorMulti * level);
@@ -276,7 +279,7 @@ class PrestigeLayer
                     return;
             }
 
-            let challenge = new Challenge(this, name, formula_effect, formula_reward, type_effect, type_reward, game.layers[this.layer - 1], Decimal.pow(10, 10 + 298 * rand.nextDouble()), 5 + rand.nextInt(6));
+            let challenge = new Challenge(this, name, formula_effect, formula_reward, type_effect, type_reward, game.layers[this.layer - 1], Decimal.pow(10, 50 + 75 * rand.nextDouble()), 5 + rand.nextInt(6));
             this.challenges.push(challenge);
         }
     }
@@ -310,25 +313,26 @@ class PrestigeLayer
                 let upgType = possibleTypes[rand.nextInt(possibleTypes.length)];
                 let upg;
                 let bp = Decimal.pow(4, Decimal.pow(2, Math.pow(r, 1.25))).pow(1 + 0.25 * rand.nextDouble());
-                let layerPow = Decimal.pow(20, this.layer);
+                let layerPow = Decimal.pow(22, this.layer);
+                let timeFactor = 0.5 + new Random(this.layer * (r + 1) * (c + 1)).nextDouble();
                 switch(upgType)
                 {
                     case UPGRADE_RESOURCE_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(1.5 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + this.timeSpent * level * 0.001).pow(layerPow.mul(3)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.0005).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_GENERATOR_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(1.6 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + this.timeSpent * level * 0.001).pow(layerPow.mul(1.2)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.0005).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_POWERGENERATOR_TIMELAYER:
                         let powerLayers = this.getPowerLayers();
                         let powerLayer = powerLayers[rand.nextInt(powerLayers.length)];
                         upg = new TreeUpgrade(this, powerLayer,
                             level => Utils.createValueDilation(Decimal.pow(1.55 + r, Decimal.pow(level, 1.55)).mul(bp), 0.01),
-                            level => new Decimal(1 + this.timeSpent * level * 0.001).pow(0.8), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.001).pow(0.8), upgType, requiredUpgrade(r, c));
                         break;
                 }
                 row.push(upg);
@@ -424,6 +428,7 @@ class PrestigeLayer
         }
         if(this.hasPower())
         {
+            this.power = new Decimal(0);
             for(let g of this.powerGenerators)
             {
                 g.bought = new Decimal(0);
@@ -461,23 +466,33 @@ class PrestigeLayer
     {
         if(this.hasGenerators())
         {
-            for(let g of this.generators)
+            for(let i = this.generators.length - 1; i >= 0; i--)
             {
-                g.buyMax();
+                this.generators[i].buyMax();
             }
         }
         if(this.hasPower())
         {
-            for(let g of this.powerGenerators)
+            for(let i = this.powerGenerators.length - 1; i >= 0; i--)
             {
-                g.buyMax();
+                this.powerGenerators[i].buyMax();
             }
         }
         if(this.hasUpgrades())
         {
-            for(let u of this.upgrades)
+            for(let i = this.upgrades.length - 1; i >= 0; i--)
             {
-                u.buyMax();
+                this.upgrades[i].buyMax();
+            }
+        }
+        if(this.hasTreeUpgrades())
+        {
+            for(let row = this.treeUpgrades.length - 1; row >= 0; row--)
+            {
+                for(let col = 0; col < this.treeUpgrades[row].length; col++)
+                {
+                    this.treeUpgrades[row][col].buyMax();
+                }
             }
         }
     }
@@ -515,6 +530,7 @@ class PrestigeLayer
         this.maxResource = obj.maxResource;
         this.timeSpent = obj.timeSpent;
         this.timesReset = obj.timesReset;
+        this.power = obj.power;
         if(this.hasUpgrades() && obj.upgrades)
         {
             for(let i = 0; i < obj.upgrades.length; i++)
