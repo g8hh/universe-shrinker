@@ -372,7 +372,7 @@ class PrestigeLayer
     //the factor of how much the pwoer on the prestige formula is
     getPrestigeCarryOver()
     {
-        return 24 * Math.pow(1.1, this.layer);
+        return 24 * Math.pow(1.1, Math.max(this.layer - 2, 0));
     }
 
     getPrestigeLimit()
