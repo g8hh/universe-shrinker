@@ -116,7 +116,7 @@ class PrestigeLayer
             let effectPrestigeReward = rand.nextDouble() * 0.4;
 
             let extraPriceIncrease = this.layer === 0 ? 1 : 0;
-            let extraPow = Decimal.pow(22, this.layer);
+            let extraPow = Decimal.pow(24, this.layer);
             switch (type)
             {
                 case UPGRADE_RESOURCE:
@@ -162,7 +162,7 @@ class PrestigeLayer
     //Power boosts all alpha Generators
     getPowerBoost()
     {
-        let power = this.powerTargetLayer === game.layers[0] ? Math.pow(22, this.layer - 1) : 1;
+        let power = this.powerTargetLayer === game.layers[0] ? Math.pow(24, this.layer - 1) : 1;
         return this.power.add(1).pow(power * 1.15);
     }
 
@@ -313,7 +313,7 @@ class PrestigeLayer
                 let upgType = possibleTypes[rand.nextInt(possibleTypes.length)];
                 let upg;
                 let bp = Decimal.pow(4, Decimal.pow(2, Math.pow(r, 1.25))).pow(1 + 0.25 * rand.nextDouble());
-                let layerPow = Decimal.pow(22, this.layer);
+                let layerPow = Decimal.pow(24, this.layer);
                 let timeFactor = 0.5 + new Random(this.layer * (r + 1) * (c + 1)).nextDouble();
                 switch(upgType)
                 {
