@@ -199,7 +199,7 @@ class PrestigeLayer
 
     getSimpleBoost()
     {
-        return this.hasSimpleBoost() ? this.resource.add(1).pow(3 * Math.pow(22, this.layer - 1)) : new Decimal(1);
+        return this.hasSimpleBoost() ? this.resource.add(1).pow(3 * Math.pow(24, this.layer - 1)) : new Decimal(1);
     }
 
     createChallenges()
