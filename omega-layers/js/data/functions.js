@@ -45,6 +45,10 @@ var functions = {
             {
                 return "d" + value;
             }*/
+            if(key === "currentChallenge")
+            {
+                return value !== null ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
+            }
             if(value instanceof PrestigeLayer)
             {
                 return {challenges: value.challenges, generators: value.generators, powerGenerators: value.powerGenerators,
@@ -103,6 +107,10 @@ var functions = {
                 functions.generateLayer(i);
             }
             game.layers[i].loadFromSave(loadObj.layers[i]);
+        }
+        if(loadObj.currentChallenge)
+        {
+            game.currentChallenge = game.layers[loadObj.currentChallenge.layer].challenges[loadObj.currentChallenge.index];
         }
         for(let k in loadObj.settings)
         {

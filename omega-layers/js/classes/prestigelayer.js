@@ -242,7 +242,7 @@ class PrestigeLayer
                     }
                     break;
                 case CHALLENGE_EFFECT_PRESTIGEREWARD:
-                    let factorPrestige = 0.55 + 0.05 * rand.nextDouble();
+                    let factorPrestige = 0.7 + 0.1 * rand.nextDouble();
                     formula_effect = function(level)
                     {
                         return Decimal.pow(factorPrestige, level + 1);
