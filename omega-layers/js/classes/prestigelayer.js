@@ -258,7 +258,7 @@ class PrestigeLayer
                     let factorPowerGenerators = 1 + rand.nextDouble();
                     formula_reward = function(level)
                     {
-                        return Decimal.pow(1.75, factorPowerGenerators * level);
+                        return Decimal.pow(1.1, factorPowerGenerators * level);
                     }
                     break;
                 case CHALLENGE_REWARD_GENMULTI:
@@ -440,6 +440,16 @@ class PrestigeLayer
             for(let upg of this.upgrades)
             {
                 upg.level = new Decimal(0);
+            }
+        }
+        if(this.hasTreeUpgrades())
+        {
+            for(let r = 0; r < this.treeUpgrades.length; r++)
+            {
+                for(let c = 0; c < this.treeUpgrades[r].length; c++)
+                {
+                    this.treeUpgrades[r][c].level = new Decimal(0);
+                }
             }
         }
         this.resource = new Decimal(0);
