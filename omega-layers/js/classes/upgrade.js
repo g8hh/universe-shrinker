@@ -93,7 +93,7 @@ class Upgrade
         {
             return "Max";
         }
-        return functions.formatNumber(this.currentPrice(), 2, 0);
+        return functions.formatNumber(this.currentPrice(), 2, 0, 1e9);
     }
 
     buy()

@@ -13,3 +13,5 @@ var game = {
         layerTickSpeed: 1
     }
 };
+
+let initialGame = functions.getSaveString();

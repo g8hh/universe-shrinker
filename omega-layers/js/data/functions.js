@@ -119,5 +119,25 @@ var functions = {
                 game.settings[k] = loadObj.settings[k];
             }
         }
+    },
+    hardResetGame: function()
+    {
+        let confirmations = 0;
+        do
+        {
+            if(!confirm("Are you " + "really ".repeat(confirmations) + "sure? There is no reward. " +
+                "Click " + (3 - confirmations) + " more " + (confirmations >= 2 ? "time" : "times") + " to confirm."))
+            {
+                return;
+            }
+            confirmations++;
+        } while(confirmations < 3)
+
+        localStorage.setItem("OmegaLayers", null);
+        game.currentLayer = null;
+        game.layers = [];
+        functions.loadGame(initialGame);
+        functions.generateLayer(0);
+        game.currentLayer = game.layers[0];
     }
 };

@@ -15,7 +15,8 @@ Vue.component("settings-menu", {
         importGame: function()
         {
             functions.loadGame(this.exportString);
-        }
+        },
+        hardResetGame: () => functions.hardResetGame()
     },
     template: `<div class="settings">
 <div class="settings-row">
@@ -29,6 +30,7 @@ Vue.component("settings-menu", {
     <button @click="save()">Save Game</button>
     <button @click="exportGame()">Export</button>
     <button @click="importGame()">Import</button>
+    <button @click="hardResetGame()">Wipe Game</button>
 </div>
 <div class="settings-row">
     <textarea class="export" v-model="exportString"></textarea>
