@@ -113,4 +113,4 @@ onkeyup = e =>
     keyMap = keyMap.filter(key => key !== e.key);
 }
 
-//onbeforeunload = e => functions.saveGame();
+onbeforeunload = e => functions.saveGame();
