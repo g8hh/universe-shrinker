@@ -107,7 +107,12 @@ class Upgrade
 
     buyMax()
     {
+        let oldLvl = new Decimal(this.level);
         this.level = new Decimal(Utils.determineMaxLevel(this.layerCost.resource, this));
+        if(this.level.sub(oldLvl).gt(0))
+        {
+            this.layerCost.resource = this.layerCost.resource.sub(this.getPrice(this.level.sub(1)));
+        }
         while(this.currentPrice().lte(this.layerCost.resource))
         {
             this.buy();

@@ -175,7 +175,7 @@ class PrestigeLayer
             let diff = this.layer - this.powerTargetLayer.layer;
             power = Decimal.pow(22, diff - 1).mul(2);
         }
-        return this.power.add(1).pow(power.mul(1.15));
+        return this.power.add(1).pow(power.mul(1.38));
     }
 
     hasPower()
@@ -211,7 +211,7 @@ class PrestigeLayer
 
     getSimpleBoost()
     {
-        return this.hasSimpleBoost() ? this.resource.add(1).pow(3 * Math.pow(22, this.layer - 1)) : new Decimal(1);
+        return this.hasSimpleBoost() ? this.resource.add(1).pow(2.5 * Math.pow(22, this.layer - 1)) : new Decimal(1);
     }
 
     createChallenges()
@@ -233,28 +233,28 @@ class PrestigeLayer
             switch(type_effect)
             {
                 case CHALLENGE_EFFECT_PRICES:
-                    let factorPrice = 0.4 + rand.nextDouble() * 0.3;
+                    let factorPrice = 0.6 + rand.nextDouble() * 0.3;
                     formula_effect = function(level)
                     {
                         return new Decimal(1 + (level + 1) * factorPrice);
                     }
                     break;
                 case CHALLENGE_EFFECT_UPGRADESTRENGTH:
-                    let factorStrength = 0.47 + 0.05 * rand.nextDouble();
+                    let factorStrength = 0.4 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
                         return Decimal.pow(factorStrength, level + 1);
                     }
                     break;
                 case CHALLENGE_EFFECT_GENMULTI:
-                    let factorGen = 0.42 + 0.12 * rand.nextDouble();
+                    let factorGen = 0.4 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
                         return Decimal.pow(factorGen, level + 1);
                     }
                     break;
                 case CHALLENGE_EFFECT_PRESTIGEREWARD:
-                    let factorPrestige = 0.8 + 0.05 * rand.nextDouble();
+                    let factorPrestige = 0.82 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
                         return Decimal.pow(factorPrestige, level + 1);
@@ -332,19 +332,21 @@ class PrestigeLayer
                     case UPGRADE_RESOURCE_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.0003).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.6) * level * timeFactor * 0.0002).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_GENERATOR_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(2.75 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.0003).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.6) * level * timeFactor * 0.0002).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_POWERGENERATOR_TIMELAYER:
                         let powerLayers = this.getPowerLayers();
                         let powerLayer = powerLayers[rand.nextInt(powerLayers.length)];
+                        let diff = this.layer - powerLayer.layer;
+                        let extraPow = Decimal.pow(22, diff - 1);
                         upg = new TreeUpgrade(this, powerLayer,
                             level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.55)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.75) * level * timeFactor * 0.001).pow(0.8), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.6) * level * timeFactor * 0.001).pow(extraPow.mul(0.8)), upgType, requiredUpgrade(r, c));
                         break;
                 }
                 row.push(upg);
@@ -381,7 +383,7 @@ class PrestigeLayer
         return this.upgrades.concat(this.getTreeUpgradesAsArray());
     }
 
-    //the factor of how much the pwoer on the prestige formula is
+    //the factor of how much the power on the prestige formula is
     getPrestigeCarryOver()
     {
         return 24 * Math.pow(1.1, Math.max(this.layer - 2, 0));

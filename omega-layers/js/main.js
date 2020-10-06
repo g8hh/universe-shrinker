@@ -5,6 +5,7 @@ let saveTimer = 0;
 const INFINITY = Decimal.pow(2, 1024);
 
 let keyMap = [];
+let tabMap = {};
 
 var app = new Vue({
     el: "#app",
@@ -105,6 +106,15 @@ onkeydown = e =>
     if(!keyMap.includes(e.key))
     {
         keyMap.push(e.key);
+    }
+
+    if(e.key === "ArrowRight")
+    {
+        functions.setNextLayer();
+    }
+    if(e.key === "ArrowLeft")
+    {
+        functions.setPreviousLayer();
     }
 }
 

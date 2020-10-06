@@ -127,9 +127,19 @@ class Generator
         {
             this.layer.resource = this.layer.resource.sub(this.getPrice(this.bought.sub(1)));
         }
-        while(this.currentPrice().lte(this.layer.resource))
+        if(game.settings.buyMaxAlways10)
         {
-            this.buy();
+            while(this.getPriceUntil10().lte(this.layer.resource))
+            {
+                this.buyUntil10();
+            }
+        }
+        else
+        {
+            while(this.currentPrice().lte(this.layer.resource))
+            {
+                this.buy();
+            }
         }
     }
 }

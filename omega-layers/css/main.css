@@ -6,6 +6,7 @@
     --color-hover: #eeeeee;
     --color-hover-strong: #dddddd;
     --color-contrast: black;
+    --color-success: #c8ffb7;
 }
 
 @font-face{
@@ -34,7 +35,7 @@
 
 header{
     background-color: var(--background-header);
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--color-primary);
     padding: 0.9rem 0;
     padding-bottom: 0;
 }
@@ -47,6 +48,11 @@ header nav{
     padding-bottom: 0.5rem;
 }
 
+header nav button{
+    padding: 0.2em;
+    font-size: 110%;
+}
+
 header .omega{
     color: var(--color-primary);
 }
@@ -57,6 +63,7 @@ a{
 
 main{
     margin-bottom: 4rem;
+    padding-top: 0.2em;
 }
 
 /*Layer Navigation*/
@@ -102,6 +109,10 @@ button{
 
 button:hover:not(:disabled){
     background-color: var(--color-hover);
+}
+
+button:active:not(:disabled){
+    filter: brightness(1.25);
 }
 
 button:disabled{
@@ -221,6 +232,10 @@ p.resource-display > span:first-child{
     margin: 0.3em 0;
 }
 
+.challenge.completed, .challenge.completed:hover{
+    background-color: var(--color-success);
+}
+
 .challenge-container{
     display: flex;
     justify-content: center;
@@ -248,11 +263,20 @@ p.resource-display > span:first-child{
     z-index: -1;
 }
 
+.upgrade-tree-arrow line{
+    stroke: var(--color-contrast);
+}
+
 /*Settings*/
 
 .settings .settings-row{
     display: flex;
     justify-content: center;
+    margin: 1em 0;
+}
+
+.settings .settings-row button{
+    margin: 0.5em;
 }
 
 .settings .settings-row label{
@@ -265,6 +289,10 @@ p.resource-display > span:first-child{
     background-color: var(--background-body);
     border: 1px solid var(--color-primary);
     color: var(--color-contrast);
+}
+
+.settings textarea{
+    resize: none;
 }
 
 /*Footer*/

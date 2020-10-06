@@ -72,6 +72,11 @@ class Challenge
         }
     }
 
+    getResourceGoal()
+    {
+        return Decimal.pow(this.goalResource, 1 + 0.2 * this.level);
+    }
+
     canEnter()
     {
         return !game.currentChallenge && this.level < this.maxLevel;
@@ -79,7 +84,7 @@ class Challenge
 
     isCompleted()
     {
-        return this.goalLayer.resource.gte(this.goalResource);
+        return this.goalLayer.resource.gte(this.getResourceGoal());
     }
 
     enter()

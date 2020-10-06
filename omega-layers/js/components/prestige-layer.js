@@ -14,24 +14,36 @@ Vue.component("prestige-layer", {
     },
     methods: {
         formatNumber: (n, prec, prec1000, lim) => functions.formatNumber(n, prec, prec1000, lim),
+        setTab: function(tab)
+        {
+            this.tab = tab;
+            tabMap[this.layer.layer] = tab;
+        },
         selectPossibleTab: function()
         {
-            this.tab = this.TAB_GENERATORS;
-            if(!this.layer.hasGenerators())
+            if(tabMap[this.layer.layer] !== undefined)
             {
-                this.tab = this.TAB_POWER;
-                if(!this.layer.hasPower())
+                this.tab = tabMap[this.layer.layer];
+            }
+            else
+            {
+                this.tab = this.TAB_GENERATORS;
+                if(!this.layer.hasGenerators())
                 {
-                    this.tab = this.TAB_SIMPLEBOOST;
-                    if(!this.layer.hasSimpleBoost())
+                    this.tab = this.TAB_POWER;
+                    if(!this.layer.hasPower())
                     {
-                        this.tab = this.TAB_UPGRADES;
-                        if(!this.layer.hasUpgrades())
+                        this.tab = this.TAB_SIMPLEBOOST;
+                        if(!this.layer.hasSimpleBoost())
                         {
-                            this.tab = this.TAB_UPGRADE_TREE;
-                            if(!this.layer.hasTreeUpgrades())
+                            this.tab = this.TAB_UPGRADES;
+                            if(!this.layer.hasUpgrades())
                             {
-                                this.tab = this.TAB_CHALLENGES;
+                                this.tab = this.TAB_UPGRADE_TREE;
+                                if(!this.layer.hasTreeUpgrades())
+                                {
+                                    this.tab = this.TAB_CHALLENGES;
+                                }
                             }
                         }
                     }
@@ -41,6 +53,10 @@ Vue.component("prestige-layer", {
         isInChallenge: function()
         {
             return game.currentChallenge !== null;
+        },
+        isHighestLayer: function()
+        {
+            return this.layer.layer === game.layers.length - 1;
         }
     },
     computed:{
@@ -59,6 +75,10 @@ Vue.component("prestige-layer", {
         nextLayer: function()
         {
             return game.layers[this.layer.layer + 1];
+        },
+        disableBuyMax: function()
+        {
+            return this.isHighestLayer() && game.settings.disableBuyMaxOnHighestLayer;
         }
     },
     mounted: function()
@@ -80,13 +100,13 @@ Vue.component("prestige-layer", {
     <span v-else>Reach {{formatNumber(layer.getPrestigeLimit(), 2, 0)}} <resource-name :layer="layer"></resource-name></span>
 </button>
 <div class="tabs">
-    <button v-if="layer.hasGenerators()" @click="tab = TAB_GENERATORS">Generators</button>
-    <button v-if="layer.hasSimpleBoost()" @click="tab = TAB_SIMPLEBOOST">Simple Boost</button>
-    <button v-if="layer.hasUpgrades()" @click="tab = TAB_UPGRADES">Upgrades</button>
-    <button v-if="layer.hasPower()" @click="tab = TAB_POWER">Power</button>
-    <button v-if="layer.hasChallenges()" @click="tab = TAB_CHALLENGES">Challenges</button>
-    <button v-if="layer.hasTreeUpgrades()" @click="tab = TAB_UPGRADE_TREE">Upgrade Tree</button>
-    <button @click="layer.maxAll()">Max All (M)</button>
+    <button v-if="layer.hasGenerators()" @click="setTab(TAB_GENERATORS)">Generators</button>
+    <button v-if="layer.hasSimpleBoost()" @click="setTab(TAB_SIMPLEBOOST)">Simple Boost</button>
+    <button v-if="layer.hasUpgrades()" @click="setTab(TAB_UPGRADES)">Upgrades</button>
+    <button v-if="layer.hasPower()" @click="setTab(TAB_POWER)">Power</button>
+    <button v-if="layer.hasChallenges()" @click="setTab(TAB_CHALLENGES)">Challenges</button>
+    <button v-if="layer.hasTreeUpgrades()" @click="setTab(TAB_UPGRADE_TREE)">Upgrade Tree</button>
+    <button @click="layer.maxAll()" :disabled="disableBuyMax">Max All (M)</button>
 </div>
 <div v-if="layer.hasGenerators() && tab === TAB_GENERATORS">
     <generator-table :generators="layer.generators"></generator-table>

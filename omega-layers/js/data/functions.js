@@ -37,6 +37,25 @@ var functions = {
     {
         game.currentLayer = l;
     },
+    setPreviousLayer: function()
+    {
+        if(game.currentLayer.layer > 0 && game.settings.tab === "Layers")
+        {
+            this.setCurrentLayer(game.layers[game.currentLayer.layer - 1]);
+        }
+    },
+    setNextLayer: function()
+    {
+        if(game.currentLayer.layer < game.layers.length - 1 && game.settings.tab === "Layers")
+        {
+            this.setCurrentLayer(game.layers[game.currentLayer.layer + 1]);
+        }
+    },
+    setTheme(css)
+    {
+        document.getElementById("theme").href = "css/themes/" + css;
+        game.settings.theme = css;
+    },
     getSaveString()
     {
         let replacer = function(key, value)
@@ -85,6 +104,7 @@ var functions = {
         {
             let reviver = function(key, value)
             {
+                if(key === "theme") return value;
                 if(typeof value === "string" && value.startsWith("d"))
                 {
                     return new Decimal(value.replace("d", ""));
@@ -95,7 +115,7 @@ var functions = {
         }
         catch(e)
         {
-            console.warn("Error loading save", e.stack);
+            console.warn("Error loading save\n", e.stack);
             return;
             //alert("Error loading game");
         }
@@ -119,6 +139,7 @@ var functions = {
                 game.settings[k] = loadObj.settings[k];
             }
         }
+        this.setTheme(game.settings.theme);
     },
     hardResetGame: function()
     {

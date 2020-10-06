@@ -10,7 +10,12 @@ var game = {
         showAllLayers: true,
         showMinLayers: 5,
         showMaxLayers: 5,
-        layerTickSpeed: 1
+        layerTickSpeed: 1,
+        buyMaxAlways10: true,
+        disableBuyMaxOnHighestLayer: false,
+        resourceColors: true,
+        resourceGlow: true,
+        theme: "dark.css"
     }
 };
 
