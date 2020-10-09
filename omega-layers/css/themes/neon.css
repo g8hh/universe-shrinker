@@ -51,6 +51,27 @@
     }
 }
 
+@keyframes rainbow-bg{
+    0%{
+        background-color: #990000;
+    }
+    20%{
+        background-color: #999900;
+    }
+    40%{
+        background-color: #009900;
+    }
+    60%{
+        background-color: #009999;
+    }
+    80%{
+        background-color: #990099;
+    }
+    100%{
+        background-color: #990000;
+    }
+}
+
 p, span, button, td, tr, th, h1, h2, h3, h4, h5, h6, a{
     text-shadow: 0.04em 0.04em 0.075em currentColor, 0.05em 0.05em 0.3em currentColor;
 }
@@ -61,4 +82,8 @@ span.omega, a{
 
 button, header{
     animation: rainbow-border 120s infinite linear;
+}
+
+.challenge.completed{
+    animation: rainbow-bg 30s infinite linear, rainbow-border 30s infinite linear;
 }

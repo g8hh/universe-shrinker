@@ -64,6 +64,10 @@ class Challenge
     {
         for(let i = 0; i < game.layers.length; i++)
         {
+            if(game.layers[i].isNonVolatile())
+            {
+                continue;
+            }
             if(game.layers[i] === this.layer)
             {
                 break;

@@ -442,7 +442,7 @@ class PrestigeLayer
 
     isNonVolatile()
     {
-        return game.volatility.layerVolatility.apply() >= this.layer;
+        return game.volatility.layerVolatility.apply().toNumber() >= this.layer;
     }
 
     reset()
