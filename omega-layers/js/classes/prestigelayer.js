@@ -576,7 +576,7 @@ class PrestigeLayer
         }
         if(this.isNonVolatile() && game.layers[this.layer + 1])
         {
-            game.layers[this.layer + 1].resource = game.layers[this.layer + 1].resource.add(this.getPrestigeAmountPerSecond().mul(dt));
+            game.layers[this.layer + 1].addResource(this.getPrestigeAmountPerSecond().mul(dt));
         }
         this.timeSpent += dt;
     }

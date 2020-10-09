@@ -20,6 +20,19 @@ var functions = {
             return "e".repeat(n.layer) + n.mag.toLocaleString("en-us", {minimumFractionDigits: prec , maximumFractionDigits: prec});
         }
     },
+    formatTime: function(s)
+    {
+        let times = [Math.floor(s / 60) % 60, Math.floor(s) % 60];
+        if(s >= 3600)
+        {
+            times.unshift(Math.floor(s / 3600) % 24);
+        }
+        if(s >= 3600 * 24)
+        {
+            times.unshift(Math.floor(s / (3600 * 24)));
+        }
+        return times.map(t => t.toString().padStart(2, "0")).join(":");
+    },
     generateLayer: function(id)
     {
         let rand = new Random(id);

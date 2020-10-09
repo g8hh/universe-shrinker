@@ -21,7 +21,7 @@ class Generator
         }
         else
         {
-            this.layer.resource = this.layer.resource.add(this.getProductionPS().mul(dt));
+            this.layer.addResource(this.getProductionPS().mul(dt));
         }
     }
 

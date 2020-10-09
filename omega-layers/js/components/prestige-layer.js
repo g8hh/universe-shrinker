@@ -9,6 +9,7 @@ Vue.component("prestige-layer", {
             TAB_SIMPLEBOOST: 3,
             TAB_CHALLENGES: 4,
             TAB_UPGRADE_TREE: 5,
+            TAB_STATISTICS: 6,
             tab: 0
         };
     },
@@ -99,7 +100,7 @@ Vue.component("prestige-layer", {
     <span v-if="layer.isNonVolatile()">+{{formatNumber(layer.getPrestigeAmountPerSecond(), 2, 2)}} <resource-name :layerid="nextLayer.layer"></resource-name>/s</span>
     <span v-else>
         <span v-if="layer.canPrestige()">Prestige to go <resource-name :layerid="nextLayer.layer"></resource-name><br/>Get +{{formatNumber(layer.getPrestigeAmount(), 2, 0)}} <resource-name :layerid="nextLayer.layer"></resource-name></span>
-        <span v-else>Reach {{formatNumber(layer.getPrestigeLimit(), 2, 0)}} <resource-name :layer="layer"></resource-name></span>
+        <span v-else>Reach {{formatNumber(layer.getPrestigeLimit(), 2, 0)}} <resource-name :layerid="layer.layer"></resource-name></span>
     </span>
 </button>
 <div class="tabs">
@@ -109,6 +110,7 @@ Vue.component("prestige-layer", {
     <button v-if="layer.hasPower()" @click="setTab(TAB_POWER)">Power</button>
     <button v-if="layer.hasChallenges()" @click="setTab(TAB_CHALLENGES)">Challenges</button>
     <button v-if="layer.hasTreeUpgrades()" @click="setTab(TAB_UPGRADE_TREE)">Upgrade Tree</button>
+    <button @click="setTab(TAB_STATISTICS)">Statistics</button>
     <button @click="layer.maxAll()" :disabled="disableBuyMax">Max All (M)</button>
 </div>
 <div v-if="layer.hasGenerators() && tab === TAB_GENERATORS">
@@ -132,6 +134,9 @@ Vue.component("prestige-layer", {
 </div>
 <div v-if="layer.hasTreeUpgrades() && tab === TAB_UPGRADE_TREE">
     <upgrade-tree :upgrades="layer.treeUpgrades"></upgrade-tree>
+</div>
+<div v-if="tab === TAB_STATISTICS">
+    <layer-statistics :layer="layer"></layer-statistics>
 </div>
 </div>`
 });

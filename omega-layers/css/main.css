@@ -267,6 +267,17 @@ p.resource-display > span:first-child{
     stroke: var(--color-contrast);
 }
 
+/*Statistics*/
+
+.layer-statistics{
+    margin: 1rem;
+    text-align: center;
+}
+
+.layer-statistics p{
+    margin: 0.5rem 0;
+}
+
 /*Volatility*/
 
 .volatility-tab .description{
