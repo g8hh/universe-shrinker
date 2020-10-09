@@ -12,6 +12,7 @@
         <nav>
             <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
             <button @click="settings.tab = 'Layers'">Layers</button>
+            <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2">Volatility</layer-locked-button>
             <button @click="settings.tab = 'Settings'">Settings</button>
         </nav>
         <layer-navigation v-if="settings.tab === 'Layers'" :layers="layers"></layer-navigation>
@@ -19,6 +20,7 @@
     <main>
         <prestige-layer v-if="settings.tab === 'Layers'" :layer="currentLayer"></prestige-layer>
         <settings-menu v-if="settings.tab === 'Settings'"></settings-menu>
+        <volatility-tab v-if="settings.tab === 'Volatility'"></volatility-tab>
     </main>
     <footer>
         <div>
@@ -45,6 +47,7 @@
 <script src="js/classes/prestigelayer.js"></script>
 
 <script src="js/components/layer-colored-text.js"></script>
+<script src="js/components/layer-locked-button.js"></script>
 <script src="js/components/generator.js"></script>
 <script src="js/components/generator-table.js"></script>
 <script src="js/components/resource-name.js"></script>
@@ -59,6 +62,7 @@
 <script src="js/components/prestige-layer.js"></script>
 <script src="js/components/layer-navigation.js"></script>
 <script src="js/components/settings-menu.js"></script>
+<script src="js/components/volatility-tab.js"></script>
 
 <script src="js/data/functions.js"></script>
 <script src="js/data/computed.js"></script>

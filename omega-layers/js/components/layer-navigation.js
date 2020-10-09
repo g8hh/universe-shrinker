@@ -16,6 +16,6 @@ Vue.component("layer-navigation", {
             }
         },
     template: `<div class="layer-navigation">
-<button v-if="isDisplayed(i)" v-for="(l, i) in layers" :key="i" @click="setCurrentLayer(l)" :style="{fontSize: buttonFontSize(l)}"><resource-name :layer="l"></resource-name></button>
+<button v-if="isDisplayed(i)" v-for="(l, i) in layers" :key="i" @click="setCurrentLayer(l)" :style="{fontSize: buttonFontSize(l)}"><resource-name :layerid="l.layer"></resource-name></button>
 </div>`
 });

@@ -1,19 +1,19 @@
 Vue.component("layer-colored-text", {
-    props: ["text", "layer"],
+    props: ["text", "layer", "layerid"],
     computed: {
         textColor: function()
         {
-            let h = 33 * this.layer.layer;
-            if(this.layer.layer >= 96)
+            let h = 33 * this.getLayerId();
+            if(this.getLayerId() >= 96)
             {
-                h = new Random(this.layer.layer).nextDouble() * 360;
+                h = new Random(this.getLayerId()).nextDouble() * 360;
             }
-            let s = Math.min(100, 10 * this.layer.layer);
+            let s = Math.min(100, 10 * this.getLayerId());
             return "hsl(" + h + ", " + s + "%, 50%)";
         },
         textGlow: function()
         {
-            let thickness = 0.025 * this.layer.layer;
+            let thickness = 0.025 * this.getLayerId();
             let t = [Math.min(0.7, thickness), Math.min(0.7, thickness / 2),
                 Math.min(0.7, Math.max(0, thickness - 0.3) / 4)];
             let color = "currentcolor";
@@ -23,9 +23,9 @@ Vue.component("layer-colored-text", {
         },
         textAnim: function()
         {
-            if(this.layer.layer >= 96)
+            if(this.getLayerId() >= 96)
             {
-                let length = 15 / (1 + 0.01 * (this.layer.layer - 96));
+                let length = 15 / (1 + 0.01 * (this.getLayerId() - 96));
                 return "resource-hue-spin " + length + "s linear infinite";
             }
             return "none";
@@ -33,6 +33,10 @@ Vue.component("layer-colored-text", {
     },
     methods:
     {
+        getLayerId: function()
+        {
+            return this.layerid;
+        },
         getStyle: function()
         {
             let styles = {animation: this.textAnim};

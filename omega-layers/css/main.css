@@ -267,6 +267,17 @@ p.resource-display > span:first-child{
     stroke: var(--color-contrast);
 }
 
+/*Volatility*/
+
+.volatility-tab .description{
+    margin: 1rem;
+}
+
+.volatility-tab .upgrades{
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /*Settings*/
 
 .settings .settings-row{

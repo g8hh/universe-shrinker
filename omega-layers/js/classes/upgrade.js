@@ -141,6 +141,61 @@ class TreeUpgrade extends Upgrade
     }
 }
 
+class DynamicLayerUpgrade extends Upgrade
+{
+    constructor(getCostLayer, getBoostLayer, getDescription, getPrice, getEffect, type, cfg)
+    {
+        super(null, null, getPrice, getEffect, type, cfg);
+        this.getCostLayer = getCostLayer;
+        this.getBoostLayer = getBoostLayer;
+        this.description = getDescription(this);
+    }
+
+    currentCostLayer()
+    {
+        return game.layers[this.getCostLayer(this.level.toNumber())];
+    }
+
+    currentBoostLayer()
+    {
+        return game.layers[this.getBoostLayer(this.level.toNumber())];
+    }
+
+    getPriceDisplay()
+    {
+        if(this.level.eq(this.maxLevel))
+        {
+            return "Max";
+        }
+        return functions.formatNumber(this.currentPrice(), 2, 0, 1e9);
+    }
+
+    buy()
+    {
+        if(!this.currentCostLayer()) return;
+        if(this.currentCostLayer().resource.gte(this.currentPrice()) && this.level.lt(this.maxLevel))
+        {
+            this.currentCostLayer().resource = this.currentCostLayer().resource.sub(this.currentPrice());
+            this.level = this.level.add(1);
+        }
+    }
+
+    buyMax()
+    {
+        if(!this.currentCostLayer()) return;
+        let oldLvl = new Decimal(this.level);
+        this.level = new Decimal(Utils.determineMaxLevel(this.currentCostLayer().resource, this));
+        if(this.level.sub(oldLvl).gt(0))
+        {
+            this.currentCostLayer().resource = this.currentCostLayer().resource.sub(this.getPrice(this.level.sub(1)));
+        }
+        while(this.currentPrice().lte(this.currentCostLayer().resource))
+        {
+            this.buy();
+        }
+    }
+}
+
 var effectDisplayTemplates = {
     numberStandard: function(digits, prefix = "x", suffix = "")
     {
@@ -152,6 +207,20 @@ var effectDisplayTemplates = {
             }
             return prefix + functions.formatNumber(this.apply(), digits, digits) + suffix + " → "
                 + prefix + functions.formatNumber(this.getEffect(this.level.add(1)), digits, digits) + suffix;
+        };
+    },
+    percentStandard: function(digits, prefix = "", suffix = " %")
+    {
+        return function()
+        {
+            let thisVal = this.apply().mul(100);
+            let nextVal = this.getEffect(this.level.add(1)).mul(100);
+            if(this.level.eq(this.maxLevel))
+            {
+                return prefix + functions.formatNumber(thisVal, digits, digits) + suffix;
+            }
+            return prefix + functions.formatNumber(thisVal, digits, digits) + suffix + " → "
+                + prefix + functions.formatNumber(nextVal, digits, digits) + suffix;
         };
     }
 };

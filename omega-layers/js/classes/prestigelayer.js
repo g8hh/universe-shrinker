@@ -45,7 +45,7 @@ class PrestigeLayer
         }
     }
 
-    getName(layer)
+    static getNameForLayer(layer)
     {
         let letters = "αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
         let orders = "ψϝϛͱϻϙͳϸ";
@@ -55,6 +55,11 @@ class PrestigeLayer
             return letters[layer];
         }
         return "<span>" + letters[letters.length - 1] + (order > 1 ? "<sub>" + orders[order - 2] + "</sub>" : "") + "</span>" + "<sup>" + letters[(layer) % letters.length] + "</sup>";
+    }
+
+    getName(layer)
+    {
+        return PrestigeLayer.getNameForLayer(layer);
     }
 
     getResourceName(layer)
@@ -384,9 +389,14 @@ class PrestigeLayer
     }
 
     //the factor of how much the power on the prestige formula is
+    static getPrestigeCarryOverForLayer(layer)
+    {
+        return 24 * Math.pow(1.1, Math.max(layer - 2, 0));
+    }
+
     getPrestigeCarryOver()
     {
-        return 24 * Math.pow(1.1, Math.max(this.layer - 2, 0));
+        return PrestigeLayer.getPrestigeCarryOverForLayer(this.layer);
     }
 
     getPrestigeLimit()
@@ -428,6 +438,11 @@ class PrestigeLayer
         }
         let power = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRESTIGEREWARD ? game.currentChallenge.applyEffect() : 1;
         return Decimal.pow(this.resource.div(lim), 1 / this.getPrestigeCarryOver() * power).mul(multi).floor();
+    }
+
+    isNonVolatile()
+    {
+        return game.volatility.layerVolatility.apply() >= this.layer;
     }
 
     reset()
@@ -473,11 +488,17 @@ class PrestigeLayer
 
     prestige()
     {
-        game.layers[this.layer + 1].resource = game.layers[this.layer + 1].resource.add(this.getPrestigeAmount());
-        game.layers[this.layer + 1].timesReset += 1;
-        for(let i = 0; i <= this.layer; i++)
+        if(!this.isNonVolatile())
         {
-            game.layers[i].reset();
+            game.layers[this.layer + 1].resource = game.layers[this.layer + 1].resource.add(this.getPrestigeAmount());
+            game.layers[this.layer + 1].timesReset += 1;
+            for(let i = 0; i <= this.layer; i++)
+            {
+                if(!game.layers[i].isNonVolatile())
+                {
+                    game.layers[i].reset();
+                }
+            }
         }
     }
 
@@ -488,34 +509,38 @@ class PrestigeLayer
 
     maxAll()
     {
-        if(this.hasGenerators())
+        if(!game.settings.disableBuyMaxOnHighestLayer || this.layer < game.layers.length - 1)
         {
-            for(let i = this.generators.length - 1; i >= 0; i--)
+
+            if(this.hasGenerators())
             {
-                this.generators[i].buyMax();
-            }
-        }
-        if(this.hasPower())
-        {
-            for(let i = this.powerGenerators.length - 1; i >= 0; i--)
-            {
-                this.powerGenerators[i].buyMax();
-            }
-        }
-        if(this.hasUpgrades())
-        {
-            for(let i = this.upgrades.length - 1; i >= 0; i--)
-            {
-                this.upgrades[i].buyMax();
-            }
-        }
-        if(this.hasTreeUpgrades())
-        {
-            for(let row = this.treeUpgrades.length - 1; row >= 0; row--)
-            {
-                for(let col = 0; col < this.treeUpgrades[row].length; col++)
+                for(let i = this.generators.length - 1; i >= 0; i--)
                 {
-                    this.treeUpgrades[row][col].buyMax();
+                    this.generators[i].buyMax();
+                }
+            }
+            if(this.hasPower())
+            {
+                for(let i = this.powerGenerators.length - 1; i >= 0; i--)
+                {
+                    this.powerGenerators[i].buyMax();
+                }
+            }
+            if(this.hasUpgrades())
+            {
+                for(let i = this.upgrades.length - 1; i >= 0; i--)
+                {
+                    this.upgrades[i].buyMax();
+                }
+            }
+            if(this.hasTreeUpgrades())
+            {
+                for(let row = this.treeUpgrades.length - 1; row >= 0; row--)
+                {
+                    for(let col = 0; col < this.treeUpgrades[row].length; col++)
+                    {
+                        this.treeUpgrades[row][col].buyMax();
+                    }
                 }
             }
         }
@@ -526,6 +551,11 @@ class PrestigeLayer
         this.resource = this.resource.add(n);
         this.totalResource = this.totalResource.add(n);
         this.maxResource = Decimal.max(this.maxResource, this.resource);
+    }
+
+    getPrestigeAmountPerSecond()
+    {
+        return this.getPrestigeAmount().mul(game.volatility.prestigePerSecond.apply());
     }
 
     tick(dt)
@@ -543,6 +573,10 @@ class PrestigeLayer
             {
                 g.tick(dt);
             }
+        }
+        if(this.isNonVolatile() && game.layers[this.layer + 1])
+        {
+            game.layers[this.layer + 1].resource = game.layers[this.layer + 1].resource.add(this.getPrestigeAmountPerSecond().mul(dt));
         }
         this.timeSpent += dt;
     }

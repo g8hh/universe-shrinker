@@ -9,6 +9,56 @@
     --color-success: #3dff45;
 }
 
-p, span, button, td, tr, th, h1, h2, h3, h4, h5, h6{
+@keyframes rainbow-border{
+    0%{
+        border-color: red;
+    }
+    20%{
+        border-color: yellow;
+    }
+    40%{
+        border-color: lime;
+    }
+    60%{
+        border-color: cyan;
+    }
+    80%{
+        border-color: magenta;
+    }
+    100%{
+        border-color: red;
+    }
+}
+
+@keyframes rainbow-color{
+    0%{
+        color: red;
+    }
+    20%{
+        color: yellow;
+    }
+    40%{
+        color: lime;
+    }
+    60%{
+        color: cyan;
+    }
+    80%{
+        color: magenta;
+    }
+    100%{
+        color: red;
+    }
+}
+
+p, span, button, td, tr, th, h1, h2, h3, h4, h5, h6, a{
     text-shadow: 0.04em 0.04em 0.075em currentColor, 0.05em 0.05em 0.3em currentColor;
+}
+
+span.omega, a{
+    animation: rainbow-color 120s infinite linear;
+}
+
+button, header{
+    animation: rainbow-border 120s infinite linear;
 }

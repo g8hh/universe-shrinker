@@ -51,6 +51,10 @@ var functions = {
             this.setCurrentLayer(game.layers[game.currentLayer.layer + 1]);
         }
     },
+    maxLayerUnlocked: function()
+    {
+        return game.layers.length - 1;
+    },
     setTheme(css)
     {
         document.getElementById("theme").href = "css/themes/" + css;
@@ -72,7 +76,8 @@ var functions = {
             {
                 return {challenges: value.challenges, generators: value.generators, powerGenerators: value.powerGenerators,
                         upgrades: value.upgrades, treeUpgrades: value.treeUpgrades, power: "d" + value.power, resource: "d" + value.resource,
-                        totalResource: "d" + value.totalResource, maxResource: "d" + value.maxResource, timeSpent: value.timeSpent, timesReset: value.timesReset};
+                        totalResource: "d" + value.totalResource, maxResource: "d" + value.maxResource, timeSpent: value.timeSpent, timesReset: value.timesReset,
+                        volatility: value.volatility};
             }
             if(value instanceof Generator)
             {
@@ -137,6 +142,13 @@ var functions = {
             if(loadObj.settings.hasOwnProperty(k))
             {
                 game.settings[k] = loadObj.settings[k];
+            }
+        }
+        if(loadObj.volatility)
+        {
+            for(let k of Object.getOwnPropertyNames(loadObj.volatility))
+            {
+                game.volatility[k].level = loadObj.volatility[k].level;
             }
         }
         this.setTheme(game.settings.theme);
