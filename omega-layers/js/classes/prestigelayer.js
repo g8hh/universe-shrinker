@@ -151,7 +151,7 @@ class PrestigeLayer
                 case UPGRADE_GENMULTI:
                     upg = new Upgrade(this, game.layers[0] || this,
                         level => Utils.createValueDilation(Decimal.pow(3 * i + 4 + extraPriceIncrease, level).mul(bp), 0.01).pow(Upgrade.getPricePower()),
-                        level => new Decimal(effectGenMulti * level * this.layer).pow(new Decimal(1).div(Upgrade.getEffectPower())), UPGRADE_GENMULTI, {
+                        level => new Decimal(effectGenMulti * level * this.layer).mul(Upgrade.getEffectPower()), UPGRADE_GENMULTI, {
                             getEffectDisplay: effectDisplayTemplates.numberStandard(3, "+")
                         });
                     break;

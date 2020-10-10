@@ -15,6 +15,7 @@
             <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2">Volatility</layer-locked-button>
             <button @click="settings.tab = 'Settings'">Settings</button>
         </nav>
+        <news-ticker v-if="settings.newsTicker"></news-ticker>
         <layer-navigation v-if="settings.tab === 'Layers'" :layers="layers"></layer-navigation>
     </header>
     <main>
@@ -64,6 +65,7 @@
 <script src="js/components/layer-navigation.js"></script>
 <script src="js/components/settings-menu.js"></script>
 <script src="js/components/volatility-tab.js"></script>
+<script src="js/components/news-ticker.js"></script>
 
 <script src="js/data/functions.js"></script>
 <script src="js/data/computed.js"></script>

@@ -37,6 +37,7 @@ Vue.component("settings-menu", {
 <div class="settings-row">
     <label>Allow Resource Colors <input type="checkbox" v-model="settings.resourceColors"/></label>
     <label>Allow Resource Glow <input type="checkbox" v-model="settings.resourceGlow"/></label>
+    <label>News Ticker <input type="checkbox" v-model="settings.newsTicker"/></label>
 </div>
 <div class="settings-row">
     <label>Theme <button v-for="t in themes" @click="setTheme(t[1])">{{t[0]}}</button></label>

@@ -37,6 +37,7 @@ var game = {
         disableBuyMaxOnHighestLayer: false,
         resourceColors: true,
         resourceGlow: true,
+        newsTicker: true,
         theme: "dark.css"
     }
 };

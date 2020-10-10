@@ -80,7 +80,7 @@ span.omega, a{
     animation: rainbow-color 120s infinite linear;
 }
 
-button, header{
+button, header, .news-ticker{
     animation: rainbow-border 120s infinite linear;
 }
 
