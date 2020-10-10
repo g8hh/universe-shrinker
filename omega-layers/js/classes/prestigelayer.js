@@ -157,7 +157,7 @@ class PrestigeLayer
                     break;
                 case UPGRADE_PRESTIGEREWARD:
                     upg = new Upgrade(this, game.layers[rand.nextInt(game.layers.length)] || this,
-                        level => Utils.createValueDilation(Decimal.pow(3 * i + 3 + extraPriceIncrease, level + 2).mul(bp), 0.01).pow(Upgrade.getPricePower()),
+                        level => Utils.createValueDilation(Decimal.pow(3 * i + 3 + extraPriceIncrease, level.add(2)).mul(bp), 0.01).pow(Upgrade.getPricePower()),
                         level => new Decimal(effectPrestigeReward * level * this.layer).pow(Upgrade.getEffectPower()), UPGRADE_PRESTIGEREWARD, {
                             getEffectDisplay: effectDisplayTemplates.numberStandard(2, "+x")
                         });
