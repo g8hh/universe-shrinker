@@ -35,8 +35,10 @@ Vue.component("upgrade-tree", {
                                 let index = this.upgrades[i].findIndex(upg => upg === req);
                                 if(index !== -1)
                                 {
-                                    let rect = tree.childNodes[i].childNodes[index].getClientRects()[0];
-                                    let thisRect = tree.childNodes[row].childNodes[col].getClientRects()[0];
+                                    let fromNode = tree.childNodes[i].childNodes[index];
+                                    let toNode = tree.childNodes[row].childNodes[col];
+                                    let rect = {x: fromNode.offsetLeft, y: fromNode.offsetTop, width: fromNode.offsetWidth, height: fromNode.offsetHeight};
+                                    let thisRect = {x: toNode.offsetLeft, y: toNode.offsetTop, width: toNode.offsetWidth, height: toNode.offsetHeight};
                                     this.arrows.push([rect.x + rect.width / 2, rect.y + rect.height / 2,
                                         thisRect.x + thisRect.width / 2, thisRect.y + thisRect.height / 2]);
                                     break;

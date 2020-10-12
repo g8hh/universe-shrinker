@@ -1,19 +1,64 @@
 const UPGRADE_RESOURCE = 0, UPGRADE_GENERATOR = 1, UPGRADE_GENMULTI = 2, UPGRADE_POWERGENERATOR = 3, UPGRADE_PRESTIGEREWARD = 4,
     UPGRADE_RESOURCE_TIMELAYER = 5, UPGRADE_GENERATOR_TIMELAYER = 6, UPGRADE_POWERGENERATOR_TIMELAYER = 7;
 
-class Upgrade
+const RESOURCE_ALEPH = 0;
+
+class AbstractUpgrade
 {
-    constructor(layerCost, layerBoost, getPrice, getEffect, type, cfg)
+    constructor(getPrice, getEffect, cfg)
     {
-        this.layerCost = layerCost; //which resource has to be paid
-        this.layerBoost = layerBoost; //which layer it boosts on
         this.getPrice = getPrice;
         this.getEffect = getEffect;
-        this.type = type;
         this.cfg = cfg;
         this.level = new Decimal(0);
         this.maxLevel = cfg && cfg.maxLevel ? new Decimal(cfg.maxLevel) : Infinity;
         this.getEffectDisplay = cfg && cfg.getEffectDisplay ? cfg.getEffectDisplay : this.getEffectDisplay;
+        this.description = this.getDescription();
+    }
+
+    getDescription()
+    {
+        return null;
+    }
+
+    currentPrice()
+    {
+        return this.getPrice(this.level);
+    }
+
+    apply()
+    {
+        return this.getEffect(this.level);
+    }
+
+    getEffectDisplay()
+    {
+        if(this.level.eq(this.maxLevel))
+        {
+            return "x" + this.apply()
+        }
+        return "x" + functions.formatNumber(this.getEffect(this.level), 2, 2) + " 🠚 " +
+            "x" + functions.formatNumber(this.getEffect(this.level.add(1)), 2, 2);
+    }
+
+    getPriceDisplay()
+    {
+        if(this.level.eq(this.maxLevel))
+        {
+            return "Max";
+        }
+        return functions.formatNumber(this.currentPrice(), 2, 0, 1e9);
+    }
+}
+
+class LayerUpgrade extends AbstractUpgrade
+{
+    constructor(layerCost, layerBoost, getPrice, getEffect, type, cfg)
+    {
+        super(getPrice, getEffect, cfg);
+        this.layerCost = layerCost; //which resource has to be paid
+        this.layerBoost = layerBoost; //which layer it boosts on
+        this.type = type;
         this.description = this.getDescription();
     }
 
@@ -67,35 +112,6 @@ class Upgrade
         return new Decimal(1);
     }
 
-    currentPrice()
-    {
-        return this.getPrice(this.level);
-    }
-
-    apply()
-    {
-        return this.getEffect(this.level);
-    }
-
-    getEffectDisplay()
-    {
-        if(this.level.eq(this.maxLevel))
-        {
-            return "x" + this.apply()
-        }
-        return "x" + functions.formatNumber(this.getEffect(this.level), 2, 2) + " 🠚 " +
-            "x" + functions.formatNumber(this.getEffect(this.level.add(1)), 2, 2);
-    }
-
-    getPriceDisplay()
-    {
-        if(this.level.eq(this.maxLevel))
-        {
-            return "Max";
-        }
-        return functions.formatNumber(this.currentPrice(), 2, 0, 1e9);
-    }
-
     buy()
     {
         if(this.layerCost.resource.gte(this.currentPrice()) && this.level.lt(this.maxLevel))
@@ -120,7 +136,7 @@ class Upgrade
     }
 }
 
-class TreeUpgrade extends Upgrade
+class TreeUpgrade extends LayerUpgrade
 {
     constructor(layerCost, layerBoost, getPrice, getEffect, type, requires, cfg)
     {
@@ -141,7 +157,7 @@ class TreeUpgrade extends Upgrade
     }
 }
 
-class DynamicLayerUpgrade extends Upgrade
+class DynamicLayerUpgrade extends LayerUpgrade
 {
     constructor(getCostLayer, getBoostLayer, getDescription, getPrice, getEffect, type, cfg)
     {
@@ -159,15 +175,6 @@ class DynamicLayerUpgrade extends Upgrade
     currentBoostLayer()
     {
         return game.layers[this.getBoostLayer(this.level.toNumber())];
-    }
-
-    getPriceDisplay()
-    {
-        if(this.level.eq(this.maxLevel))
-        {
-            return "Max";
-        }
-        return functions.formatNumber(this.currentPrice(), 2, 0, 1e9);
     }
 
     buy()
@@ -193,6 +200,15 @@ class DynamicLayerUpgrade extends Upgrade
         {
             this.buy();
         }
+    }
+}
+
+class ResourceUpgrade extends AbstractUpgrade
+{
+    constructor(getPrice, getEffect, resource, cfg)
+    {
+        super(getPrice, getEffect, cfg);
+        this.resource = resource;
     }
 }
 

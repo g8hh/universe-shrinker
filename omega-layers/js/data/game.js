@@ -22,7 +22,19 @@ var game = {
                 return Decimal.pow(10, new Random(level.toNumber() * 10 + 10).nextDouble() * max).round();
             }, level => new Decimal(0.01 + 0.01 * level), null, {
                 getEffectDisplay: effectDisplayTemplates.percentStandard(0)
-            })
+            }),
+        autoMaxAll: new DynamicLayerUpgrade(level => level + 4, level => level,
+            function()
+            {
+                return "The next Layer is maxed automatically";
+            }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(4).toNumber()) * 0.75), level => level.sub(1), null, {
+                getEffectDisplay: function()
+                {
+                    let val1 = this.level.eq(0) ? "None" : PrestigeLayer.getNameForLayer(this.apply().toNumber());
+                    let val2 = PrestigeLayer.getNameForLayer(this.getEffect(this.level.add(1)).toNumber());
+                    return val1 + " → " + val2;
+                }
+            }),
     },
     currentLayer: null,
     currentChallenge: null,
@@ -38,6 +50,7 @@ var game = {
         resourceColors: true,
         resourceGlow: true,
         newsTicker: true,
+        autoMaxAll: true,
         theme: "dark.css"
     }
 };

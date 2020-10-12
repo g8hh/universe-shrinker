@@ -87,7 +87,7 @@ var functions = {
             }*/
             if(key === "currentChallenge")
             {
-                return value !== null ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
+                return value !== null && value !== undefined ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
             }
             if(value instanceof PrestigeLayer)
             {
@@ -100,7 +100,7 @@ var functions = {
             {
                 return {amount: "d" + value.amount, bought: "d" + value.bought};
             }
-            if(value instanceof Upgrade)
+            if(value instanceof LayerUpgrade)
             {
                 return {level: "d" + value.level};
             }

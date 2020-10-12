@@ -20,7 +20,8 @@ Vue.component("settings-menu", {
             game.settings.tab = "Layers";
         },
         hardResetGame: () => functions.hardResetGame(),
-        setTheme: css => functions.setTheme(css)
+        setTheme: css => functions.setTheme(css),
+        volatilityUnlocked: () => functions.maxLayerUnlocked() >= 2
     },
     template: `<div class="settings">
 <div class="settings-row">
@@ -33,6 +34,7 @@ Vue.component("settings-menu", {
 <div class="settings-row">
     <label>Buy Max always buys until 10 <input type="checkbox" v-model="settings.buyMaxAlways10"/></label>
     <label>Disable Buy Max on highest unlocked Layer <input type="checkbox" v-model="settings.disableBuyMaxOnHighestLayer"/></label>
+    <label v-if="volatilityUnlocked()">Auto Max All <input type="checkbox" v-model="settings.autoMaxAll"/></label>
 </div>
 <div class="settings-row">
     <label>Allow Resource Colors <input type="checkbox" v-model="settings.resourceColors"/></label>
