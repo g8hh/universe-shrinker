@@ -8,3 +8,7 @@
     --color-contrast: #bebebe;
     --color-success: #293b2a;
 }
+
+img[src*=".svg"]{
+    filter: invert(0.8);
+}

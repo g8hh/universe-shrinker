@@ -75,6 +75,14 @@ main{
     padding-top: 0.2em;
 }
 
+img.inline{
+    display: inline;
+    height: 1em;
+    color: var(--color-contrast);
+    transform: translateY(10%);
+    fill: var(--color-contrast);
+}
+
 /*Layer Navigation*/
 
 div.layer-navigation{
@@ -298,6 +306,34 @@ p.resource-display > span:first-child{
 }
 
 .volatility-tab .upgrades{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/*Aleph*/
+
+.aleph{
+    font-weight: bold;
+    text-shadow: 0.07em 0 0.07em currentColor;
+}
+
+.aleph-layer .boosts, .aleph-layer .resource, .aleph-layer .tabs{
+    text-align: center;
+}
+
+.aleph-layer .boosts{
+    margin: 1rem 0;
+}
+
+.aleph-layer .resource{
+    font-size: 120%;
+}
+
+.aleph-layer .resource p:first-child{
+    font-size: 120%;
+}
+
+.aleph-layer .upgrades{
     display: flex;
     justify-content: space-evenly;
 }

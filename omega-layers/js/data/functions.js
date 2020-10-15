@@ -94,13 +94,17 @@ var functions = {
                 return {challenges: value.challenges, generators: value.generators, powerGenerators: value.powerGenerators,
                         upgrades: value.upgrades, treeUpgrades: value.treeUpgrades, power: "d" + value.power, resource: "d" + value.resource,
                         totalResource: "d" + value.totalResource, maxResource: "d" + value.maxResource, timeSpent: value.timeSpent, timesReset: value.timesReset,
-                        volatility: value.volatility};
+                        volatility: value.volatility, alephLayer: value.alephLayer};
+            }
+            if(value instanceof AlephLayer)
+            {
+                return {aleph: "d" + value.aleph, upgrades: value.upgrades};
             }
             if(value instanceof Generator)
             {
                 return {amount: "d" + value.amount, bought: "d" + value.bought};
             }
-            if(value instanceof LayerUpgrade)
+            if(value instanceof AbstractUpgrade)
             {
                 return {level: "d" + value.level};
             }
@@ -167,6 +171,10 @@ var functions = {
             {
                 game.volatility[k].level = loadObj.volatility[k].level;
             }
+        }
+        if(loadObj.alephLayer)
+        {
+            game.alephLayer.loadFromSave(loadObj.alephLayer);
         }
         this.setTheme(game.settings.theme);
     },

@@ -50,7 +50,14 @@ function update()
 
     if(keyPressed("m"))
     {
-        game.currentLayer.maxAll();
+        if(game.settings.tab === "Aleph")
+        {
+            game.alephLayer.maxAll();
+        }
+        else
+        {
+            game.currentLayer.maxAll();
+        }
     }
 
     let numMinimizedLayers = 0;
@@ -92,6 +99,7 @@ function update()
             l.tick(dt);
         }
     }
+    game.alephLayer.tick(dt);
 
     requestAnimationFrame(update);
 }

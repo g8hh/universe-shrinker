@@ -11,9 +11,10 @@
     <header>
         <nav>
             <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
-            <button @click="settings.tab = 'Layers'">Layers</button>
-            <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2">Volatility</layer-locked-button>
-            <button @click="settings.tab = 'Settings'">Settings</button>
+            <button @click="settings.tab = 'Layers'"><img alt="L" class="inline" src="images/layers.svg"/> Layers</button>
+            <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg"/> Volatility</layer-locked-button>
+            <layer-locked-button @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">&aleph;</span> Aleph</layer-locked-button>
+            <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg"/> Settings</button>
         </nav>
         <news-ticker v-if="settings.newsTicker"></news-ticker>
         <layer-navigation v-if="settings.tab === 'Layers'" :layers="layers"></layer-navigation>
@@ -22,6 +23,7 @@
         <prestige-layer v-if="settings.tab === 'Layers'" :layer="currentLayer"></prestige-layer>
         <settings-menu v-if="settings.tab === 'Settings'"></settings-menu>
         <volatility-tab v-if="settings.tab === 'Volatility'"></volatility-tab>
+        <aleph-layer v-if="settings.tab === 'Aleph'"></aleph-layer>
     </main>
     <footer>
         <div>
@@ -46,6 +48,7 @@
 <script src="js/classes/upgrade.js"></script>
 <script src="js/classes/challenge.js"></script>
 <script src="js/classes/prestigelayer.js"></script>
+<script src="js/classes/alephlayer.js"></script>
 
 <script src="js/components/layer-colored-text.js"></script>
 <script src="js/components/layer-locked-button.js"></script>
@@ -54,6 +57,8 @@
 <script src="js/components/resource-name.js"></script>
 <script src="js/components/resource-display.js"></script>
 <script src="js/components/upgrade.js"></script>
+<script src="js/components/resource-upgrade.js"></script>
+<script src="js/components/aleph-upgrade.js"></script>
 <script src="js/components/upgrade-container.js"></script>
 <script src="js/components/upgrade-tree.js"></script>
 <script src="js/components/upgrade-tree-arrow.js"></script>
@@ -65,6 +70,7 @@
 <script src="js/components/layer-navigation.js"></script>
 <script src="js/components/settings-menu.js"></script>
 <script src="js/components/volatility-tab.js"></script>
+<script src="js/components/aleph-layer.js"></script>
 <script src="js/components/news-ticker.js"></script>
 
 <script src="js/data/functions.js"></script>

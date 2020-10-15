@@ -14,4 +14,4 @@ never reset and reward a percentage of the its prestige reward every second.</p>
     <upgrade :upgrade="volatility.autoMaxAll"></upgrade>
 </div>
 </div>`
-})
+});

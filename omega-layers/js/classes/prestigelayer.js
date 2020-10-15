@@ -587,7 +587,10 @@ class PrestigeLayer
         {
             this.maxAll();
         }
-        this.timeSpent += dt;
+        if(this.layer === 0 || this.timesReset > 0)
+        {
+            this.timeSpent += dt;
+        }
     }
 
     loadFromSave(obj)

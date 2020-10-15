@@ -4,7 +4,7 @@ class Utils
     {
         if(resource.lt(buyable.currentPrice()))
         {
-            return buyable[buyable instanceof LayerUpgrade ? "level" : "bought"];
+            return buyable[buyable instanceof AbstractUpgrade ? "level" : "bought"];
         }
         let r = resource.div(1e15);
         let lvl = 512;
@@ -17,7 +17,7 @@ class Utils
             interval /= 2;
         }
         let finalLvl = Decimal.pow(10, lvl).floor();
-        return Decimal.max(buyable[buyable instanceof LayerUpgrade ? "level" : "bought"], finalLvl);
+        return Decimal.max(buyable[buyable instanceof AbstractUpgrade ? "level" : "bought"], finalLvl);
     }
 
     static generateGeneratorList(amount, rand, length = 8)

@@ -87,3 +87,7 @@ button, header, .news-ticker{
 .challenge.completed{
     animation: rainbow-bg 30s infinite linear, rainbow-border 30s infinite linear;
 }
+
+img[src*=".svg"]{
+    filter: invert(1) drop-shadow(0.04em 0.04em 0.075em white);
+}

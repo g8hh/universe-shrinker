@@ -71,7 +71,7 @@ class Generator
         {
             f = f.pow(game.currentChallenge.applyEffect());
         }
-        return Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi);
+        return (Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi)).pow(game.alephLayer.getAlphaPower());
     }
 
     getProductionPS()

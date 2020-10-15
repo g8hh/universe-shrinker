@@ -36,6 +36,7 @@ var game = {
                 }
             }),
     },
+    alephLayer: new AlephLayer(),
     currentLayer: null,
     currentChallenge: null,
     timeSpent: 0,

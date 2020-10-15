@@ -205,10 +205,61 @@ class DynamicLayerUpgrade extends LayerUpgrade
 
 class ResourceUpgrade extends AbstractUpgrade
 {
-    constructor(getPrice, getEffect, resource, cfg)
+    constructor(description, getPrice, getEffect, resource, cfg)
     {
         super(getPrice, getEffect, cfg);
         this.resource = resource;
+        this.description = description;
+    }
+
+    getResource()
+    {
+        switch(this.resource)
+        {
+            case RESOURCE_ALEPH:
+                return game.alephLayer.aleph;
+        }
+    }
+
+    substractResource(res)
+    {
+        switch(this.resource)
+        {
+            case RESOURCE_ALEPH:
+                game.alephLayer.aleph = game.alephLayer.aleph.sub(res);
+                break;
+        }
+    }
+
+    buy()
+    {
+        if(this.getResource().gte(this.currentPrice()) && this.level.lt(this.maxLevel))
+        {
+            this.substractResource(this.currentPrice());
+            this.level = this.level.add(1);
+        }
+    }
+
+    buyMax()
+    {
+        let oldLvl = new Decimal(this.level);
+        this.level = new Decimal(Utils.determineMaxLevel(this.getResource(), this));
+        if(this.level.sub(oldLvl).gt(0))
+        {
+            this.substractResource(this.getPrice(this.level.sub(1)));
+        }
+        while(this.currentPrice().lte(this.getResource()))
+        {
+            this.buy();
+        }
+    }
+}
+
+class AlephUpgrade extends ResourceUpgrade
+{
+    constructor(description, getPrice, getEffect, cfg)
+    {
+        super(description, getPrice, getEffect, RESOURCE_ALEPH, cfg);
     }
 }
 
@@ -225,7 +276,7 @@ var effectDisplayTemplates = {
                 + prefix + functions.formatNumber(this.getEffect(this.level.add(1)), digits, digits) + suffix;
         };
     },
-    percentStandard: function(digits, prefix = "", suffix = " %")
+    percentStandard: function(digits, prefix = "", suffix = " %", digits1000 = digits)
     {
         return function()
         {
@@ -233,10 +284,10 @@ var effectDisplayTemplates = {
             let nextVal = this.getEffect(this.level.add(1)).mul(100);
             if(this.level.eq(this.maxLevel))
             {
-                return prefix + functions.formatNumber(thisVal, digits, digits) + suffix;
+                return prefix + functions.formatNumber(thisVal, digits, digits1000) + suffix;
             }
-            return prefix + functions.formatNumber(thisVal, digits, digits) + suffix + " → "
-                + prefix + functions.formatNumber(nextVal, digits, digits) + suffix;
+            return prefix + functions.formatNumber(thisVal, digits, digits1000) + suffix + " → "
+                + prefix + functions.formatNumber(nextVal, digits, digits1000) + suffix;
         };
     }
 };
