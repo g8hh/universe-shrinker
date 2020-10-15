@@ -5,6 +5,12 @@ Vue.component("aleph-layer", {
             aleph: game.alephLayer
         }
     },
+    computed: {
+        canProduceAleph: function()
+        {
+            return this.aleph.getAlephBoostFromLayer().gt(0);
+        }
+    },
     methods: {
         formatNumber: (n, prec, prec1000, lim) => functions.formatNumber(n, prec, prec1000, lim),
         highestLayer: () => functions.maxLayerUnlocked()
@@ -15,8 +21,13 @@ Vue.component("aleph-layer", {
     <p>You get {{formatNumber(aleph.getAlephGain(), 2, 2, 1e9)}} <span class="aleph">&aleph;</span>/s</p>
 </div>
 <div class="boosts">
-    <p>Your Aleph raises <resource-name :layerid="0"></resource-name> Production to the Power of {{formatNumber(aleph.getAlphaPower(), 2, 3, 1e6)}}</p>
-    <p>Your highest Layer is <resource-name :layerid="highestLayer()"></resource-name>, translated to a x{{formatNumber(aleph.getAlephBoostFromLayer(), 2, 2)}} Boost on <span class="aleph">&aleph;</span> Production</p>
+    <div v-if="canProduceAleph">
+        <p>Your Aleph raises <resource-name :layerid="0"></resource-name> Production to the Power of {{formatNumber(aleph.getAlphaPower(), 2, 3, 1e6)}}</p>
+        <p>Your highest Layer is <resource-name :layerid="highestLayer()"></resource-name>, translated to a x{{formatNumber(aleph.getAlephBoostFromLayer(), 2, 2)}} Boost on <span class="aleph">&aleph;</span> Production</p>
+    </div>
+    <div v-else>
+        <p>You need to go <resource-name :layerid="3"></resource-name> at least once to produce <span class="aleph">&aleph;</span></p>
+    </div>
 </div>
 <div class="tabs">
     <button @click="aleph.maxAll()">Max All (M)</button>
