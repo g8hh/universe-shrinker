@@ -67,11 +67,8 @@ class Generator
                 }
             }
         }
-        if(game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_GENMULTI)
-        {
-            f = f.pow(game.currentChallenge.applyEffect());
-        }
-        return (Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi)).pow(game.alephLayer.getAlphaPower());
+        let challengePow = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_GENMULTI ? game.currentChallenge.applyEffect() : 1;
+        return (Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi)).pow(game.alephLayer.getAlphaPower()).pow(challengePow);
     }
 
     getProductionPS()

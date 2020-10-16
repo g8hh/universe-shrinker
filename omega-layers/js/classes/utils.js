@@ -40,4 +40,24 @@ class Utils
         let dilation = Decimal.max(0, value.div(start).log10().mul(strength)).add(1);
         return value.pow(dilation);
     }
+
+    static createRandomWord(length, seed = Date.now())
+    {
+        let rand = new Random(seed);
+        let vowels = "aeiou";
+        let consonants = "bcdfghjklmnpqrstvwxyz";
+        let word = "";
+        for(let i = 0; i < length; i++)
+        {
+            if(i % 2 === 0)
+            {
+                word += vowels[rand.nextInt(vowels.length)];
+            }
+            else
+            {
+                word += consonants[rand.nextInt(consonants.length)];
+            }
+        }
+        return word;
+    }
 }

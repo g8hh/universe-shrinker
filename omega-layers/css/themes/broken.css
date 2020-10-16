@@ -1,0 +1,14 @@
+:root{
+    --background-body: #ff0000;
+    --background-header: rgb(113, 234, 61);
+    --color-base: #00b1ff;
+    --color-primary: #3af2b2;
+    --color-hover: #ff00fb;
+    --color-hover-strong: #ff0000;
+    --color-contrast: #000000;
+    --color-success: #707070;
+}
+
+* {
+    display: inline !important;
+}

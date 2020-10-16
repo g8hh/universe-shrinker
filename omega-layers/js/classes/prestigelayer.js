@@ -262,7 +262,7 @@ class PrestigeLayer
                     let factorPrestige = 0.82 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
-                        return Decimal.pow(factorPrestige, level + 1);
+                        return Decimal.pow(factorPrestige, Math.sqrt(level + 1));
                     }
                     break;
                 default:
@@ -391,7 +391,7 @@ class PrestigeLayer
     //the factor of how much the power on the prestige formula is
     static getPrestigeCarryOverForLayer(layer)
     {
-        return 24 * Math.pow(1.1, Math.max(layer - 2, 0));
+        return 24 * Math.pow(1.1, Math.max(layer - 2, 0)) + Math.max(0, layer - 3) * 2;
     }
 
     getPrestigeCarryOver()

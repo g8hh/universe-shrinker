@@ -100,6 +100,10 @@ function update()
         }
     }
     game.alephLayer.tick(dt);
+    for(let ach of game.achievements)
+    {
+        ach.tick(dt);
+    }
 
     requestAnimationFrame(update);
 }

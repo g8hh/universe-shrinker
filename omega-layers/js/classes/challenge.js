@@ -37,7 +37,7 @@ class Challenge
             case CHALLENGE_EFFECT_PRICES:
                 return "All Generator and Upgrade Prices are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_GENMULTI:
-                return "Generator Multiplier per 10 Levels is raised to the Power of " + this.applyEffect().toFixed(2);
+                return "All Generator Multipliers are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_PRESTIGEREWARD:
                 return "All Prestige Rewards are raised to the Power of " + this.applyEffect().toFixed(2);
             default:

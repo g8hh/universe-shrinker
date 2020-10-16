@@ -25,9 +25,23 @@ Vue.component("news-ticker", {
                 +` <span style="color: hsl(270, 100%, 50%)">W</span>`,
                 "This definitly beats Mega Layers! -RΨZΞΠ 9 935ΘX",
                 "hey, I bet this isnt a newsticker. Or is it?",
+                "(╯°□°）╯︵ ┻━┻   -   TableFlipper07",
+                "Don't click the X at the top right, it's a game breaking bug!",
+                `<span style="color: red;">don't import "free boost" for the sake of god</span>`,
+                () =>
+                {
+                    let res = "";
+                    for(let i = 0; i < Math.floor(Math.random() * 6) + 4; i++)
+                    {
+                        let seed = Date.now() + i;
+                        res += Utils.createRandomWord(Math.floor(Math.random() * 10) + 4, seed) + " ";
+                    }
+                    return res + "-" + Utils.createRandomWord(Math.floor(Math.random() * 3) + 4, Date.now() + 20) + " " + Utils.createRandomWord(Math.floor(Math.random() * 3) + 4, Date.now() + 21);
+                },
                 () => "This Number is randomly generated -> " + Math.pow(10, Math.random() * 3.01).toFixed(2) +
                     ". If it's above 1,000, consider yourself lucky!",
-                () => `<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">get Layer ` + PrestigeLayer.getNameForLayer(game.layers.length) + ` now [working 2020]</a>`
+                () => `<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">get Layer ` + PrestigeLayer.getNameForLayer(game.layers.length) + ` now [working 2020]</a>`,
+                () => functions.formatNumber(game.layers[0].resource, 2, 2, 1e9) + " α? That's rookie numbers"
             ],
             currentMessage: "",
             messageIndex: -1
@@ -47,7 +61,6 @@ Vue.component("news-ticker", {
             {
                 arr.splice(this.messageIndex, 1);
             }
-            //arr = arr.filter(el => el !== this.currentMessage);
             let index = Math.floor(Math.random() * arr.length);
             this.messageIndex = index;
             let element = arr[index];

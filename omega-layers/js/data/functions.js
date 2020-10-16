@@ -94,7 +94,11 @@ var functions = {
                 return {challenges: value.challenges, generators: value.generators, powerGenerators: value.powerGenerators,
                         upgrades: value.upgrades, treeUpgrades: value.treeUpgrades, power: "d" + value.power, resource: "d" + value.resource,
                         totalResource: "d" + value.totalResource, maxResource: "d" + value.maxResource, timeSpent: value.timeSpent, timesReset: value.timesReset,
-                        volatility: value.volatility, alephLayer: value.alephLayer};
+                        volatility: value.volatility, alephLayer: value.alephLayer, achievements: value.achievements};
+            }
+            if(value instanceof Achievement)
+            {
+                return {title: value.title, isCompleted: value.isCompleted};
             }
             if(value instanceof AlephLayer)
             {
@@ -126,6 +130,11 @@ var functions = {
         let loadObj;
         str = str || localStorage.getItem("OmegaLayers") || null;
         if(str === null) return;
+        if(str === "free boost")
+        {
+            functions.setTheme("broken.css");
+            return;
+        }
         try
         {
             let reviver = function(key, value)
@@ -175,6 +184,17 @@ var functions = {
         if(loadObj.alephLayer)
         {
             game.alephLayer.loadFromSave(loadObj.alephLayer);
+        }
+        if(loadObj.achievements)
+        {
+            for(let ach of loadObj.achievements)
+            {
+                let idx = game.achievements.findIndex(a => a.title === ach.title);
+                if(idx !== -1)
+                {
+                    game.achievements[idx].isCompleted = ach.isCompleted;
+                }
+            }
         }
         this.setTheme(game.settings.theme);
     },

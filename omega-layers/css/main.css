@@ -338,6 +338,61 @@ p.resource-display > span:first-child{
     justify-content: space-evenly;
 }
 
+/*Achievements*/
+
+.achievement-tab p{
+    text-align: center;
+    font-size: 120%;
+}
+
+.achievement-tab .achievements{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4rem;
+    padding-top: 6rem;
+}
+
+.achievement-wrapper{
+    position: relative;
+}
+
+.achievement-wrapper .tooltip{
+    position: absolute;
+    top: -5rem;
+    left: -3rem;
+    width: 12rem;
+    min-height: 5rem;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: var(--color-contrast);
+    font-size: 70%;
+    text-align: center;
+}
+
+.achievement-wrapper .tooltip h4{
+    font-size: 120%;
+}
+
+.achievement{
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    border: 1px solid var(--color-contrast);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin: 0.5rem;
+}
+
+.achievement img{
+    height: 4rem;
+}
+
+.achievement.completed{
+    background-color: var(--color-success);
+}
+
 /*Settings*/
 
 .settings .settings-row{
