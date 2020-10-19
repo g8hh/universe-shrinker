@@ -4,11 +4,11 @@ class AlephLayer
     {
         this.aleph = new Decimal(0);
         this.upgrades = {
-            alephGain: new AlephUpgrade("Increase your Aleph gain", level => Decimal.pow(1.2, level).mul(100),
+            alephGain: new AlephUpgrade("Increase your Aleph gain", level => Decimal.pow(1.2, level).mul(200),
                 level => Decimal.pow(1.2, level)),
             alephGainBonus: new AlephUpgrade("Get a Bonus to Aleph gain, allowing you to Level up the main Upgrade faster",
                 level => Utils.createValueDilation(Decimal.pow(1000, level).mul(1000), 0.02),
-                level => new Decimal(1).add(level.mul(0.04)), {
+                level => new Decimal(1).add(level.mul(0.02)), {
                     getEffectDisplay: effectDisplayTemplates.percentStandard(3, "", " %", 0)
                 })
         };
@@ -26,7 +26,7 @@ class AlephLayer
 
     getAlphaPower()
     {
-        return new Decimal(1).add(this.aleph.add(1).log10().div(100));
+        return (new Decimal(1).add(this.aleph.add(1).log10().div(200))).pow(0.8);
     }
 
     getAlephBoostFromLayer()
