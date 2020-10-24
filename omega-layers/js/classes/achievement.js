@@ -14,6 +14,10 @@ class Achievement
         if(!this.isCompleted)
         {
             this.isCompleted = this.checkCompleted();
+            if(this.isCompleted && game.settings.notifications)
+            {
+                functions.createNotification(new Notification(NOTIFICATION_SUCCESS, "Achievement Get: " + this.title, "images/star.svg"));
+            }
         }
     }
 }

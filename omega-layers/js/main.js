@@ -36,6 +36,7 @@ function update()
     if(saveTimer > 30)
     {
         functions.saveGame();
+        saveTimer = 0;
     }
 
     if(game.layers[game.layers.length - 1].canGenerateNextLayer())
@@ -103,6 +104,15 @@ function update()
     for(let ach of game.achievements)
     {
         ach.tick(dt);
+    }
+
+    for(let n of game.notifications)
+    {
+        n.tick(dt);
+        if(n.lifeTime > 5)
+        {
+            game.notifications = game.notifications.filter(notification => notification !== n);
+        }
     }
 
     requestAnimationFrame(update);

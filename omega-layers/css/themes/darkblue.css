@@ -7,6 +7,8 @@
     --color-hover-strong: #3a4359;
     --color-contrast: #b6b6b6;
     --color-success: #535e7b;
+    --notification--error: #a92424;
+    --notification--success: #38a019;
 }
 
 img[src*=".svg"]{

@@ -72,10 +72,11 @@ var game = {
         new Achievement("How many are there?!", "Go ε", "ε", () => game.layers[4] && game.layers[4].timesReset > 0),
         new Achievement("It's time to stop! (not)", "Go ζ", "ζ", () => game.layers[5] && game.layers[5].timesReset > 0),
         new Achievement("End Game?", "Reach 1e1,000,000,000 α", "α", () => game.layers[0] && game.layers[0].resource.gte("1ee9")),
-        new Achievement("much Aleph, much Wow", "Reach 1e10,000 ℵ", '<span class="aleph">ℵ</span>', () => game.alephLayer.aleph.gte("1e10000"))
+        new Achievement("Much Aleph, much Wow", "Reach 1e10,000 ℵ", '<span class="aleph">ℵ</span>', () => game.alephLayer.aleph.gte("1e10000"))
     ],
     currentLayer: null,
     currentChallenge: null,
+    notifications: [],
     timeSpent: 0,
     settings: {
         tab: "Layers",
@@ -89,6 +90,8 @@ var game = {
         resourceGlow: true,
         newsTicker: true,
         autoMaxAll: true,
+        notifications: true,
+        saveNotifications: true,
         theme: "dark.css"
     }
 };

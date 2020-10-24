@@ -72,10 +72,14 @@ var functions = {
     {
         return game.layers.length - 1;
     },
-    setTheme(css)
+    setTheme: function(css)
     {
         document.getElementById("theme").href = "css/themes/" + css;
         game.settings.theme = css;
+    },
+    createNotification: function(notification)
+    {
+        game.notifications.push(notification);
     },
     getSaveString()
     {
@@ -124,6 +128,10 @@ var functions = {
     saveGame: function()
     {
         localStorage.setItem("OmegaLayers", this.getSaveString());
+        if(game.settings.notifications && game.settings.saveNotifications)
+        {
+            functions.createNotification(new Notification(NOTIFICATION_STANDARD, "Game Saved!", "images/save.svg"));
+        }
     },
     loadGame(str)
     {
@@ -133,7 +141,7 @@ var functions = {
         if(str === "free boost")
         {
             functions.setTheme("broken.css");
-            return;
+            return -1;
         }
         try
         {
@@ -151,8 +159,7 @@ var functions = {
         catch(e)
         {
             console.warn("Error loading save\n", e.stack);
-            return;
-            //alert("Error loading game");
+            return false;
         }
 
         for(let i = 0; i < loadObj.layers.length; i++)
@@ -197,6 +204,7 @@ var functions = {
             }
         }
         this.setTheme(game.settings.theme);
+        return true;
     },
     hardResetGame: function()
     {

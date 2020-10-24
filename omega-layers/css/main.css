@@ -7,6 +7,12 @@
     --color-hover-strong: #dddddd;
     --color-contrast: black;
     --color-success: #c8ffb7;
+    --notification--standard: dodgerblue;
+    --notification--standard--border: #135698;
+    --notification--error: #f33333;
+    --notification--error--border: #ae2222;
+    --notification--success: #4fd923;
+    --notification--success--border: #2e9114;
 }
 
 @font-face{
@@ -31,6 +37,24 @@
     }
     to{
         transform: translate(-100%, 0);
+    }
+}
+
+@keyframes expand{
+    from{
+        transform: scaleY(0);
+    }
+    to{
+        transform: scaleY(1);
+    }
+}
+
+@keyframes collapse{
+    from{
+        transform: scaleY(1);
+    }
+    to{
+        transform: scaleY(0);
     }
 }
 
@@ -419,6 +443,7 @@ p.resource-display > span:first-child{
 
 .settings textarea{
     resize: none;
+    user-select: all;
 }
 
 /*News Ticker*/
@@ -434,6 +459,70 @@ p.resource-display > span:first-child{
     display: inline-block;
     white-space: nowrap;
     animation: news-ticker linear infinite;
+}
+
+/*Notifications*/
+
+.notification{
+    transform-origin: top;
+    width: 20em;
+    background-color: var(--notification--standard);
+    border: 2px solid var(--notification--standard--border);
+    padding: 0.2rem;
+    margin-bottom: 0.5rem;
+    animation-fill-mode: forwards;
+}
+
+.notification.error{
+    background-color: var(--notification--error);
+    border-color: var(--notification--error--border);
+}
+
+.notification.success{
+    background-color: var(--notification--success);
+    border-color: var(--notification--success--border);
+}
+
+.notification-container{
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    height: 100vh;
+}
+
+/*Guide*/
+
+.guide-tab{
+    padding: 1rem;
+}
+
+.guide-tab > *{
+    padding: 0.25rem;
+}
+
+.guide-item{
+    border: 1px solid var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.guide-item .header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-primary);
+    padding-left: 0.25rem;
+}
+
+.guide-item .body{
+    padding: 0.25rem;
+    transform-origin: top;
+}
+
+.guide-item h2{
+    font-size: 1.4rem;
+}
+
+.guide-item span{
+    font-size: 1.4rem;
 }
 
 /*Footer*/
@@ -460,4 +549,12 @@ footer div a{
 
 footer p{
     font-size: 75%;
+}
+
+.expandable-enter{
+    animation: expand 0.5s;
+}
+
+.expandable-leave{
+    animation: expand 0.5s reverse;
 }

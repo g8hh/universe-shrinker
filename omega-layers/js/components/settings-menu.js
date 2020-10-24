@@ -16,7 +16,22 @@ Vue.component("settings-menu", {
         },
         importGame: function()
         {
-            functions.loadGame(this.exportString);
+            let ret = functions.loadGame(this.exportString);
+            if(game.settings.notifications)
+            {
+                if(!ret)
+                {
+                    functions.createNotification(new Notification(NOTIFICATION_ERROR, "Error importing Game", "images/save.svg"));
+                }
+                else if(ret === -1)
+                {
+                    functions.createNotification(new Notification(NOTIFICATION_ERROR, "What have you done..."));
+                }
+                else
+                {
+                    functions.createNotification(new Notification(NOTIFICATION_SUCCESS, "Game Imported", "images/save.svg"));
+                }
+            }
             game.settings.tab = "Layers";
         },
         hardResetGame: () => functions.hardResetGame(),
@@ -40,6 +55,8 @@ Vue.component("settings-menu", {
     <label>Allow Resource Colors <input type="checkbox" v-model="settings.resourceColors"/></label>
     <label>Allow Resource Glow <input type="checkbox" v-model="settings.resourceGlow"/></label>
     <label>News Ticker <input type="checkbox" v-model="settings.newsTicker"/></label>
+    <label>Notifications <input type="checkbox" v-model="settings.notifications"/></label>
+    <label>Save Notifications <input type="checkbox" v-model="settings.saveNotifications"/></label>
 </div>
 <div class="settings-row">
     <label>Theme <button v-for="t in themes" @click="setTheme(t[1])">{{t[0]}}</button></label>
