@@ -125,11 +125,11 @@ class LayerUpgrade extends AbstractUpgrade
     {
         let oldLvl = new Decimal(this.level);
         this.level = new Decimal(Utils.determineMaxLevel(this.layerCost.resource, this));
-        if(this.level.sub(oldLvl).gt(0))
+        if(this.level.sub(oldLvl).gt(0) && this.level.lt(1e9))
         {
             this.layerCost.resource = this.layerCost.resource.sub(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.layerCost.resource))
+        while(this.currentPrice().lte(this.layerCost.resource) && this.level.lt(1e9))
         {
             this.buy();
         }
@@ -192,11 +192,11 @@ class DynamicLayerUpgrade extends LayerUpgrade
         if(!this.currentCostLayer()) return;
         let oldLvl = new Decimal(this.level);
         this.level = new Decimal(Utils.determineMaxLevel(this.currentCostLayer().resource, this));
-        if(this.level.sub(oldLvl).gt(0))
+        if(this.level.sub(oldLvl).gt(0) && this.level.lt(1e9))
         {
             this.currentCostLayer().resource = this.currentCostLayer().resource.sub(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.currentCostLayer().resource))
+        while(this.currentPrice().lte(this.currentCostLayer().resource) && this.level.lt(1e9))
         {
             this.buy();
         }
@@ -244,11 +244,11 @@ class ResourceUpgrade extends AbstractUpgrade
     {
         let oldLvl = new Decimal(this.level);
         this.level = new Decimal(Utils.determineMaxLevel(this.getResource(), this));
-        if(this.level.sub(oldLvl).gt(0))
+        if(this.level.sub(oldLvl).gt(0) && this.level.lt(1e9))
         {
             this.substractResource(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.getResource()))
+        while(this.currentPrice().lte(this.getResource()) && this.level.lt(1e9))
         {
             this.buy();
         }

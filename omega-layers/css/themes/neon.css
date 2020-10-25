@@ -83,7 +83,7 @@ span.omega, a{
     animation: rainbow-color 120s infinite linear;
 }
 
-button, header, .news-ticker{
+button, header, .news-ticker, .guide-item, .guide-item div, textarea{
     animation: rainbow-border 120s infinite linear;
 }
 

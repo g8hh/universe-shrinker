@@ -138,6 +138,24 @@ onkeydown = e =>
     {
         functions.setPreviousLayer();
     }
+    if(e.key === "p")
+    {
+        if(!game.currentLayer.isNonVolatile() && game.currentLayer.canPrestige())
+        {
+            game.currentLayer.prestige();
+        }
+    }
+    for(let tab of ["Layers", "Volatility", "Aleph", "Guide", "Settings"])
+    {
+        if(e.key === tab[0].toLowerCase())
+        {
+            game.settings.tab = tab;
+        }
+    }
+    if(e.key === "c")
+    {
+        game.settings.tab = "Achievements";
+    }
 }
 
 onkeyup = e =>

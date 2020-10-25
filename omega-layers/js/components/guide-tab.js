@@ -8,7 +8,9 @@ Vue.component("guide-tab", {
     <guide-item>
         <template v-slot:title>Getting Started</template>
         <template v-slot:text>In Omega Layers, your Goal is to produce Resources (e.g. &alpha;) and Prestige for higher Resources. You can buy
-        things like Generators and Upgrades to accomplish that.</template>
+        things like Generators and Upgrades to accomplish that.<br/>
+        To start, click the  "+1 &alpha;" button until you have 10 &alpha;. With 10 &alpha;, you can buy a Generator &alpha;<sub>1</sub>, which
+        produces 1 &alpha; every second. Continue buying Generators to increase your &alpha; production.</template>
     </guide-item>
     <guide-item>
         <template v-slot:title>Generators</template>

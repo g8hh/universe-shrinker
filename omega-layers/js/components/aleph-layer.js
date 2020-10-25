@@ -9,6 +9,10 @@ Vue.component("aleph-layer", {
         canProduceAleph: function()
         {
             return this.aleph.getAlephBoostFromLayer().gt(0);
+        },
+        isSoftCapped: function()
+        {
+            return this.aleph.aleph.gt(1e300);
         }
     },
     methods: {
@@ -22,7 +26,8 @@ Vue.component("aleph-layer", {
 </div>
 <div class="boosts">
     <div v-if="canProduceAleph">
-        <p>Your Aleph raises <resource-name :layerid="0"></resource-name> Production to the Power of {{formatNumber(aleph.getAlphaPower(), 2, 3, 1e6)}}</p>
+        <p>Your Aleph raises <resource-name :layerid="0"></resource-name> Production to the Power of {{formatNumber(aleph.getAlphaPower(), 2, 3, 1e6)}} 
+            <span v-if="isSoftCapped">(softcapped)</span></p>
         <p>Your highest Layer is <resource-name :layerid="highestLayer()"></resource-name>, translated to a x{{formatNumber(aleph.getAlephBoostFromLayer(), 2, 2)}} Boost on <span class="aleph">&aleph;</span> Production</p>
     </div>
     <div v-else>

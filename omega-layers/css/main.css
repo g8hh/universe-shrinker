@@ -43,18 +43,11 @@
 @keyframes expand{
     from{
         transform: scaleY(0);
+        max-height: 0;
     }
     to{
         transform: scaleY(1);
-    }
-}
-
-@keyframes collapse{
-    from{
-        transform: scaleY(1);
-    }
-    to{
-        transform: scaleY(0);
+        max-height: 200px;
     }
 }
 
@@ -446,6 +439,11 @@ p.resource-display > span:first-child{
     user-select: all;
 }
 
+.settings .credits{
+    padding: 1rem;
+    text-align: center;
+}
+
 /*News Ticker*/
 
 .news-ticker{
@@ -488,6 +486,7 @@ p.resource-display > span:first-child{
     right: 2rem;
     top: 2rem;
     height: 100vh;
+    z-index: 2;
 }
 
 /*Guide*/
@@ -551,10 +550,10 @@ footer p{
     font-size: 75%;
 }
 
-.expandable-enter{
-    animation: expand 0.5s;
+.expandable-enter-active{
+    animation: expand 250ms !important;
 }
 
-.expandable-leave{
-    animation: expand 0.5s reverse;
+.expandable-leave-active{
+    animation: expand 250ms reverse !important;
 }

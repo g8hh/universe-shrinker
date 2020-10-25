@@ -71,7 +71,15 @@ Vue.component("settings-menu", {
     <textarea class="export" v-model="exportString"></textarea>
 </div>
 <div class="settings-row">
-    <p>Controls: M to Max All on the selected Layer, Left and Right Arrows to change Layers</p>
+    <p>Controls: M to Max All on the selected Layer<br/>
+    Left and Right Arrows to change Layers<br/>
+    P to Prestige the selected Layer<br/>
+    First Letter of a tab ([L]ayers, [V]olatility) to select it; C to select Achievements</p>
+</div>
+<div class="credits">
+    <h4>Credits</h4>
+    <p>Inspiration: Antimatter Dimensions by hevipelle, Infinite Layers by dan-simon</p>
+    <p>Powered by vue.js and break eternity.js</p>
 </div>
 </div>`
 })

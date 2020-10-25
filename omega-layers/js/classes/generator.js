@@ -120,20 +120,20 @@ class Generator
         this.bought = new Decimal(Utils.determineMaxLevel(this.layer.resource, this));
         let boughtLevels = this.bought.sub(oldBought);
         this.amount = this.amount.add(boughtLevels);
-        if(boughtLevels.gt(0))
+        if(boughtLevels.gt(0) && this.bought.lt(1e9))
         {
             this.layer.resource = this.layer.resource.sub(this.getPrice(this.bought.sub(1)));
         }
         if(game.settings.buyMaxAlways10)
         {
-            while(this.getPriceUntil10().lte(this.layer.resource))
+            while(this.getPriceUntil10().lte(this.layer.resource) && this.bought.lt(1e9))
             {
                 this.buyUntil10();
             }
         }
         else
         {
-            while(this.currentPrice().lte(this.layer.resource))
+            while(this.currentPrice().lte(this.layer.resource) && this.bought.lt(1e9))
             {
                 this.buy();
             }
