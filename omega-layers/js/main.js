@@ -147,12 +147,12 @@ onkeydown = e =>
     }
     for(let tab of ["Layers", "Volatility", "Aleph", "Guide", "Settings"])
     {
-        if(e.key === tab[0].toLowerCase())
+        if(e.key === tab[0].toLowerCase() && !e.ctrlKey)
         {
             game.settings.tab = tab;
         }
     }
-    if(e.key === "c")
+    if(e.key === "c" && !e.ctrlKey)
     {
         game.settings.tab = "Achievements";
     }

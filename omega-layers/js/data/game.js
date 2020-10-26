@@ -1,5 +1,5 @@
 var game = {
-    version: "b1",
+    version: "1",
     layers: [],
     volatility: {
         layerVolatility: new DynamicLayerUpgrade(level => level + 2, level => level,
