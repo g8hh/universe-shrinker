@@ -27,7 +27,6 @@ Vue.component("news-ticker", {
                 "hey, I bet this isnt a newsticker. Or is it?",
                 "(╯°□°）╯︵ ┻━┻   -   TableFlipper07",
                 "Don't click the X at the top right, it's a game breaking bug!",
-                `<span style="color: red;">don't import "free boost" for the sake of god</span>`,
                 "Nerf This!",
                 "To nerf, or not to nerf. That is the Question!",
                 () =>
