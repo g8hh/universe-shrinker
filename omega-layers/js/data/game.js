@@ -2,11 +2,11 @@ var game = {
     version: "1",
     layers: [],
     volatility: {
-        layerVolatility: new DynamicLayerUpgrade(level => level + 2, level => level,
+        layerVolatility: new DynamicLayerUpgrade(level => level + 1, level => level,
             function()
             {
                 return "Make the next Layer non-volatile";
-            }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(2).toNumber()) / 2), level => level.sub(1), null, {
+            }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(1).toNumber())), level => level.sub(1), null, {
                 getEffectDisplay: function()
                 {
                     let val1 = this.level.eq(0) ? "None" : PrestigeLayer.getNameForLayer(this.apply().toNumber());
@@ -23,11 +23,11 @@ var game = {
             }, level => new Decimal(0.01 + 0.01 * level), null, {
                 getEffectDisplay: effectDisplayTemplates.percentStandard(0)
             }),
-        autoMaxAll: new DynamicLayerUpgrade(level => level + 4, level => level,
+        autoMaxAll: new DynamicLayerUpgrade(level => level + 2, level => level,
             function()
             {
                 return "The next Layer is maxed automatically";
-            }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(4).toNumber()) * 0.75), level => level.sub(1), null, {
+            }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(2).toNumber()) * 0.125), level => level.sub(1), null, {
                 getEffectDisplay: function()
                 {
                     let val1 = this.level.eq(0) ? "None" : PrestigeLayer.getNameForLayer(this.apply().toNumber());

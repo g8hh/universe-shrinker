@@ -95,7 +95,7 @@ class LayerUpgrade extends AbstractUpgrade
     // for challenges
     static getPricePower()
     {
-        if(game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRICES)
+        if(game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRICES_POWER)
         {
             return game.currentChallenge.applyEffect();
         }
@@ -105,7 +105,7 @@ class LayerUpgrade extends AbstractUpgrade
     // for challenges
     static getEffectPower()
     {
-        if(game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_UPGRADESTRENGTH)
+        if(game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST)
         {
             return game.currentChallenge.applyEffect();
         }

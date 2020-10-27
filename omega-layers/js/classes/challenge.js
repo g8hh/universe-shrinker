@@ -1,4 +1,4 @@
-var CHALLENGE_EFFECT_UPGRADESTRENGTH = 0, CHALLENGE_EFFECT_PRICES = 1, CHALLENGE_EFFECT_GENMULTI = 2,
+var CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST = 0, CHALLENGE_EFFECT_PRICES_POWER = 1, CHALLENGE_EFFECT_GENMULTI = 2,
     CHALLENGE_EFFECT_PRESTIGEREWARD = 3;
 var CHALLENGE_REWARD_POWERGENERATORS = 0, CHALLENGE_REWARD_GENMULTI = 1, CHALLENGE_REWARD_PRESTIGEREWARD = 2;
 
@@ -32,10 +32,10 @@ class Challenge
     {
         switch (this.effectType)
         {
-            case CHALLENGE_EFFECT_UPGRADESTRENGTH:
-                return "All Upgrade Effects are raised to the Power of " + this.applyEffect().toFixed(2);
-            case CHALLENGE_EFFECT_PRICES:
-                return "All Generator and Upgrade Prices are raised to the Power of " + this.applyEffect().toFixed(2);
+            case CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST:
+                return "All Upgrade and Simple Boost Effects are raised to the Power of " + this.applyEffect().toFixed(2);
+            case CHALLENGE_EFFECT_PRICES_POWER:
+                return "All Generator, Upgrade Prices and Power Effects are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_GENMULTI:
                 return "All Generator Multipliers are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_PRESTIGEREWARD:

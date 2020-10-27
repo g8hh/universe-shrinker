@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>&Omega;-L&lambda;&gamma;ers</title>
+    <title>&Omega;-L&lambda;&gamma;ers [Open Beta]</title>
 
     <meta name="keywords" content="idle, incremental, omega, layers, cook1ee, cook1eegames"/>
     <meta name="description" content="An Incremental Game with unlimited Layers of Prestige"/>
@@ -29,13 +29,18 @@
 <div id="app">
     <header>
         <nav>
-            <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
-            <button @click="settings.tab = 'Layers'"><img alt="L" class="inline" src="images/layers.svg"/> Layers</button>
-            <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg"/> Volatility</layer-locked-button>
-            <layer-locked-button @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">&aleph;</span> Aleph</layer-locked-button>
-            <button @click="settings.tab = 'Achievements'"><img alt="A" class="inline" src="images/star.svg"/> Achievements</button>
-            <button @click="settings.tab = 'Guide'"><img alt="S" class="inline" src="images/information-circle.svg"/> Guide</button>
-            <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg"/> Settings</button>
+            <div>
+                <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
+                <button @click="settings.tab = 'Layers'"><img alt="L" class="inline" src="images/layers.svg"/> Layers</button>
+                <button @click="settings.tab = 'Achievements'"><img alt="A" class="inline" src="images/star.svg"/> Achievements</button>
+                <button @click="settings.tab = 'Guide'"><img alt="S" class="inline" src="images/information-circle.svg"/> Guide</button>
+                <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg"/> Settings</button>
+            </div>
+            <div>
+
+                <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg"/> Volatility</layer-locked-button>
+                <layer-locked-button @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">&aleph;</span> Aleph</layer-locked-button>
+            </div>
         </nav>
         <news-ticker v-if="settings.newsTicker"></news-ticker>
         <layer-navigation v-if="settings.tab === 'Layers'" :layers="layers"></layer-navigation>
@@ -54,6 +59,7 @@
             <a href="https://discord.gg/75d7Jj5" target="_blank">Discord</a>
             <a href="https://www.cook1eegames.feedia.co" target="_blank">Website</a>
         </div>
+        <p>Notice: Beta! This Game might still have bugs and it is incomplete, but surely playable. enjoy :)</p>
     </footer>
 </div>
 

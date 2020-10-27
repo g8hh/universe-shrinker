@@ -10,8 +10,8 @@ Vue.component("volatility-tab", {
 never reset and reward a percentage of the its prestige reward every second.</p>
 <div class="upgrades">
     <upgrade :upgrade="volatility.layerVolatility"></upgrade>
-    <upgrade :upgrade="volatility.prestigePerSecond"></upgrade>
     <upgrade :upgrade="volatility.autoMaxAll"></upgrade>
+    <upgrade :upgrade="volatility.prestigePerSecond"></upgrade>
 </div>
 </div>`
 });

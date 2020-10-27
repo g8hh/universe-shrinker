@@ -78,7 +78,7 @@ class Generator
 
     getPrice(bought)
     {
-        let power = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRICES ? game.currentChallenge.applyEffect() : new Decimal(1);
+        let power = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRICES_POWER ? game.currentChallenge.applyEffect() : new Decimal(1);
         let base = new Decimal(this.initPrice).mul(Decimal.pow(this.priceIncrease, Decimal.floor(bought.div(10))));
         return Utils.createValueDilation(base, 0.0075).pow(power);
     }

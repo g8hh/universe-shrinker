@@ -57,6 +57,7 @@
     padding: 0;
     outline: 0;
     user-select: none;
+    font-variant-numeric: tabular-nums;
 }
 
 header{
@@ -67,15 +68,24 @@ header{
 }
 
 header nav{
-    display: flex;
-    justify-content: space-between;
     width: 100%;
-    padding: 0 2rem;
+    padding: 0 0.25rem;
     padding-bottom: 0.5rem;
+}
+
+header nav div{
+    display: flex;
+    justify-content: left;
+    padding: 0.5rem 2rem;
+}
+
+header nav div:first-child{
+    justify-content: space-between;
 }
 
 header nav button{
     padding: 0.2em;
+    margin-right: 2rem;
     font-size: 110%;
 }
 
@@ -125,13 +135,13 @@ div.layer-navigation button:hover{
 /*Body and Main Styles*/
 
 body{
-    font-family: "Typewriter", Helvetica, sans-serif;
+    font-family: "Typewriter", monospace;
     background-color: var(--background-body);
     color: var(--color-contrast);
 }
 
 button{
-    font-family: "Typewriter", Helvetica, sans-serif;
+    font-family: "Typewriter", monospace;
     border-radius: 2px;
     background-color: var(--color-base);
     color: var(--color-contrast);
@@ -179,6 +189,10 @@ table th, table td{
 div.prestige-layer .resource-button{
     text-align: center;
     margin: 1rem;
+}
+
+.resource-button button{
+    font-size: 150%;
 }
 
 div.prestige-layer .tabs{
@@ -487,6 +501,7 @@ p.resource-display > span:first-child{
     top: 2rem;
     height: 100vh;
     z-index: 2;
+    pointer-events: none;
 }
 
 /*Guide*/

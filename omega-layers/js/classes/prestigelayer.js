@@ -87,7 +87,7 @@ class PrestigeLayer
         this.generators = [];
         for(let i = 0; i < 8; i++)
         {
-            let baseProd = i === 0 ? new Decimal(1) : new Decimal(0.1);
+            let baseProd = i === 0 ? new Decimal(1) : new Decimal(0.2);
             this.generators.push(new Generator(this, i, i > 0 ? this.generators[i - 1] : null, this.name + "<sub>" + (i + 1) + "</sub>",
                 Decimal.pow(10, i + 1 + Math.max(0, i - 3) + Math.max(0, i - 6)), Decimal.pow(10, i + 3 + Math.max(0, i - 2)), baseProd));
         }
@@ -110,7 +110,7 @@ class PrestigeLayer
             let bp = Decimal.pow(bpGrowth, Math.pow(this.layer !== 0 ? 1.5 : 1.75, i + (this.layer === 0 ? 2 : 0)) - 1);
             if(this.layer === 0)
             {
-                bp = bp.mul(1e9);
+                bp = bp.mul(1e8);
             }
             bp = Decimal.round(bp.mul(5 + 15 * rand.nextDouble()));
             let upgTypes = FeatureUnlockManager.getUpgradeTypes(this.layer);
@@ -180,7 +180,8 @@ class PrestigeLayer
             let diff = this.layer - this.powerTargetLayer.layer;
             power = Decimal.pow(22, diff - 1).mul(2);
         }
-        return this.power.add(1).pow(power.mul(1.38));
+        let challengePow = game.currentChallenge && game.currentChallenge.type === CHALLENGE_EFFECT_PRICES_POWER ? game.currentChallenge.applyEffect() : 1;
+        return this.power.add(1).pow(power.mul(1.38)).pow(challengePow);
     }
 
     hasPower()
@@ -202,7 +203,7 @@ class PrestigeLayer
         {
             let rand = new Random(this.layer * (i + 1));
             let bpMult = 0.5 + 1.5 * rand.nextDouble();
-            let baseProd = new Decimal(0.01);
+            let baseProd = new Decimal(0.02);
             this.powerGenerators.push(new PowerGenerator(this, i, i > 0 ? this.powerGenerators[i - 1] : null,
                 this.name + "<sub>P<sub>" + (i + 1) + "</sub></sub>",
                 Decimal.pow(10, Decimal.pow(2, i)).mul(bpMult).floor(), Decimal.pow(10, Decimal.pow(2, i).add(1)), baseProd));
@@ -216,7 +217,8 @@ class PrestigeLayer
 
     getSimpleBoost()
     {
-        return this.hasSimpleBoost() ? this.resource.add(1).pow(2.5 * Math.pow(22, this.layer - 1)) : new Decimal(1);
+        let challengePow = game.currentChallenge && game.currentChallenge.type === CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST ? game.currentChallenge.applyEffect() : 1;
+        return this.hasSimpleBoost() ? this.resource.add(1).pow(2.5 * Math.pow(22, this.layer - 1)).pow(challengePow) : new Decimal(1);
     }
 
     createChallenges()
@@ -237,14 +239,14 @@ class PrestigeLayer
 
             switch(type_effect)
             {
-                case CHALLENGE_EFFECT_PRICES:
+                case CHALLENGE_EFFECT_PRICES_POWER:
                     let factorPrice = 0.6 + rand.nextDouble() * 0.3;
                     formula_effect = function(level)
                     {
                         return new Decimal(1 + (level + 1) * factorPrice);
                     }
                     break;
-                case CHALLENGE_EFFECT_UPGRADESTRENGTH:
+                case CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST:
                     let factorStrength = 0.4 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {

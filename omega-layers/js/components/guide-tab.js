@@ -24,7 +24,7 @@ Vue.component("guide-tab", {
     </guide-item>
     <guide-item v-if="betaUnlocked">
         <template v-slot:title>Simple Boost</template>
-        <template v-slot:text>Simple Boost boosts the first Alpha Generator, resulting in much higher numbers. The Boost you get is based on the current Resource you
+        <template v-slot:text>If you see a message below the amount of Resource you have, the Layer has a "Simple Boost". Simple Boost boosts the first Alpha Generator, resulting in much higher numbers. The Boost you get is based on the current Resource you
         have.</template>
     </guide-item>
     <guide-item v-if="betaUnlocked">
