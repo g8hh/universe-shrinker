@@ -1,5 +1,11 @@
 Vue.component("layer-navigation", {
     props: ["layers"],
+    data: function()
+    {
+        return {
+            showOrdinals: game.settings.showLayerOrdinals
+        }
+    },
     methods:
         {
             setCurrentLayer: l => functions.setCurrentLayer(l),
@@ -13,9 +19,13 @@ Vue.component("layer-navigation", {
             {
                 if(game.settings.showAllLayers) return true;
                 return layerId < game.settings.showMinLayers || layerId >= game.layers.length - game.settings.showMaxLayers;
-            }
+            },
+            fullLayerName: layer => PrestigeLayer.getFullNameForLayer(layer)
         },
     template: `<div class="layer-navigation">
-<button v-if="isDisplayed(i)" v-for="(l, i) in layers" :key="i" @click="setCurrentLayer(l)" :style="{fontSize: buttonFontSize(l)}"><resource-name :layerid="l.layer"></resource-name></button>
+<button :title="fullLayerName(l.layer)" v-if="isDisplayed(i)" v-for="(l, i) in layers" :key="i" @click="setCurrentLayer(l)" :style="{fontSize: buttonFontSize(l)}">
+    <resource-name :layerid="l.layer"></resource-name>
+    <layer-colored-text v-if="showOrdinals" class="ordinal" :layerid="l.layer">#{{l.layer + 1}}</layer-colored-text>
+</button>
 </div>`
 });

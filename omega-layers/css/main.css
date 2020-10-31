@@ -110,6 +110,10 @@ img.inline{
     fill: var(--color-contrast);
 }
 
+.resource-name{
+    font-family: "Typewriter", sans-serif;
+}
+
 /*Layer Navigation*/
 
 div.layer-navigation{
@@ -126,10 +130,20 @@ div.layer-navigation button{
     border: none;
     font-size: 2.5rem;
     font-weight: bold;
+    position: relative;
+    font-family: "Typewriter", sans-serif;
 }
 
 div.layer-navigation button:hover{
     background-color: var(--color-hover-strong);
+}
+
+div.layer-navigation button .ordinal{
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0.2rem;
+    font-size: 40%;
+    font-weight: normal;
 }
 
 /*Body and Main Styles*/
@@ -256,6 +270,10 @@ p.resource-display > span:first-child{
     border-radius: 0.2rem;
 }
 
+.upgrade.maxed{
+    background-color: var(--color-success);
+}
+
 .upgrade .price{
     font-size: 150%;
     font-weight: bold;
@@ -367,6 +385,15 @@ p.resource-display > span:first-child{
 .aleph-layer .upgrades{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.aleph-layer .upgrades:last-child .upgrade{
+    width: 20%;
+}
+
+.aleph-layer h3{
+    text-align: center;
 }
 
 /*Achievements*/

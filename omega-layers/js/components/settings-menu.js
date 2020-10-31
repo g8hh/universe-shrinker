@@ -41,6 +41,7 @@ Vue.component("settings-menu", {
     template: `<div class="settings">
 <div class="settings-row">
     <label>Show all Layers <input type="checkbox" v-model="settings.showAllLayers"/></label>
+    <label>Show Layer Ordinals (&alpha;: #1, &beta;: #2, ...) <input type="checkbox" v-model="settings.showLayerOrdinals"/></label>
 </div>
 <div class="settings-row">
     <label>Show first <input :disabled="settings.showAllLayers" type="number" min="1" max="5" v-model="settings.showMinLayers"/> Layers</label>

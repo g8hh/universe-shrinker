@@ -1,6 +1,10 @@
 var functions = {
     formatNumber: function(n, prec, prec1000, lim = new Decimal(1000))
     {
+        if(typeof n === "number")
+        {
+            n = new Decimal(n);
+        }
         if(n.lt(0))
         {
             return "-" + this.formatNumber(n.mul(-1), prec, prec1000, lim);

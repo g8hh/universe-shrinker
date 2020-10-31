@@ -68,7 +68,7 @@ class Generator
             }
         }
         let challengePow = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_GENMULTI ? game.currentChallenge.applyEffect() : 1;
-        return (Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi)).pow(game.alephLayer.getAlphaPower()).pow(challengePow);
+        return (Decimal.pow(f, Decimal.floor(this.bought.div(10))).mul(multi)).pow(challengePow);
     }
 
     getProductionPS()

@@ -4,6 +4,9 @@ Vue.component("guide-tab", {
         gammaUnlocked: () => game.layers.length >= 3,
         alephUnlocked: () => game.alephLayer.isUnlocked()
     },
+    methods: {
+        formatNumber: (n, prec, prec1000, lim) => functions.formatNumber(n, prec, prec1000, lim)
+    },
     template: `<div class="guide-tab">
     <guide-item>
         <template v-slot:title>Getting Started</template>
@@ -21,6 +24,11 @@ Vue.component("guide-tab", {
         <template v-slot:title>Upgrades</template>
         <template v-slot:text>Upgrades improve several Aspects of the Game. For example, they help produce more Resource by making Generators stronger or increasing
         Prestige Rewards.</template>
+    </guide-item>
+    <guide-item>
+        <template v-slot:title>Prestige</template>
+        <template v-slot:text>Once you reach {{formatNumber(1e24, 2, 0)}} &alpha;, you can reset your current progress to get 1 &beta;, which
+        can be spent on various things to make progress faster. You will gain your second &beta; at about {{formatNumber(1e31, 2, 0)}} &alpha;</template>
     </guide-item>
     <guide-item v-if="betaUnlocked">
         <template v-slot:title>Simple Boost</template>

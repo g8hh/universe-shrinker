@@ -83,6 +83,7 @@ var game = {
         showAllLayers: true,
         showMinLayers: 5,
         showMaxLayers: 5,
+        showLayerOrdinals: false,
         layerTickSpeed: 1,
         buyMaxAlways10: true,
         disableBuyMaxOnHighestLayer: false,

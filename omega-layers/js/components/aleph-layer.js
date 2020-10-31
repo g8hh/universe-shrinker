@@ -26,8 +26,6 @@ Vue.component("aleph-layer", {
 </div>
 <div class="boosts">
     <div v-if="canProduceAleph">
-        <p>Your Aleph raises <resource-name :layerid="0"></resource-name> Production to the Power of {{formatNumber(aleph.getAlphaPower(), 2, 3, 1e6)}} 
-            <span v-if="isSoftCapped">(softcapped)</span></p>
         <p>Your highest Layer is <resource-name :layerid="highestLayer()"></resource-name>, translated to a x{{formatNumber(aleph.getAlephBoostFromLayer(), 2, 2)}} Boost on <span class="aleph">&aleph;</span> Production</p>
     </div>
     <div v-else>
@@ -40,6 +38,14 @@ Vue.component("aleph-layer", {
 <div class="upgrades">
     <aleph-upgrade :upgrade="aleph.upgrades.alephGain"></aleph-upgrade>
     <aleph-upgrade :upgrade="aleph.upgrades.alephGainBonus"></aleph-upgrade>
+</div>
+<h3>Enchancers</h3>
+<div class="upgrades">
+    <aleph-upgrade :upgrade="aleph.upgrades.deltaBoost"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.alephBoost"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.powerGenerators"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.epsilonBoost"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.alephBoost2"></aleph-upgrade>
 </div>
 </div>`
 });

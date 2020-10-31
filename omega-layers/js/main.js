@@ -138,7 +138,8 @@ onkeydown = e =>
     {
         functions.setPreviousLayer();
     }
-    if(e.key === "p")
+    let lc = e.key.toLowerCase();
+    if(lc === "p")
     {
         if(!game.currentLayer.isNonVolatile() && game.currentLayer.canPrestige())
         {
@@ -147,20 +148,20 @@ onkeydown = e =>
     }
     for(let tab of ["Layers", "Guide", "Settings"])
     {
-        if(e.key === tab[0].toLowerCase() && !e.ctrlKey)
+        if(lc === tab[0].toLowerCase() && !e.ctrlKey)
         {
             game.settings.tab = tab;
         }
     }
-    if(e.key === "a" && !e.ctrlKey && game.alephLayer.isUnlocked())
+    if(lc === "a" && !e.ctrlKey && game.alephLayer.isUnlocked())
     {
         game.settings.tab = "Aleph";
     }
-    if(e.key === "v" && !e.ctrlKey && functions.maxLayerUnlocked() >= 2)
+    if(lc === "v" && !e.ctrlKey && functions.maxLayerUnlocked() >= 2)
     {
         game.settings.tab = "Volatility";
     }
-    if(e.key === "c" && !e.ctrlKey)
+    if(lc === "c" && !e.ctrlKey)
     {
         game.settings.tab = "Achievements";
     }

@@ -20,12 +20,16 @@ Vue.component("upgrade", {
             }
             return this.upgrade.currentPrice().lt(this.upgrade.layerCost.resource);
         },
-        isUnlocked()
+        isUnlocked: function()
         {
             return !this.upgrade.requires || (this.upgrade.isUnlocked());
+        },
+        maxed: function()
+        {
+            return this.upgrade.level.eq(this.upgrade.maxLevel);
         }
     },
-    template: `<button :disabled="!canAfford || !isUnlocked" @click="upgrade.buy()" class="upgrade">
+    template: `<button :disabled="!canAfford || !isUnlocked" @click="upgrade.buy()" class="upgrade" :class="{maxed: maxed}">
 <p v-html="upgrade.description"></p>
 <p v-html="upgrade.getEffectDisplay()"></p>
 <p class="price">{{upgrade.getPriceDisplay()}} <resource-name v-if="upgrade.level < upgrade.maxLevel" :layerid='getResourceLayer()'></resource-name></p>

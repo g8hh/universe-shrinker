@@ -57,6 +57,20 @@ class PrestigeLayer
         return "<span>" + letters[letters.length - 1] + (order > 1 ? "<sub>" + orders[order - 2] + "</sub>" : "") + "</span>" + "<sup>" + letters[(layer) % letters.length] + "</sup>";
     }
 
+    static getFullNameForLayer(layer)
+    {
+        let names = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "my", "ny", "xi", "omicron",
+            "pi", "rho", "sigma", "tau", "ypsilon", "phi", "chi", "psi", "omega"];
+        let name = names[layer % names.length];
+        if(layer % (names.length * 2) >= names.length)
+        {
+            name = name[0].toUpperCase() + name.substr(1);
+        }
+        let order = Math.floor(layer / (names.length * 2));
+        let prefix = ["", "Om-", "Psi-", "Di-", "Sti-", "He-", "San-", "Kop-", "Sam-", "Sp-"][order];
+        return prefix + name;
+    }
+
     getName(layer)
     {
         return PrestigeLayer.getNameForLayer(layer);
@@ -110,9 +124,9 @@ class PrestigeLayer
             let bp = Decimal.pow(bpGrowth, Math.pow(this.layer !== 0 ? 1.5 : 1.75, i + (this.layer === 0 ? 2 : 0)) - 1);
             if(this.layer === 0)
             {
-                bp = bp.mul(1e8);
+                bp = bp.mul(2.5e8);
             }
-            bp = Decimal.round(bp.mul(5 + 15 * rand.nextDouble()));
+            bp = Decimal.round(bp.mul(2 + 6 * rand.nextDouble()));
             let upgTypes = FeatureUnlockManager.getUpgradeTypes(this.layer);
             let type = upgTypes[rand.nextInt(upgTypes.length)];
             //local variable so random isnt called in callback
@@ -123,6 +137,7 @@ class PrestigeLayer
 
             let extraPriceIncrease = this.layer === 0 ? 15 : 0;
             let extraPow = Decimal.pow(22, this.layer);
+            let extraPowGenmulti = Decimal.pow(22, this.layer - 1);
             switch (type)
             {
                 case UPGRADE_RESOURCE:
@@ -151,7 +166,7 @@ class PrestigeLayer
                 case UPGRADE_GENMULTI:
                     upg = new LayerUpgrade(this, game.layers[0] || this,
                         level => Utils.createValueDilation(Decimal.pow(3 * i + 4 + extraPriceIncrease, level).mul(bp), 0.01).pow(LayerUpgrade.getPricePower()),
-                        level => new Decimal(effectGenMulti * level * this.layer).mul(LayerUpgrade.getEffectPower()), UPGRADE_GENMULTI, {
+                        level => new Decimal(effectGenMulti * level).mul(extraPowGenmulti).mul(LayerUpgrade.getEffectPower()), UPGRADE_GENMULTI, {
                             getEffectDisplay: effectDisplayTemplates.numberStandard(3, "+")
                         });
                     break;
@@ -202,7 +217,7 @@ class PrestigeLayer
         for(let i = 0; i < 8; i++)
         {
             let rand = new Random(this.layer * (i + 1));
-            let bpMult = 0.5 + 1.5 * rand.nextDouble();
+            let bpMult = 0.2 + 0.6 * rand.nextDouble();
             let baseProd = new Decimal(0.02);
             this.powerGenerators.push(new PowerGenerator(this, i, i > 0 ? this.powerGenerators[i - 1] : null,
                 this.name + "<sub>P<sub>" + (i + 1) + "</sub></sub>",
@@ -282,9 +297,10 @@ class PrestigeLayer
                     break;
                 case CHALLENGE_REWARD_GENMULTI:
                     let factorMulti = (0.1 + rand.nextDouble() * 0.05) * this.layer;
+                    let extraPower = Decimal.pow(22, this.layer - 2);
                     formula_reward = function(level)
                     {
-                        return new Decimal(factorMulti * level);
+                        return new Decimal(factorMulti).mul(extraPower);
                     }
                     break;
                 case CHALLENGE_REWARD_PRESTIGEREWARD:
@@ -437,6 +453,14 @@ class PrestigeLayer
                     multi = multi.add(c.applyReward());
                 }
             }
+        }
+        if(this.layer === 2) //delta boost
+        {
+            multi = multi.mul(game.alephLayer.upgrades.deltaBoost.apply());
+        }
+        if(this.layer === 3) //epsilon boost
+        {
+            multi = multi.mul(game.alephLayer.upgrades.epsilonBoost.apply());
         }
         let power = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRESTIGEREWARD ? game.currentChallenge.applyEffect() : 1;
         return Decimal.pow(this.resource.div(lim), 1 / this.getPrestigeCarryOver() * power).mul(multi).floor();

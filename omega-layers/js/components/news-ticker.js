@@ -29,6 +29,7 @@ Vue.component("news-ticker", {
                 "Don't click the X at the top right, it's a game breaking bug!",
                 "Nerf This!",
                 "To nerf, or not to nerf. That is the Question!",
+                "A news ticker. How original.",
                 () =>
                 {
                     let res = "";
