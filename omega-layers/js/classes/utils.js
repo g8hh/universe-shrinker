@@ -2,6 +2,10 @@ class Utils
 {
     static determineMaxLevel(resource, buyable)
     {
+        if(buyable instanceof AbstractUpgrade && buyable.level.eq(buyable.maxLevel))
+        {
+            return buyable.level;
+        }
         if(resource.lt(buyable.currentPrice()))
         {
             return buyable[buyable instanceof AbstractUpgrade ? "level" : "bought"];
@@ -17,6 +21,10 @@ class Utils
             interval /= 2;
         }
         let finalLvl = Decimal.pow(10, lvl).floor();
+        if(buyable instanceof AbstractUpgrade)
+        {
+            finalLvl = Decimal.min(finalLvl, buyable.maxLevel);
+        }
         return Decimal.max(buyable[buyable instanceof AbstractUpgrade ? "level" : "bought"], finalLvl);
     }
 

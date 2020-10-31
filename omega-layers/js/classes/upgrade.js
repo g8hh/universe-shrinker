@@ -129,7 +129,7 @@ class LayerUpgrade extends AbstractUpgrade
         {
             this.layerCost.resource = this.layerCost.resource.sub(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.layerCost.resource) && this.level.lt(1e9))
+        while(this.currentPrice().lte(this.layerCost.resource) && this.level.lt(1e9) && this.level.lt(this.maxLevel))
         {
             this.buy();
         }
@@ -196,7 +196,7 @@ class DynamicLayerUpgrade extends LayerUpgrade
         {
             this.currentCostLayer().resource = this.currentCostLayer().resource.sub(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.currentCostLayer().resource) && this.level.lt(1e9))
+        while(this.currentPrice().lte(this.currentCostLayer().resource) && this.level.lt(1e9) && this.level.lt(this.maxLevel))
         {
             this.buy();
         }
@@ -248,7 +248,7 @@ class ResourceUpgrade extends AbstractUpgrade
         {
             this.substractResource(this.getPrice(this.level.sub(1)));
         }
-        while(this.currentPrice().lte(this.getResource()) && this.level.lt(1e9))
+        while(this.currentPrice().lte(this.getResource()) && this.level.lt(1e9) && this.level.lt(this.maxLevel))
         {
             this.buy();
         }

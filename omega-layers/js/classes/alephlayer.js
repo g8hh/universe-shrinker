@@ -22,7 +22,7 @@ class AlephLayer
                     maxLevel: 2
                 }),
             powerGenerators: new AlephUpgrade("All Power Generators on every Layer are stronger",
-                level => Decimal.pow(1e5, Math.pow(level, 1.5)).mul(1e20),
+                level => Decimal.pow(1e5, Decimal.pow(level, 1.5)).mul(1e20),
                 level => Decimal.pow(1.25, level), {
                     maxLevel: 10
                 }),
