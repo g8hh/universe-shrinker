@@ -68,4 +68,9 @@ class Utils
         }
         return word;
     }
+
+    static clamp(v, min, max)
+    {
+        return Math.max(Math.min(v, max), min);
+    }
 }

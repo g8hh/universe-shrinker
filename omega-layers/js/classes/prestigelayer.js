@@ -409,7 +409,7 @@ class PrestigeLayer
     //the factor of how much the power on the prestige formula is
     static getPrestigeCarryOverForLayer(layer)
     {
-        return 24 * Math.pow(1.1, Math.max(layer - 2, 0)) * Math.pow(1.1, Math.max(layer - 3, 0));
+        return 24 * Math.pow(1.1, Utils.clamp(layer - 2, 0, 10));
     }
 
     getPrestigeCarryOver()
@@ -462,7 +462,12 @@ class PrestigeLayer
         {
             multi = multi.mul(game.alephLayer.upgrades.epsilonBoost.apply());
         }
+        multi = multi.mul(game.alephLayer.upgrades.prestigeRewards.apply());
         let power = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_PRESTIGEREWARD ? game.currentChallenge.applyEffect() : 1;
+        if(this.layer === 0) //better beta
+        {
+            power *= game.alephLayer.upgrades.betterBetaFormula.apply().toNumber();
+        }
         return Decimal.pow(this.resource.div(lim), 1 / this.getPrestigeCarryOver() * power).mul(multi).floor();
     }
 

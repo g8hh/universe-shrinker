@@ -46,6 +46,8 @@ Vue.component("aleph-layer", {
     <aleph-upgrade :upgrade="aleph.upgrades.powerGenerators"></aleph-upgrade>
     <aleph-upgrade :upgrade="aleph.upgrades.epsilonBoost"></aleph-upgrade>
     <aleph-upgrade :upgrade="aleph.upgrades.alephBoost2"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.betterBetaFormula"></aleph-upgrade>
+    <aleph-upgrade :upgrade="aleph.upgrades.prestigeRewards"></aleph-upgrade>
 </div>
 </div>`
 });
