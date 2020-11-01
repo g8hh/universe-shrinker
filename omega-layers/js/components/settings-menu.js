@@ -10,6 +10,50 @@ Vue.component("settings-menu", {
     },
     methods: {
         save: () => functions.saveGame(),
+        clear: function()
+        {
+            this.exportString = "";
+        },
+        download: function()
+        {
+            let date = new Date();
+            let dateString = [date.getFullYear(), date.getMonth() + 1, date.getDate()].map(d => d.toString().padStart(2, "0")).join("-") + "-" +
+                [date.getHours(), date.getMinutes(), date.getSeconds()].map(d => d.toString().padStart(2, "0")).join("");
+
+            let a = document.createElement("a");
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.href = "data:application/octet-stream;charset=utf-8," + this.exportString;
+            a.download = "omega-layers-" + dateString + ".txt";
+            a.click();
+            document.body.removeChild(a);
+        },
+        paste: function()
+        {
+            navigator.permissions.query({name: "clipboard-read"}).then(result =>
+            {
+                if(result.state === "granted" || result.state === "prompt")
+                {
+                    navigator.clipboard.readText().then(text =>
+                    {
+                        this.exportString = text;
+                    })
+                }
+            });
+        },
+        copy: function()
+        {
+            navigator.permissions.query({name: "clipboard-write"}).then(result =>
+            {
+                if(result.state === "granted" || result.state === "prompt")
+                {
+                    navigator.clipboard.writeText(this.exportString).then(function()
+                    {
+                        functions.createNotification(new Notification(NOTIFICATION_SUCCESS, "Copied to Clipboard", "images/save.svg"));
+                    })
+                }
+            });
+        },
         exportGame: function()
         {
             this.exportString = functions.getSaveString();
@@ -70,6 +114,12 @@ Vue.component("settings-menu", {
 </div>
 <div class="settings-row">
     <textarea class="export" v-model="exportString"></textarea>
+</div>
+<div class="settings-row">
+    <button @click="copy()">Copy to Clipboard</button>
+    <button @click="paste()">Paste from Clipboard</button>
+    <button @click="clear()">Clear</button>
+    <button @click="download()">Download as .txt</button>
 </div>
 <div class="settings-row">
     <p>Controls: M to Max All on the selected Layer<br/>

@@ -300,7 +300,7 @@ class PrestigeLayer
                     let extraPower = Decimal.pow(22, this.layer - 2);
                     formula_reward = function(level)
                     {
-                        return new Decimal(factorMulti).mul(extraPower);
+                        return new Decimal(factorMulti).mul(extraPower).mul(level);
                     }
                     break;
                 case CHALLENGE_REWARD_PRESTIGEREWARD:
