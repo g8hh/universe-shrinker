@@ -349,7 +349,7 @@ class PrestigeLayer
                 let upg;
                 let bp = Decimal.pow(4, Decimal.pow(2, Math.pow(r, 1.25))).pow(1 + 0.25 * rand.nextDouble());
                 let layerPow = Decimal.pow(22, this.layer);
-                let timeFactor = 0.5 + new Random(this.layer * (r + 1) * (c + 1)).nextDouble();
+                let timeFactor = 2.25 + new Random(this.layer * (r + 1) * (c + 1)).nextDouble() * 2.25;
                 switch(upgType)
                 {
                     case UPGRADE_RESOURCE_TIMELAYER:
