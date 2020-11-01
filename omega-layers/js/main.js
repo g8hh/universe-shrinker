@@ -24,14 +24,10 @@ function onCreate()
     requestAnimationFrame(update);
 }
 
-function update()
+function tickGame(seconds)
 {
-    dtNew = Date.now();
-    let dt = (dtNew - dtOld) / 1000;
-    dtOld = Date.now();
-
-    game.timeSpent += dt;
-    saveTimer += dt;
+    game.timeSpent += seconds;
+    saveTimer += seconds;
 
     if(saveTimer > 30)
     {
@@ -76,7 +72,7 @@ function update()
         {
             if(i < minActiveLayer || i >= maxActiveLayer || game.layers[i] === game.currentLayer)
             {
-                game.layers[i].tick(dt);
+                game.layers[i].tick(seconds);
             }
         }
         //increase and wrap the minimized layer
@@ -90,30 +86,54 @@ function update()
                 minimizedLayer = (minimizedLayer + 1) % game.layers.length;
             }
             //otherwise, tick with less resolution
-            game.layers[minimizedLayer].tick(dt * numMinimizedLayers / layersAtOnce);
+            game.layers[minimizedLayer].tick(seconds * numMinimizedLayers / layersAtOnce);
         }
     }
     else
     {
         for(let l of game.layers)
         {
-            l.tick(dt);
+            l.tick(seconds);
         }
     }
-    game.alephLayer.tick(dt);
+    game.alephLayer.tick(seconds);
     for(let ach of game.achievements)
     {
-        ach.tick(dt);
+        ach.tick(seconds);
     }
 
     for(let n of game.notifications)
     {
-        n.tick(dt);
+        n.tick(seconds);
         if(n.lifeTime > 5)
         {
             game.notifications = game.notifications.filter(notification => notification !== n);
         }
     }
+}
+
+function simulateGameTime(seconds)
+{
+    let times = 1000;
+    let timePerTick = seconds / 1000;
+    if(timePerTick < 0.01)
+    {
+        times = Math.floor(times / (0.01 / timePerTick));
+        timePerTick = 0.01;
+    }
+    for(let i = 0; i < times; i++)
+    {
+        tickGame(timePerTick);
+    }
+}
+
+function update()
+{
+    dtNew = Date.now();
+    let dt = (dtNew - dtOld) / 1000;
+    dtOld = Date.now();
+
+    tickGame(dt);
 
     requestAnimationFrame(update);
 }
