@@ -130,7 +130,7 @@ function simulateGameTime(seconds)
 function update()
 {
     dtNew = Date.now();
-    let dt = (dtNew - dtOld) / 1000;
+    let dt = Math.max(0, (dtNew - dtOld) / 1000);
     dtOld = Date.now();
 
     tickGame(dt);

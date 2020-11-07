@@ -8,7 +8,7 @@ class AlephLayer
                 level => Decimal.pow(1.2, level)),
             alephGainBonus: new AlephUpgrade("Get a Bonus to Aleph gain",
                 level => Utils.createValueDilation(Decimal.pow(1000, level).mul(1000), 0.02),
-                level => new Decimal(1).add(level.mul(0.1)), {
+                level => new Decimal(1).add(level.mul(0.1)).mul(Decimal.pow(1.05, Decimal.max(level.sub(10), 0))), {
                     getEffectDisplay: effectDisplayTemplates.percentStandard(3, "", " %", 0)
                 }),
             alephBoost: new AlephUpgrade("Gain more Aleph based on the log(ℵ) you have",
@@ -26,9 +26,9 @@ class AlephLayer
                 level => Decimal.pow(1.5, level), {
                     maxLevel: 10
                 }),
-            epsilonBoost: new AlephUpgrade("Gain more ε",
+            prestigeNoPowerBoost: new AlephUpgrade("Increase Prestige Reward on all Layers that don't have Power Generators",
                 level => Decimal.pow(1e12, level).mul(1e40),
-                level => Decimal.pow(5, level), {
+                level => Decimal.pow(2, level), {
                     maxLevel: 3
                 }),
             alephBoost2: new AlephUpgrade("Gain more Aleph based on the log(log(α)) you have",
@@ -91,7 +91,10 @@ class AlephLayer
         this.aleph = obj.aleph;
         for(let k of Object.getOwnPropertyNames(obj.upgrades))
         {
-            this.upgrades[k].level = obj.upgrades[k].level;
+            if(this.upgrades[k])
+            {
+                this.upgrades[k].level = obj.upgrades[k].level;
+            }
         }
     }
 }

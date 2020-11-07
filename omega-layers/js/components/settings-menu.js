@@ -83,25 +83,27 @@ Vue.component("settings-menu", {
         volatilityUnlocked: () => functions.maxLayerUnlocked() >= 2
     },
     template: `<div class="settings">
-<div class="settings-row">
-    <label>Show all Layers <input type="checkbox" v-model="settings.showAllLayers"/></label>
-    <label>Show Layer Ordinals (&alpha;: #1, &beta;: #2, ...) <input type="checkbox" v-model="settings.showLayerOrdinals"/></label>
-</div>
-<div class="settings-row">
-    <label>Show first <input :disabled="settings.showAllLayers" type="number" min="1" max="5" v-model="settings.showMinLayers"/> Layers</label>
-    <label>Show last <input :disabled="settings.showAllLayers" type="number" min="1" max="5" v-model="settings.showMaxLayers"/> Layers</label>
-</div>
-<div class="settings-row">
-    <label>Buy Max always buys until 10 <input type="checkbox" v-model="settings.buyMaxAlways10"/></label>
-    <label>Disable Buy Max on highest unlocked Layer <input type="checkbox" v-model="settings.disableBuyMaxOnHighestLayer"/></label>
-    <label v-if="volatilityUnlocked()">Auto Max All <input type="checkbox" v-model="settings.autoMaxAll"/></label>
-</div>
-<div class="settings-row">
-    <label>Allow Resource Colors <input type="checkbox" v-model="settings.resourceColors"/></label>
-    <label>Allow Resource Glow <input type="checkbox" v-model="settings.resourceGlow"/></label>
-    <label>News Ticker <input type="checkbox" v-model="settings.newsTicker"/></label>
-    <label>Notifications <input type="checkbox" v-model="settings.notifications"/></label>
-    <label>Save Notifications <input type="checkbox" v-model="settings.saveNotifications"/></label>
+<div class="settings-panel-container">
+    <div class="settings-panel">
+        <label>Show all Layers <input type="checkbox" v-model="settings.showAllLayers"/></label>
+        <label>Show Layer Ordinals (&alpha;: #1, &beta;: #2, ...) <input type="checkbox" v-model="settings.showLayerOrdinals"/></label>
+    </div>
+    <div class="settings-panel">
+        <label>Show first <input :disabled="settings.showAllLayers" type="number" min="1" max="5" v-model="settings.showMinLayers"/> Layers</label>
+        <label>Show last <input :disabled="settings.showAllLayers" type="number" min="1" max="5" v-model="settings.showMaxLayers"/> Layers</label>
+    </div>
+    <div class="settings-panel">
+        <label>Buy Max always buys until 10 <input type="checkbox" v-model="settings.buyMaxAlways10"/></label>
+        <label>Disable Buy Max on highest unlocked Layer <input type="checkbox" v-model="settings.disableBuyMaxOnHighestLayer"/></label>
+        <label v-if="volatilityUnlocked()">Auto Max All <input type="checkbox" v-model="settings.autoMaxAll"/></label>
+    </div>
+    <div class="settings-panel">
+        <label>Allow Resource Colors <input type="checkbox" v-model="settings.resourceColors"/></label>
+        <label>Allow Resource Glow <input type="checkbox" v-model="settings.resourceGlow"/></label>
+        <label>News Ticker <input type="checkbox" v-model="settings.newsTicker"/></label>
+        <label>Notifications <input type="checkbox" v-model="settings.notifications"/></label>
+        <label>Save Notifications <input type="checkbox" v-model="settings.saveNotifications"/></label>
+    </div>
 </div>
 <div class="settings-row">
     <label>Theme <button v-for="t in themes" @click="setTheme(t[1])">{{t[0]}}</button></label>

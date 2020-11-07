@@ -20,7 +20,7 @@ var game = {
             {
                 let max = PrestigeLayer.getPrestigeCarryOverForLayer(Math.round(level.toNumber() * 1.3) + 3);
                 return Decimal.pow(10, new Random(level.toNumber() * 10 + 10).nextDouble() * max).round();
-            }, level => new Decimal(0.01 + 0.01 * level), null, {
+            }, level => new Decimal(0.5 + 0.1 * level), null, {
                 getEffectDisplay: effectDisplayTemplates.percentStandard(0)
             }),
         autoMaxAll: new DynamicLayerUpgrade(level => level + 2, level => level,

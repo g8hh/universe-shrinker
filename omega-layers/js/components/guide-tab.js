@@ -51,8 +51,9 @@ Vue.component("guide-tab", {
     </guide-item>
     <guide-item v-if="alephUnlocked">
         <template v-slot:title>Aleph</template>
-        <template v-slot:text>Aleph is an easy way to boost production. The more Aleph you have, the more your first Alpha Generator is Powered up, resulting in
-        much higher income. You get more Aleph depending on how many Layers you have unlocked.</template>
+        <template v-slot:text>After going &delta; at least once, you can gain Aleph, allowing you to buy Upgrades that globally boost the game.
+        You gain 10x more Aleph for every new Layer you unlock after &delta;.
+        </template>
     </guide-item>
 </div>`
 })
