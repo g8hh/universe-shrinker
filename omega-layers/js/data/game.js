@@ -1,6 +1,41 @@
 var game = {
     version: "1",
     layers: [],
+    automators: {
+        autoMaxAll: new Automator("Auto Max All", "Automatically buys max on all Layers", () =>
+        {
+            for(let i = Math.max(0, game.volatility.autoMaxAll.apply().toNumber()); i < game.layers.length; i++)
+            {
+                game.layers[i].maxAll();
+            }
+        }, new DynamicLayerUpgrade(level => Math.floor(level / 3) + 1, () => null, () => "Decrease the Automator interval",
+            level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.toNumber()) * [0.2, 0.5, 0.8][level.toNumber() % 3]),
+            level => level.gt(0) ? Math.pow(0.8, level.toNumber() - 1) * 10 : Infinity, null, {
+                getEffectDisplay: effectDisplayTemplates.automator()
+            })),
+        autoPrestige: new Automator("Auto Prestige", "Automatically prestiges all Layers", () =>
+        {
+            for(let i = 0; i < game.layers.length; i++)
+            {
+                if(game.layers[i].canPrestige() && !game.layers[i].isNonVolatile())
+                {
+                    game.layers[i].prestige();
+                }
+            }
+        }, new DynamicLayerUpgrade(level => Math.floor(level / 2) + 2, () => null, () => "Decrease the Automator interval",
+            level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(2).toNumber()) * (level.toNumber() % 2 === 0 ? 0.25 : 0.75)),
+            level => level.gt(0) ? Math.pow(0.6, level.toNumber() - 1) * 30 : Infinity, null, {
+                getEffectDisplay: effectDisplayTemplates.automator()
+            })),
+        autoAleph: new Automator("Auto Aleph", "Automatically Max All Aleph Upgrades", () =>
+        {
+            game.alephLayer.maxAll();
+        }, new DynamicLayerUpgrade(level => level + 3, () => null, () => "Decrease the Automator interval",
+            level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(3).toNumber()) * 0.7),
+            level => level.gt(0) ? Math.pow(0.6, level.toNumber() - 1) * 60 : Infinity, null, {
+                getEffectDisplay: effectDisplayTemplates.automator()
+            })),
+    },
     volatility: {
         layerVolatility: new DynamicLayerUpgrade(level => level + 1, level => level,
             function()
@@ -26,7 +61,7 @@ var game = {
         autoMaxAll: new DynamicLayerUpgrade(level => level + 2, level => level,
             function()
             {
-                return "The next Layer is maxed automatically";
+                return "The next Layer is maxed automatically each tick";
             }, level => Decimal.pow(10, PrestigeLayer.getPrestigeCarryOverForLayer(level.add(2).toNumber()) * 0.125), level => level.sub(1), null, {
                 getEffectDisplay: function()
                 {

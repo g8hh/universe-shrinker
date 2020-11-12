@@ -102,6 +102,17 @@ main{
     padding-top: 0.2em;
 }
 
+input[type=number], input[type=text]{
+    background-color: var(--color-base);
+    border: 1px solid var(--color-primary);
+    color: var(--color-contrast);
+    padding: 0.1rem;
+}
+
+input[type=number]:disabled, input[type=text]:disabled{
+    filter: brightness(0.5);
+}
+
 img.inline{
     display: inline;
     height: 1em;
@@ -394,6 +405,34 @@ p.resource-display > span:first-child{
 
 .aleph-layer h3{
     text-align: center;
+}
+
+/*Automator*/
+
+.automator-tab{
+    padding: 1rem;
+}
+
+.automator-tab .automators{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.automator {
+    display: flex;
+    width: 45%;
+    border: 1px solid var(--color-primary);
+    padding: 0.5rem;
+    margin: 1rem;
+}
+
+.automator label{
+    display: block;
+}
+
+.automator label input[type=number]{
+    width: 3em;
 }
 
 /*Achievements*/

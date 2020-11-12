@@ -97,6 +97,12 @@ function tickGame(seconds)
         }
     }
     game.alephLayer.tick(seconds);
+
+    for(let k of Object.keys(game.automators))
+    {
+        game.automators[k].tick(seconds);
+    }
+
     for(let ach of game.achievements)
     {
         ach.tick(seconds);
@@ -184,6 +190,10 @@ onkeydown = e =>
     if(lc === "c" && !e.ctrlKey)
     {
         game.settings.tab = "Achievements";
+    }
+    if(lc === "u" && !e.ctrlKey && functions.maxLayerUnlocked() >= 1)
+    {
+        game.settings.tab = "Automators";
     }
 }
 

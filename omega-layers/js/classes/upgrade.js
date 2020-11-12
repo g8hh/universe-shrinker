@@ -289,5 +289,18 @@ var effectDisplayTemplates = {
             return prefix + functions.formatNumber(thisVal, digits, digits1000) + suffix + " → "
                 + prefix + functions.formatNumber(nextVal, digits, digits1000) + suffix;
         };
+    },
+    automator: function()
+    {
+        return function()
+        {
+            let thisVal = this.level.eq(0) ? "Inactive" : this.apply().toFixed(2) + " s";
+            let nextVal = this.getEffect(this.level.add(1)).toFixed(2) + " s";
+            if(this.level.eq(this.maxLevel))
+            {
+                return thisVal;
+            }
+            return thisVal + " → " + nextVal;
+        }
     }
 };

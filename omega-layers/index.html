@@ -37,7 +37,7 @@
                 <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg"/> Settings</button>
             </div>
             <div>
-
+                <layer-locked-button @click="settings.tab = 'Automators'" :layerid="1"><img alt="Au" class="inline" src="images/hardware-chip.svg"/> Automators</layer-locked-button>
                 <layer-locked-button @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg"/> Volatility</layer-locked-button>
                 <layer-locked-button @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">&aleph;</span> Aleph</layer-locked-button>
             </div>
@@ -52,6 +52,7 @@
         <volatility-tab v-if="settings.tab === 'Volatility'"></volatility-tab>
         <achievement-tab v-if="settings.tab === 'Achievements'"></achievement-tab>
         <aleph-layer v-if="settings.tab === 'Aleph'"></aleph-layer>
+        <automator-tab v-if="settings.tab === 'Automators'"></automator-tab>
         <guide-tab v-if="settings.tab === 'Guide'"></guide-tab>
     </main>
     <footer>
@@ -79,6 +80,7 @@
 <script src="js/classes/prestigelayer.js"></script>
 <script src="js/classes/alephlayer.js"></script>
 <script src="js/classes/achievement.js"></script>
+<script src="js/classes/automator.js"></script>
 <script src="js/classes/notification.js"></script>
 
 <script src="js/components/layer-colored-text.js"></script>
@@ -102,6 +104,8 @@
 <script src="js/components/settings-menu.js"></script>
 <script src="js/components/volatility-tab.js"></script>
 <script src="js/components/aleph-layer.js"></script>
+<script src="js/components/automator.js"></script>
+<script src="js/components/automator-tab.js"></script>
 <script src="js/components/news-ticker.js"></script>
 <script src="js/components/achievement.js"></script>
 <script src="js/components/achievement-tab.js"></script>

@@ -5,6 +5,10 @@ var functions = {
         {
             n = new Decimal(n);
         }
+        if(n.mag === Infinity)
+        {
+            return "Infinite";
+        }
         if(n.lt(0))
         {
             return "-" + this.formatNumber(n.mul(-1), prec, prec1000, lim);
@@ -89,10 +93,6 @@ var functions = {
     {
         let replacer = function(key, value)
         {
-            /*if(value instanceof Decimal)
-            {
-                return "d" + value;
-            }*/
             if(key === "currentChallenge")
             {
                 return value !== null && value !== undefined ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
@@ -102,7 +102,7 @@ var functions = {
                 return {challenges: value.challenges, generators: value.generators, powerGenerators: value.powerGenerators,
                         upgrades: value.upgrades, treeUpgrades: value.treeUpgrades, power: "d" + value.power, resource: "d" + value.resource,
                         totalResource: "d" + value.totalResource, maxResource: "d" + value.maxResource, timeSpent: value.timeSpent, timesReset: value.timesReset,
-                        volatility: value.volatility, alephLayer: value.alephLayer, achievements: value.achievements};
+                        volatility: value.volatility, alephLayer: value.alephLayer, achievements: value.achievements, automators: value.automators};
             }
             if(value instanceof Achievement)
             {
@@ -123,6 +123,10 @@ var functions = {
             if(value instanceof Challenge)
             {
                 return {level: value.level};
+            }
+            if(value instanceof Automator)
+            {
+                return {upgrade: value.upgrade, active: value.active, desiredInterval: value.desiredInterval};
             }
             return value;
         }
@@ -195,6 +199,13 @@ var functions = {
         if(loadObj.alephLayer)
         {
             game.alephLayer.loadFromSave(loadObj.alephLayer);
+        }
+        if(loadObj.automators)
+        {
+            for(let k of Object.keys(loadObj.automators))
+            {
+                game.automators[k].loadFromSave(loadObj.automators[k]);
+            }
         }
         if(loadObj.achievements)
         {
