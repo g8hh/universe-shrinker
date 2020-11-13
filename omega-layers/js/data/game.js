@@ -15,7 +15,7 @@ var game = {
             })),
         autoPrestige: new Automator("Auto Prestige", "Automatically prestiges all Layers", () =>
         {
-            for(let i = 0; i < game.layers.length; i++)
+            for(let i = 0; i < game.layers.length - 1; i++)
             {
                 if(game.layers[i].canPrestige() && !game.layers[i].isNonVolatile())
                 {
