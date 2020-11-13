@@ -25,7 +25,13 @@ var functions = {
         }
         if(n.layer === 1)
         {
-            return Decimal.pow(10, n.mag % 1).toFixed(prec) + "e" + Math.floor(n.mag).toLocaleString("en-us", {minimumFractionDigits:0 , maximumFractionDigits:0});
+            let diff = Math.ceil(n.mag) - n.mag;
+            let mag = n.mag;
+            if(diff < 1e-10)
+            {
+                mag = Math.ceil(mag);
+            }
+            return Decimal.pow(10, mag % 1).toFixed(prec) + "e" + Math.floor(mag).toLocaleString("en-us", {minimumFractionDigits:0 , maximumFractionDigits:0});
         }
         else
         {

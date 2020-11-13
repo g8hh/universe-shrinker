@@ -136,8 +136,8 @@ class PrestigeLayer
             let effectPrestigeReward = 0.25 + rand.nextDouble() * 0.25;
 
             let extraPriceIncrease = this.layer === 0 ? 15 : 0;
-            let extraPow = Decimal.pow(22, this.layer);
-            let extraPowGenmulti = Decimal.pow(22, this.layer - 1);
+            let extraPow = Decimal.pow(this.getExponentialBoostFactor(), this.layer);
+            let extraPowGenmulti = Decimal.pow(this.getExponentialBoostFactor(), this.layer - 1);
             switch (type)
             {
                 case UPGRADE_RESOURCE:
@@ -156,7 +156,7 @@ class PrestigeLayer
                     let possibleLayers = this.getPowerLayers();
                     let layerToBoost = possibleLayers[rand.nextInt(possibleLayers.length)];
                     let diff = this.layer - layerToBoost.layer;
-                    let extraPowerPow = Decimal.pow(22, diff - 1);
+                    let extraPowerPow = Decimal.pow(this.getExponentialBoostFactor(), diff - 1);
                     upg = new LayerUpgrade(this, layerToBoost,
                         level => Utils.createValueDilation(Decimal.pow(3 * i + 10 + extraPriceIncrease, level).mul(bp), 0.01).pow(LayerUpgrade.getPricePower()),
                         level => Decimal.pow(effectPowerGenerator, level).pow(extraPowerPow.mul(LayerUpgrade.getEffectPower())), UPGRADE_POWERGENERATOR, {
@@ -190,12 +190,12 @@ class PrestigeLayer
         let power;
         if(this.powerTargetLayer === game.layers[0])
         {
-            power = Decimal.pow(22, this.layer - 1);
+            power = Decimal.pow(this.getExponentialBoostFactor(), this.layer - 1);
         }
         else
         {
             let diff = this.layer - this.powerTargetLayer.layer;
-            power = Decimal.pow(22, diff - 1).mul(2);
+            power = Decimal.pow(this.getExponentialBoostFactor(), diff - 1).mul(2);
         }
         let challengePow = game.currentChallenge && game.currentChallenge.type === CHALLENGE_EFFECT_PRICES_POWER ? game.currentChallenge.applyEffect() : 1;
         return this.power.add(1).pow(power.mul(1.38)).pow(challengePow);
@@ -235,7 +235,7 @@ class PrestigeLayer
     getSimpleBoost()
     {
         let challengePow = game.currentChallenge && game.currentChallenge.type === CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST ? game.currentChallenge.applyEffect() : 1;
-        return this.hasSimpleBoost() ? this.resource.add(1).pow(2.5 * Math.pow(22, this.layer - 1)).pow(challengePow) : new Decimal(1);
+        return this.hasSimpleBoost() ? this.resource.add(1).pow(2.5 * Math.pow(this.getExponentialBoostFactor(), this.layer - 1)).pow(challengePow) : new Decimal(1);
     }
 
     createChallenges()
@@ -299,7 +299,7 @@ class PrestigeLayer
                     break;
                 case CHALLENGE_REWARD_GENMULTI:
                     let factorMulti = (0.1 + rand.nextDouble() * 0.05) * this.layer;
-                    let extraPower = Decimal.pow(22, this.layer - 2);
+                    let extraPower = Decimal.pow(this.getExponentialBoostFactor(), this.layer - 2);
                     formula_reward = function(level)
                     {
                         return new Decimal(factorMulti).mul(extraPower).mul(level);
@@ -350,28 +350,28 @@ class PrestigeLayer
                 let upgType = possibleTypes[rand.nextInt(possibleTypes.length)];
                 let upg;
                 let bp = Decimal.pow(4, Decimal.pow(2, Math.pow(r, 1.25))).pow(1 + 0.25 * rand.nextDouble());
-                let layerPow = Decimal.pow(22, this.layer);
+                let layerPow = Decimal.pow(this.getExponentialBoostFactor(), this.layer);
                 let timeFactor = 2.25 + new Random(this.layer * (r + 1) * (c + 1)).nextDouble() * 2.25;
                 switch(upgType)
                 {
                     case UPGRADE_RESOURCE_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.66) * level * timeFactor * 0.0002).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.000013).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_GENERATOR_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
                             level => Utils.createValueDilation(Decimal.pow(2.75 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.66) * level * timeFactor * 0.0002).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.000013).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_POWERGENERATOR_TIMELAYER:
                         let powerLayers = this.getPowerLayers();
                         let powerLayer = powerLayers[rand.nextInt(powerLayers.length)];
                         let diff = this.layer - powerLayer.layer;
-                        let extraPow = Decimal.pow(22, diff - 1);
+                        let extraPow = Decimal.pow(this.getExponentialBoostFactor(), diff - 1);
                         upg = new TreeUpgrade(this, powerLayer,
                             level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.55)).mul(bp), 0.01),
-                            level => new Decimal(1 + Math.pow(this.timeSpent, 0.66) * level * timeFactor * 0.001).pow(extraPow.mul(0.8)), upgType, requiredUpgrade(r, c));
+                            level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.00001).pow(extraPow.mul(0.8)), upgType, requiredUpgrade(r, c));
                         break;
                 }
                 row.push(upg);
@@ -408,10 +408,15 @@ class PrestigeLayer
         return this.upgrades.concat(this.getTreeUpgradesAsArray());
     }
 
+    getExponentialBoostFactor()
+    {
+        return game.alephLayer.upgrades.layerExponentialBoost.apply();
+    }
+
     //the factor of how much the power on the prestige formula is
     static getPrestigeCarryOverForLayer(layer)
     {
-        return 24 * Math.pow(1.1, Utils.clamp(layer - 2, 0, 10));
+        return 24 * Math.pow(1.1, Utils.clamp(layer - 2, 0, 5));
     }
 
     getPrestigeCarryOver()
