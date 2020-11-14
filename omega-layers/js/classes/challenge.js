@@ -1,6 +1,7 @@
 var CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST = 0, CHALLENGE_EFFECT_PRICES_POWER = 1, CHALLENGE_EFFECT_GENMULTI = 2,
     CHALLENGE_EFFECT_PRESTIGEREWARD = 3;
-var CHALLENGE_REWARD_POWERGENERATORS = 0, CHALLENGE_REWARD_GENMULTI = 1, CHALLENGE_REWARD_PRESTIGEREWARD = 2;
+var CHALLENGE_REWARD_POWERGENERATORS = 0, CHALLENGE_REWARD_GENMULTI = 1, CHALLENGE_REWARD_PRESTIGEREWARD = 2,
+    CHALLENGE_REWARD_GENMULTI_ABS = 3;
 
 class Challenge
 {
@@ -50,11 +51,13 @@ class Challenge
         switch (this.rewardType)
         {
             case CHALLENGE_REWARD_POWERGENERATORS:
-                return "All Power Generators are x" + functions.formatNumber(this.applyReward()) + " stronger";
+                return "All Power Generators are x" + functions.formatNumber(this.applyReward(), 2, 2) + " stronger";
             case CHALLENGE_REWARD_GENMULTI:
-                return "All Generator Multiplicators per 10 Levels are +" + this.applyReward().toFixed(3) + " better";
+                return "All Generator Multiplicators per 10 Levels are +" + functions.formatNumber(this.applyReward(), 3, 3) + " better";
             case CHALLENGE_REWARD_PRESTIGEREWARD:
-                return "Prestige Reward of all Layers is added by x" + functions.formatNumber(this.applyReward());
+                return "Prestige Reward of all Layers is added by x" + functions.formatNumber(this.applyReward(), 2, 2);
+            case CHALLENGE_REWARD_GENMULTI_ABS:
+                return "All Alpha Generators are x" + functions.formatNumber(this.applyReward(), 2, 2) + " stronger";
             default:
                 return "A Cake."
         }

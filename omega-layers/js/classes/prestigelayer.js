@@ -312,6 +312,14 @@ class PrestigeLayer
                         return new Decimal(factorPrestige * level);
                     }
                     break;
+                case CHALLENGE_REWARD_GENMULTI_ABS:
+                    let factorMulti2 = 0.75 + rand.nextDouble() * 0.5;
+                    let baseLog = Decimal.pow(this.getExponentialBoostFactor(), this.layer).div(30).mul(factorMulti2);
+                    formula_reward = function(level)
+                    {
+                        return Decimal.pow(10, baseLog.mul(level));
+                    }
+                    break;
                 default:
                     return;
             }
@@ -356,12 +364,12 @@ class PrestigeLayer
                 {
                     case UPGRADE_RESOURCE_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
-                            level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
+                            level => Utils.createValueDilation(Decimal.pow(2.2 + r, Decimal.pow(level, 1.2)).mul(bp), 0.01),
                             level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.000013).pow(layerPow.mul(2)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_GENERATOR_TIMELAYER:
                         upg = new TreeUpgrade(this, game.layers[0] || this,
-                            level => Utils.createValueDilation(Decimal.pow(2.75 + r, Decimal.pow(level, 1.5)).mul(bp), 0.01),
+                            level => Utils.createValueDilation(Decimal.pow(2.2 + r, Decimal.pow(level, 1.2)).mul(bp), 0.01),
                             level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.000013).pow(layerPow.mul(2 / 8)), upgType, requiredUpgrade(r, c));
                         break;
                     case UPGRADE_POWERGENERATOR_TIMELAYER:
@@ -370,7 +378,7 @@ class PrestigeLayer
                         let diff = this.layer - powerLayer.layer;
                         let extraPow = Decimal.pow(this.getExponentialBoostFactor(), diff - 1);
                         upg = new TreeUpgrade(this, powerLayer,
-                            level => Utils.createValueDilation(Decimal.pow(2.5 + r, Decimal.pow(level, 1.55)).mul(bp), 0.01),
+                            level => Utils.createValueDilation(Decimal.pow(2.3 + r, Decimal.pow(level, 1.2)).mul(bp), 0.01),
                             level => new Decimal(1 + Math.pow(this.timeSpent, 1) * level * timeFactor * 0.00001).pow(extraPow.mul(0.8)), upgType, requiredUpgrade(r, c));
                         break;
                 }

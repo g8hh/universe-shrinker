@@ -37,10 +37,10 @@ class AlephLayer
                     getEffectDisplay: effectDisplayTemplates.numberStandard(2, "^")
                 }),
             prestigeRewards: new AlephUpgrade("Increase the Prestige Reward of all Layers",
-                level => Utils.createValueDilation(Decimal.pow(1e50, level).mul(1e150), 0.005, new Decimal("1e650")),
+                level => Utils.createValueDilation(Decimal.pow(1e20, level).mul(1e150), 0.005, new Decimal("1e650")),
                 level => Decimal.pow(1.2, level)),
             layerExponentialBoost: new AlephUpgrade("Increase the exponential difference of boosts between layers, resulting in a large boost!",
-                level => new Decimal([1e200, 1e300][level.toNumber()]),
+                level => new Decimal([1e175, 1e300][level.toNumber()]),
                 level => [22, 24, 25][level.toNumber()], {
                     maxLevel: 2,
                     getEffectDisplay: effectDisplayTemplates.numberStandard(0, "")

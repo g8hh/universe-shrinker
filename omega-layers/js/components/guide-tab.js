@@ -31,6 +31,12 @@ Vue.component("guide-tab", {
         can be spent on various things to make progress faster. You will gain your second &beta; at about {{formatNumber(1e31, 2, 0)}} &alpha;</template>
     </guide-item>
     <guide-item v-if="betaUnlocked">
+        <template v-slot:title>Automators</template>
+        <template v-slot:text>With Automators, you can automate the Game to your liking. For example, they can Prestige and Maximize Layers
+        automatically. You can also set a desired interval, which you can use if you want to make them slower. For exmaple, with a desired
+        interval of 3 seconds, the automator will never be faster than 3 seconds.</template>
+    </guide-item>
+    <guide-item v-if="betaUnlocked">
         <template v-slot:title>Simple Boost</template>
         <template v-slot:text>If you see a message below the amount of Resource you have, the Layer has a "Simple Boost". Simple Boost boosts the first Alpha Generator, resulting in much higher numbers. The Boost you get is based on the current Resource you
         have.</template>

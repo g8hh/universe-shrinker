@@ -65,6 +65,10 @@ class Generator
                 {
                     f = f.add(c.applyReward());
                 }
+                for(let c of l.challenges.filter(ch => ch.rewardType === CHALLENGE_REWARD_GENMULTI_ABS))
+                {
+                    multi = multi.mul(c.applyReward());
+                }
             }
         }
         let challengePow = game.currentChallenge && game.currentChallenge.effectType === CHALLENGE_EFFECT_GENMULTI ? game.currentChallenge.applyEffect() : 1;

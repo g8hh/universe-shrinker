@@ -11,6 +11,12 @@ Vue.component("upgrade-tree", {
         this.buildTreeLines();
         window.onresize = e => this.buildTreeLines();
     },
+    watch: {
+        "upgrades": function()
+        {
+            Vue.nextTick(() => this.buildTreeLines());
+        }
+    },
     destroyed: function()
     {
         window.onresize = null;

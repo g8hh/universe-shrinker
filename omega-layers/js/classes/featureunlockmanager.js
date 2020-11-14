@@ -46,6 +46,10 @@ class FeatureUnlockManager
 
     static getChallengeRewardTypes(layer)
     {
+        if(layer >= 4)
+        {
+            return [CHALLENGE_REWARD_POWERGENERATORS, CHALLENGE_REWARD_GENMULTI_ABS, CHALLENGE_REWARD_PRESTIGEREWARD];
+        }
         return [CHALLENGE_REWARD_POWERGENERATORS, CHALLENGE_REWARD_GENMULTI, CHALLENGE_REWARD_PRESTIGEREWARD];
     }
 
