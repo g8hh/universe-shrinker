@@ -12,7 +12,11 @@ class Utils
         }
         let r = resource.div(1e15);
         let lvl = 512;
-        let interval = 256;
+        /*if(buyable.maxLevel !== Infinity)
+        {
+            lvl = Math.log10(buyable.maxLevel) / 2;
+        }*/
+        let interval = lvl / 2;
         while(interval > 1e-16)
         {
             let price = buyable.getPrice(Decimal.pow(10, lvl));
