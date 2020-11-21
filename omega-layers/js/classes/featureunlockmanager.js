@@ -24,7 +24,7 @@ class FeatureUnlockManager
     static getUpgradeTypes(layer)
     {
         let upgTypes = [UPGRADE_RESOURCE, UPGRADE_GENERATOR];
-        if(layer >= 1)
+        if(layer >= 1 && layer < 8)
         {
             upgTypes.push(UPGRADE_GENMULTI);
         }

@@ -243,6 +243,11 @@ div.prestige-layer .prestige{
     padding: 0.75rem;
 }
 
+div.prestige-layer .respec{
+    text-align: center;
+    padding: 1rem 0;
+}
+
 /*Generator Table*/
 
 table.generator-table td{
@@ -283,6 +288,11 @@ p.resource-display > span:first-child{
 
 .upgrade.maxed{
     background-color: var(--color-success);
+}
+
+.upgrade.maxed:hover{
+    background-color: var(--color-success);
+    filter: brightness(1.1);
 }
 
 .upgrade .price{

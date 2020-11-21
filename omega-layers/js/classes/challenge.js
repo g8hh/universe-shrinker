@@ -36,7 +36,8 @@ class Challenge
             case CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST:
                 return "All Upgrade and Simple Boost Effects are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_PRICES_POWER:
-                return "All Generator, Upgrade Prices and Power Effects are raised to the Power of " + this.applyEffect().toFixed(2);
+                return "All Generator and Upgrade Prices are raised to the Power of " + this.applyEffect().toFixed(2) + ". " +
+                    "Power Effects are raised to the Power of " + this.applyEffect().pow(-1).toFixed(2);
             case CHALLENGE_EFFECT_GENMULTI:
                 return "All Generator Multipliers are raised to the Power of " + this.applyEffect().toFixed(2);
             case CHALLENGE_EFFECT_PRESTIGEREWARD:
@@ -69,6 +70,7 @@ class Challenge
         {
             if(game.layers[i].isNonVolatile())
             {
+                game.layers[i].resource = new Decimal(0);
                 continue;
             }
             if(game.layers[i] === this.layer)

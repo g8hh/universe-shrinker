@@ -138,10 +138,11 @@ class LayerUpgrade extends AbstractUpgrade
 
 class TreeUpgrade extends LayerUpgrade
 {
-    constructor(layerCost, layerBoost, getPrice, getEffect, type, requires, cfg)
+    constructor(layerCost, layerBoost, getPrice, getEffect, type, requires, blacklist, cfg)
     {
         super(layerCost, layerBoost, getPrice, getEffect, type, cfg);
         this.requires = requires; //required upgrades
+        this.blacklist = blacklist; //cannot have these
     }
 
     isUnlocked()
@@ -154,6 +155,35 @@ class TreeUpgrade extends LayerUpgrade
             }
         }
         return true;
+    }
+
+    isLocked()
+    {
+        if(this.layerCost.isNonVolatile())
+        {
+            return false;
+        }
+        for(let b of this.blacklist)
+        {
+            if(b.level.gt(0))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isBuyable()
+    {
+        return this.isUnlocked() && !this.isLocked();
+    }
+
+    buy()
+    {
+        if(this.isBuyable())
+        {
+            super.buy();
+        }
     }
 }
 

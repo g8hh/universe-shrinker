@@ -176,6 +176,8 @@ var functions = {
             return false;
         }
 
+        game.timeSpent = loadObj.timeSpent !== undefined ? loadObj.timeSpent : 0;
+        game.layers = [];
         for(let i = 0; i < loadObj.layers.length; i++)
         {
             if(!game.layers[i])

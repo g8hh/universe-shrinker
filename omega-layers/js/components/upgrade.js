@@ -13,6 +13,7 @@ Vue.component("upgrade", {
     computed: {
         canAfford: function ()
         {
+            if(this.upgrade.level.eq(this.upgrade.maxLevel)) return true;
             if(this.upgrade instanceof DynamicLayerUpgrade)
             {
                 if(!this.upgrade.currentCostLayer()) return false;
@@ -22,7 +23,7 @@ Vue.component("upgrade", {
         },
         isUnlocked: function()
         {
-            return !this.upgrade.requires || (this.upgrade.isUnlocked());
+            return !this.upgrade.isBuyable || (this.upgrade.isBuyable());
         },
         maxed: function()
         {

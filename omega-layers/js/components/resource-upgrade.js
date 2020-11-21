@@ -3,6 +3,7 @@ Vue.component("resource-upgrade", {
     computed: {
         canAfford: function ()
         {
+            if(this.upgrade.level.eq(this.upgrade.maxLevel)) return true;
             return this.upgrade.currentPrice().lt(this.upgrade.getResource());
         },
         maxed: function()

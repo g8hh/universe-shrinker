@@ -6,7 +6,7 @@
     --color-hover: #181818;
     --color-hover-strong: #242424;
     --color-contrast: #ffffff;
-    --color-success: #3dff45;
+    --color-success: #10b015;
     --notification--standard: #0081ff;
     --notification--success: #04ff00;
     --notification--error: #ff0909;
@@ -83,7 +83,7 @@ span.omega, a{
     animation: rainbow-color 120s infinite linear;
 }
 
-button, header, .news-ticker, .guide-item, .guide-item div, textarea{
+button, header, .news-ticker, .guide-item, .guide-item div, textarea, .automator, .settings-panel, input[type=number], input[type=text]{
     animation: rainbow-border 120s infinite linear;
 }
 
