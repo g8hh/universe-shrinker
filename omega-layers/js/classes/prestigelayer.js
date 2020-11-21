@@ -616,7 +616,7 @@ class PrestigeLayer
                 {
                     for(let col = 0; col < this.treeUpgrades[row].length; col++)
                     {
-                        if(this.treeUpgrades[row][col].level.gt(0))
+                        if(this.treeUpgrades[row][col].level.gt(0) || this.isNonVolatile())
                         {
                             this.treeUpgrades[row][col].buyMax();
                         }

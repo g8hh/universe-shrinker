@@ -177,7 +177,6 @@ var functions = {
         }
 
         game.timeSpent = loadObj.timeSpent !== undefined ? loadObj.timeSpent : 0;
-        game.layers = [];
         for(let i = 0; i < loadObj.layers.length; i++)
         {
             if(!game.layers[i])
@@ -227,6 +226,21 @@ var functions = {
             }
         }
         this.setTheme(game.settings.theme);
+
+        if(game.version !== loadObj.version)
+        {
+            if(game.version === "2")
+            {
+                for(let l of game.layers)
+                {
+                    if(!l.isNonVolatile() && l.hasTreeUpgrades())
+                    {
+                        l.respecUpgradeTree();
+                    }
+                }
+            }
+        }
+
         return true;
     },
     hardResetGame: function()

@@ -1,5 +1,5 @@
 var game = {
-    version: "1",
+    version: "2",
     layers: [],
     automators: {
         autoMaxAll: new Automator("Auto Max All", "Automatically buys max on all Layers", () =>
