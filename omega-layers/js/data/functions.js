@@ -13,6 +13,10 @@ var functions = {
         {
             return "-" + this.formatNumber(n.mul(-1), prec, prec1000, lim);
         }
+        if(n.lt(Decimal.pow(0.1, Math.max(1, prec1000))) && n.neq(0))
+        {
+            return "1/" + this.formatNumber(n.pow(-1), prec, prec1000, lim);
+        }
         if(n.lt(lim))
         {
             let num = n.toNumber();
@@ -101,7 +105,7 @@ var functions = {
         {
             if(key === "currentChallenge")
             {
-                return value !== null && value !== undefined ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
+                return value !== null && value !== undefined && game.layers[value.layer.layer] ? {layer: value.layer.layer, index: game.layers[value.layer.layer].challenges.findIndex(c => c === value)} : null;
             }
             if(value instanceof PrestigeLayer)
             {

@@ -5,7 +5,7 @@ var CHALLENGE_REWARD_POWERGENERATORS = 0, CHALLENGE_REWARD_GENMULTI = 1, CHALLEN
 
 class Challenge
 {
-    constructor(layer, name, getEffect, getReward, effectType, rewardType, goalLayer, goalResource, maxLevel = 10)
+    constructor(layer, name, getEffect, getReward, effectType, rewardType, goalLayer, goalResource, maxLevel = 10, cfg)
     {
         this.layer = layer;
         this.name = name;
@@ -17,6 +17,7 @@ class Challenge
         this.goalResource = goalResource;
         this.level = 0;
         this.maxLevel = maxLevel;
+        this.cfg = cfg;
     }
 
     applyEffect()
@@ -56,7 +57,7 @@ class Challenge
             case CHALLENGE_REWARD_GENMULTI:
                 return "All Generator Multiplicators per 10 Levels are +" + functions.formatNumber(this.applyReward(), 3, 3) + " better";
             case CHALLENGE_REWARD_PRESTIGEREWARD:
-                return "Prestige Reward of all Layers is added by x" + functions.formatNumber(this.applyReward(), 2, 2);
+                return "Prestige Reward of Layer " + PrestigeLayer.getNameForLayer(this.cfg.layerid) + " is x" + functions.formatNumber(this.applyReward(), 2, 2) + " higher";
             case CHALLENGE_REWARD_GENMULTI_ABS:
                 return "All Alpha Generators are x" + functions.formatNumber(this.applyReward(), 2, 2) + " stronger";
             default:

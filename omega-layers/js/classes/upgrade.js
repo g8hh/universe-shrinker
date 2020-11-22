@@ -80,7 +80,7 @@ class LayerUpgrade extends AbstractUpgrade
             case UPGRADE_GENMULTI:
                 return "Boost the Production Boost of Generators per 10 Levels";
             case UPGRADE_PRESTIGEREWARD:
-                return "Boost Prestige Reward on Layer " + this.layerBoost.name + " (additive)";
+                return "Boost Prestige Reward on Layer " + this.layerBoost.name;
             case UPGRADE_RESOURCE_TIMELAYER:
                 return "Boost " + this.layerBoost.name + " Production based on Time spent this " + this.layerCost.name;
             case UPGRADE_GENERATOR_TIMELAYER:
@@ -175,6 +175,7 @@ class TreeUpgrade extends LayerUpgrade
 
     isBuyable()
     {
+        if(this.layerCost.isNonVolatile()) return true;
         return this.isUnlocked() && !this.isLocked();
     }
 

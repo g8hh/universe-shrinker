@@ -29,7 +29,7 @@ class AlephLayer
                 }),
             alephBoost2: new AlephUpgrade("Gain more Aleph based on the log(log(α)) you have",
                 level => Utils.createValueDilation(Decimal.pow(1e30, level).mul(1e100), 0.01),
-                level => game.layers[0] ? Decimal.pow(new Decimal(1.1).add(level.mul(0.1)), game.layers[0].resource.add(1).log10().add(1).log10()) : new Decimal(1)),
+                level => game.layers[0] ? Decimal.pow(new Decimal(1.1).add(level.mul(0.1)), Decimal.max(0, game.layers[0].resource).add(1).log10().add(1).log10()) : new Decimal(1)),
             betterBetaFormula: new AlephUpgrade("The β Prestige Formula is better",
                 level => new Decimal(1e90),
                 level => new Decimal(1).add(level.mul(0.12)), {
@@ -38,7 +38,7 @@ class AlephLayer
                 }),
             prestigeRewards: new AlephUpgrade("Increase the Prestige Reward of all Layers",
                 level => Utils.createValueDilation(Decimal.pow(1e30, level).mul(1e100), 0.005, new Decimal("1e650")),
-                level => Decimal.pow(1.4, level)),
+                level => Decimal.pow(1.6, level)),
             layerExponentialBoost: new AlephUpgrade("Increase the exponential difference of boosts between layers, resulting in a large boost!",
                 level => level.lt(2) ? new Decimal([1e125, 1e210][level.toNumber()]) : Decimal.dInf,
                 level => [22, 25, 27][level.toNumber()], {
