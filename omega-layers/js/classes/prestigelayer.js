@@ -238,12 +238,9 @@ class PrestigeLayer
         {
             return new Decimal(1);
         }
+        let boostRes = Decimal.min(this.resource, INFINITY).mul(Decimal.pow(Decimal.max(1, this.resource.div(INFINITY)), 0.2));
         let challengePow = game.currentChallenge && game.currentChallenge.type === CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST ? game.currentChallenge.applyEffect() : 1;
-        let boost = this.resource.add(1).pow(2 * Math.pow(this.getExponentialBoostFactor(), this.layer - 1)).pow(challengePow);
-        if(this.resource.gt(INFINITY))
-        {
-            boost = boost.pow(new Decimal(1).div(this.resource.div(INFINITY).log10().add(1).log10().mul(2)));
-        }
+        let boost = boostRes.add(1).pow(2 * Math.pow(this.getExponentialBoostFactor(), this.layer - 1)).pow(challengePow);
         return this.hasSimpleBoost() ? boost : new Decimal(1);
     }
 
@@ -276,17 +273,17 @@ class PrestigeLayer
                     }
                     break;
                 case CHALLENGE_EFFECT_UPGRADESTRENGTH_SIMPLEBOOST:
-                    let factorStrength = 0.4 + 0.05 * rand.nextDouble();
+                    let factorStrength = 0.3 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
-                        return new Decimal(1 - factorStrength * (level + 1));
+                        return Decimal.pow(factorStrength, level + 1);
                     }
                     break;
                 case CHALLENGE_EFFECT_GENMULTI:
-                    let factorGen = 0.4 + 0.05 * rand.nextDouble();
+                    let factorGen = 0.3 + 0.05 * rand.nextDouble();
                     formula_effect = function(level)
                     {
-                        return new Decimal(1 - factorGen * (level + 1));
+                        return Decimal.pow(factorGen, level + 1);
                     }
                     break;
                 case CHALLENGE_EFFECT_PRESTIGEREWARD:
