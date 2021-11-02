@@ -192,7 +192,7 @@ var functions = {
             }
             catch(e)
             {
-                alert("Error loading Game: " + e);
+                alert("加载游戏时出错: " + e);
                 return;
             }
             game.rhoParticles = loadVal(new Decimal(obj.rhoParticles), new Decimal(0));
