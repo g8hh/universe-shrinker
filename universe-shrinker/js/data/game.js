@@ -113,6 +113,6 @@ var game = {
         numberFormatter: new ADNotations.StandardNotation(),
         maxAllTabs: true,
         maxAllLayers: true,
-        exportString: "Exported Save will appear here..."
+        exportString: "导出的存档将出现在这里..."
     }
 };
