@@ -287,7 +287,7 @@ var functions = {
         } while(times > 0)
         if(times === 0)
         {
-            localStorage.clear();
+            localStorage.removeItem("UniverseShrinkerGameSave");
             this.loadGame(initialGame);
             this.saveGame();
             game.settings.tab = "shrinkers";
