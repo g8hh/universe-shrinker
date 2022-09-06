@@ -279,7 +279,7 @@ var functions = {
         let times = 3;
         do
         {
-            if(!confirm("Are you really sure? You will lose everything. There is no reward!\nClick " + times + " more Times to hard reset."))
+            if(!confirm("你真的确定吗？ 你会失去一切。 没有奖励！\n点击 " + times + " 次以进行硬重置."))
             {
                 break;
             }
