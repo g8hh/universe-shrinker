@@ -192,7 +192,7 @@ var functions = {
             }
             catch(e)
             {
-                alert("加载游戏时出错: " + e);
+                alert("Error loading Game: " + e);
                 return;
             }
             game.rhoParticles = loadVal(new Decimal(obj.rhoParticles), new Decimal(0));
@@ -287,7 +287,7 @@ var functions = {
         } while(times > 0)
         if(times === 0)
         {
-            localStorage.clear();
+            localStorage.removeItem("UniverseShrinkerGameSave");
             this.loadGame(initialGame);
             this.saveGame();
             game.settings.tab = "shrinkers";
